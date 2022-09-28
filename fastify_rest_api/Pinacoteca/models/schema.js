@@ -16,4 +16,4 @@ const nuovoUtente = {
         }
     }
 }
-export.default
+module.exports = nuovoUtente;

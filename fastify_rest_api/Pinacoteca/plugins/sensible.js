@@ -19,7 +19,7 @@ const client = new Client({
   password: 'Alberto',
   host: 'localhost',
   port: 5432,
-  database: 'registro'
+  database: 'pinacoteca'
 })
 async function dbconnector(fastify, options) {
   try {
