@@ -1,11 +1,11 @@
 <template>
-  <div class="container-fluid" style="text-align: center">
-    <div class=" col-md-12">
+  <div class="container">
+    <div class="col-md-12">
       <h1>SUBNET CALCULATOR</h1>
     </div>
     <div class="input-group md-3">
       <div class="input-group-append">
-        <span class="input-group-text" id="basic-addon2">IP</span>
+        <span class="input-group-text" id="basic-addon2" style="width: 83.11px">IP</span>
       </div>
       <input type="text" class="form-control" placeholder="insert ip address" v-model="Data.ip">
     </div>
@@ -15,7 +15,7 @@
       </div>
       <input type="text" class="form-control" placeholder="insert subnet bit" v-model="Data.subnet">
     </div>
-    <div class="input-group md-3">
+    <div class="input-group md-3 justify-content-center">
       <div class="btn btn-primary" @click="getData">Send</div>
     </div>
   </div>
@@ -71,9 +71,17 @@ export default {
 <style>
 @import'bootstrap/dist/css/bootstrap.css';
 
-.input-group {
+.container {
   width: 500px;
+  text-align: center;
+}
+
+.input-group {
   margin-top: 10px;
-  text-align: center
+  text-align: center;
+}
+
+.col-md-12 {
+  margin-bottom: 15px;
 }
 </style>
