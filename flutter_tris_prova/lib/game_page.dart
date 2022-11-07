@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:footer/footer.dart';
+import 'package:footer/footer_view.dart';
 
 class GamePage extends StatefulWidget {
   @override
@@ -29,6 +31,15 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'TicTacToe',
+          style: const TextStyle(fontSize: 50),
+        ),
+        centerTitle: true,
+        elevation: 20,
+        toolbarHeight: 70,
+      ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
