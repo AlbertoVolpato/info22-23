@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:footer/footer.dart';
-import 'package:footer/footer_view.dart';
 
 class GamePage extends StatefulWidget {
   @override
@@ -13,6 +11,7 @@ class _GamePageState extends State<GamePage> {
   late String currentPlayer;
   late bool gameEnd;
   late List<String> caselle; // array di caselle
+  late bool gamemode;
 
   @override
   void initState() {
@@ -31,11 +30,14 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 63, 78, 79),
+      //Header
       appBar: AppBar(
         title: Text(
           'TicTacToe',
           style: const TextStyle(fontSize: 50),
         ),
+        backgroundColor: Color.fromARGB(255, 44, 54, 57),
         centerTitle: true,
         elevation: 20,
         toolbarHeight: 70,
@@ -43,20 +45,46 @@ class _GamePageState extends State<GamePage> {
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [_schermataSuperiore(), _gameArea()],
+        children: [
+          _schermataSuperiore(),
+          _gameArea(),
+        ],
       )),
+
+      //Footer
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 44, 54, 57),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              offset: Offset(4, 8), // Shadow position
+            ),
+          ],
+        ),
+        child: (Center(
+            child: Text(
+          "© Copyright 2022 Alberto Volpato",
+          style: const TextStyle(fontSize: 20, color: Colors.white),
+        ))),
+        padding: EdgeInsets.all(10.0),
+      ),
     );
   }
 
 //WIDGET SUPERIORE
   Widget _schermataSuperiore() {
     return Container(
-      color: currentPlayer == PLAYER_X ? Colors.blue : Colors.orange,
-      margin: const EdgeInsets.all(8),
+      color: currentPlayer == PLAYER_X
+          ? Color.fromARGB(255, 162, 123, 92)
+          : Color.fromARGB(255, 220, 215, 201),
+      margin: EdgeInsets.only(left: 190, top: 10, right: 190, bottom: 10),
       child: (Center(
           child: Text(
         "turno di $currentPlayer",
-        style: const TextStyle(fontSize: 50),
+        style: const TextStyle(
+            fontSize: 40, color: Color.fromARGB(255, 35, 35, 35)),
       ))),
     );
   }
@@ -95,8 +123,8 @@ class _GamePageState extends State<GamePage> {
         color: caselle[index].isEmpty
             ? Colors.black26
             : caselle[index] == PLAYER_X
-                ? Colors.blue
-                : Colors.orange,
+                ? Color.fromARGB(255, 162, 123, 92)
+                : Color.fromARGB(255, 220, 215, 201),
         margin: const EdgeInsets.all(8),
         child: (Center(
             child: Text(
@@ -187,4 +215,7 @@ class _GamePageState extends State<GamePage> {
       },
     );
   }
+
+  //MODALITA' 1 vs IA
+  ia() {}
 }

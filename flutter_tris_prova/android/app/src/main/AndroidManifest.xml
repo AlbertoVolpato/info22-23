@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_tris_prova">
    <application
-        android:label="flutter_tris_prova"
+        android:label="VolpatoAlberto"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
