@@ -5,13 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class GameMethods {
+  //controlla se ci sono vincitori
   void checkWinner(BuildContext context, Socket socketClent) {
     RoomDataProvider roomDataProvider =
         Provider.of<RoomDataProvider>(context, listen: false);
 
     String winner = '';
 
-    // Checking rows
+    // controllo righe
     if (roomDataProvider.displayElements[0] ==
             roomDataProvider.displayElements[1] &&
         roomDataProvider.displayElements[0] ==
@@ -34,7 +35,7 @@ class GameMethods {
       winner = roomDataProvider.displayElements[6];
     }
 
-    // Checking Column
+    // controllo colonne
     if (roomDataProvider.displayElements[0] ==
             roomDataProvider.displayElements[3] &&
         roomDataProvider.displayElements[0] ==
@@ -57,7 +58,7 @@ class GameMethods {
       winner = roomDataProvider.displayElements[2];
     }
 
-    // Checking Diagonal
+    // controllo diagonale
     if (roomDataProvider.displayElements[0] ==
             roomDataProvider.displayElements[4] &&
         roomDataProvider.displayElements[0] ==
@@ -71,11 +72,12 @@ class GameMethods {
             roomDataProvider.displayElements[6] &&
         roomDataProvider.displayElements[2] != '') {
       winner = roomDataProvider.displayElements[2];
+      //se nessuno di questi check conferma una vittoria il risultato sarà per forza pareggio
     } else if (roomDataProvider.filledBoxes == 9) {
       winner = '';
       showGameDialog(context, 'Draw');
     }
-
+//invio messaggio di vittoria ai giocatori
     if (winner != '') {
       if (roomDataProvider.player1.playerType == winner) {
         showGameDialog(context, '${roomDataProvider.player1.nickname} won!');
@@ -93,6 +95,7 @@ class GameMethods {
     }
   }
 
+// il gioco viene resettato nei suoi dati per iniziare un'altra partita
   void clearBoard(BuildContext context) {
     RoomDataProvider roomDataProvider =
         Provider.of<RoomDataProvider>(context, listen: false);

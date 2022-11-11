@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketMethods {
+  //creazione del socket
   final _socketClient = SocketClient.instance.socket!;
-
   Socket get socketClient => _socketClient;
 
-  // EMITS
+  // Viene Creata la stanza con associato il nikname del giocatore
   void createRoom(String nickname) {
     if (nickname.isNotEmpty) {
       _socketClient.emit('createRoom', {
@@ -21,6 +21,7 @@ class SocketMethods {
     }
   }
 
+  //quando un utente entra nell stanza tramite nikname e roomId
   void joinRoom(String nickname, String roomId) {
     if (nickname.isNotEmpty && roomId.isNotEmpty) {
       _socketClient.emit('joinRoom', {
@@ -30,6 +31,8 @@ class SocketMethods {
     }
   }
 
+  //si iserisce nell'array nell'index corrispondete alla crocetta inserita
+  //con parametri index dell'array e roomId per il codice della stanza
   void tapGrid(int index, String roomId, List<String> displayElements) {
     if (displayElements[index] == '') {
       _socketClient.emit('tap', {
@@ -39,7 +42,7 @@ class SocketMethods {
     }
   }
 
-  // LISTENERS
+  // aspetta finchè qualcuno entra enella createRoom
   void createRoomSuccessListener(BuildContext context) {
     _socketClient.on('createRoomSuccess', (room) {
       Provider.of<RoomDataProvider>(context, listen: false)
@@ -48,6 +51,7 @@ class SocketMethods {
     });
   }
 
+// aspetta finchè qualcuno entri nella stanza come giocatore e non creatore
   void joinRoomSuccessListener(BuildContext context) {
     _socketClient.on('joinRoomSuccess', (room) {
       Provider.of<RoomDataProvider>(context, listen: false)
@@ -56,12 +60,14 @@ class SocketMethods {
     });
   }
 
+//errore se qualcosa va storto
   void errorOccuredListener(BuildContext context) {
     _socketClient.on('errorOccurred', (data) {
       showSnackBar(context, data);
     });
   }
 
+//aspetta finchè non sono noti i dati dei player
   void updatePlayersStateListener(BuildContext context) {
     _socketClient.on('updatePlayers', (playerData) {
       Provider.of<RoomDataProvider>(context, listen: false).updatePlayer1(
@@ -80,6 +86,7 @@ class SocketMethods {
     });
   }
 
+//aspetta finchè non viene premuta una casella da un giocatore
   void tappedListener(BuildContext context) {
     _socketClient.on('tapped', (data) {
       RoomDataProvider roomDataProvider =
@@ -94,6 +101,7 @@ class SocketMethods {
     });
   }
 
+//aspetta finchè non vengono incrementati dei punti
   void pointIncreaseListener(BuildContext context) {
     _socketClient.on('pointIncrease', (playerData) {
       var roomDataProvider =
@@ -106,6 +114,7 @@ class SocketMethods {
     });
   }
 
+//aspetta finchè il gioco non è finito con una vincita
   void endGameListener(BuildContext context) {
     _socketClient.on('endGame', (playerData) {
       showGameDialog(context, '${playerData['nickname']} won the game!');

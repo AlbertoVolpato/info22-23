@@ -30,14 +30,11 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: size.height * 0.7,
-        maxWidth: 500,
-      ),
+    return Container(
+      height: MediaQuery.of(context).size.height / 2,
+      width: MediaQuery.of(context).size.height / 2,
       child: AbsorbPointer(
         absorbing: roomDataProvider.roomData['turn']['socketID'] !=
             _socketMethods.socketClient.id,
@@ -50,32 +47,17 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
             return GestureDetector(
               onTap: () => tapped(index, roomDataProvider),
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                ),
+                margin: const EdgeInsets.all(8),
+                color: roomDataProvider.displayElements[index].isEmpty
+                    ? Colors.black26
+                    : roomDataProvider.displayElements[index] == 'X'
+                        ? pl1Color
+                        : pl2Color,
                 child: Center(
                   child: AnimatedSize(
                     duration: const Duration(milliseconds: 200),
-                    child: Text(
-                      roomDataProvider.displayElements[index],
-                      style: TextStyle(
-                          color: roomDataProvider.displayElements[index] == 'O'
-                              ? pl1Color
-                              : pl2Color,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 100,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 40,
-                              color:
-                                  roomDataProvider.displayElements[index] == 'O'
-                                      ? pl1Color
-                                      : pl2Color,
-                            ),
-                          ]),
-                    ),
+                    child: Text(roomDataProvider.displayElements[index],
+                        style: const TextStyle(fontSize: 50)),
                   ),
                 ),
               ),
