@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class GameScreen1vsIA extends StatefulWidget {
-  static String routeName = '/1vsIA';
+  static String routeName = '/singleplayer';
   const GameScreen1vsIA({Key? key}) : super(key: key);
 
   @override
-  State<GameScreen1vsIA> createState() => _GameScreenTwoPlayer();
+  State<GameScreen1vsIA> createState() => _GameScreen1vsIA();
 }
 
-class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
+class _GameScreen1vsIA extends State<GameScreen1vsIA> {
   static const String PLAYER_X = "X";
   static const String PLAYER_O = "O";
-  late String currentPlayer;
+  late int PLAYER_X_POINT = 0;
+  late int PLAYER_O_POINT = 0;
+  late String currentPlayer = PLAYER_X;
   late bool gameEnd;
   late List<String> caselle; // array di caselle
   late bool gamemode;
@@ -24,7 +27,12 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
 
 //INIZIALIZZA IL GIOCO
   void inizializzaGioco() {
-    currentPlayer = PLAYER_X;
+    //CONDIZIONE PER ALTERNARE IL PLAYER INIZIALE
+    //if (currentPlayer == PLAYER_X) {
+    //  currentPlayer = PLAYER_O;
+    //} else {
+    //  currentPlayer = PLAYER_X;
+    //}
     gameEnd = false;
     caselle = ["", "", "", "", "", "", "", "", ""]; // 3 x 3 caselle
   }
@@ -33,14 +41,14 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 63, 78, 79),
+      backgroundColor: bgColor,
       //Header
       appBar: AppBar(
         title: Text(
           'TicTacToe',
           style: const TextStyle(fontSize: 50),
         ),
-        backgroundColor: Color.fromARGB(255, 44, 54, 57),
+        backgroundColor: buttonColor,
         centerTitle: true,
         elevation: 20,
         toolbarHeight: 70,
@@ -49,8 +57,9 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _schermataSuperiore(),
+          _scoreboard(),
           _gameArea(),
+          _schermataSuperiore(),
         ],
       )),
 
@@ -58,7 +67,7 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
       bottomNavigationBar: Container(
         height: 70,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 44, 54, 57),
+          color: buttonColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 20,
@@ -78,17 +87,63 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
 
 //WIDGET SUPERIORE
   Widget _schermataSuperiore() {
-    return Container(
-      color: currentPlayer == PLAYER_X
-          ? Color.fromARGB(255, 162, 123, 92)
-          : Color.fromARGB(255, 220, 215, 201),
-      margin: EdgeInsets.only(left: 190, top: 10, right: 190, bottom: 10),
-      child: (Center(
-          child: Text(
-        "turno di $currentPlayer",
-        style: const TextStyle(
-            fontSize: 40, color: Color.fromARGB(255, 35, 35, 35)),
-      ))),
+    return Text(
+      "turno di $currentPlayer",
+      style: const TextStyle(
+          fontSize: 40, color: Color.fromARGB(255, 255, 255, 255)),
+    );
+  }
+
+//Scoreboard
+  Widget _scoreboard() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'player x',
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                PLAYER_X_POINT.toString(),
+                style: const TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'player o',
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                PLAYER_O_POINT.toString(),
+                style: const TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -126,8 +181,8 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
         color: caselle[index].isEmpty
             ? Colors.black26
             : caselle[index] == PLAYER_X
-                ? Color.fromARGB(255, 162, 123, 92)
-                : Color.fromARGB(255, 220, 215, 201),
+                ? pl1Color
+                : pl2Color,
         margin: const EdgeInsets.all(8),
         child: (Center(
             child: Text(
@@ -172,6 +227,12 @@ class _GameScreenTwoPlayer extends State<GameScreen1vsIA> {
             PlayerPosition0 == PlayerPosition2) {
           //showGameOverMessage("Il Giocatore $PlayerPosition0 Ha Vinto");
           showAlertDialog("Il Giocatore $PlayerPosition0 Ha Vinto");
+          //if(PlayerPosition0 == "")
+          if (PlayerPosition0 == "X") {
+            PLAYER_X_POINT = PLAYER_X_POINT + 1;
+          } else {
+            PLAYER_O_POINT = PLAYER_O_POINT + 1;
+          }
           gameEnd = true;
           inizializzaGioco();
           return;

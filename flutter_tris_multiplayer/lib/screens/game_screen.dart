@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/provider/room_data_provider.dart';
-import 'package:mp_tictactoe/resources/socket_methods.dart';
-import 'package:mp_tictactoe/views/scoreboard.dart';
-import 'package:mp_tictactoe/views/tictactoe_board.dart';
-import 'package:mp_tictactoe/views/waiting_lobby.dart';
+import 'package:flutter_tris_multiplayer/provider/room_data_provider.dart';
+import 'package:flutter_tris_multiplayer/resources/socket_methods.dart';
+import 'package:flutter_tris_multiplayer/views/scoreboard.dart';
+import 'package:flutter_tris_multiplayer/views/tictactoe_board.dart';
+import 'package:flutter_tris_multiplayer/views/waiting_lobby.dart';
 import 'package:provider/provider.dart';
-import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class GameScreen extends StatefulWidget {
   static String routeName = '/game';

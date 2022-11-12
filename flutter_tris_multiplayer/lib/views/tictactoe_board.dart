@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/provider/room_data_provider.dart';
-import 'package:mp_tictactoe/resources/socket_methods.dart';
+import 'package:flutter_tris_multiplayer/provider/room_data_provider.dart';
+import 'package:flutter_tris_multiplayer/resources/socket_methods.dart';
 import 'package:provider/provider.dart';
-import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class TicTacToeBoard extends StatefulWidget {
   const TicTacToeBoard({Key? key}) : super(key: key);

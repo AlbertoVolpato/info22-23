@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class CustomText extends StatelessWidget {
   final List<Shadow> shadows;

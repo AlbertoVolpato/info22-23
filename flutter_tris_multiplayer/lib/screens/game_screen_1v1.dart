@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class GameScreenTwoPlayer extends StatefulWidget {
   static String routeName = '/singleplayer';
@@ -14,7 +14,7 @@ class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
   static const String PLAYER_O = "O";
   late int PLAYER_X_POINT = 0;
   late int PLAYER_O_POINT = 0;
-  late String currentPlayer = PLAYER_O;
+  late String currentPlayer = PLAYER_X;
   late bool gameEnd;
   late List<String> caselle; // array di caselle
   late bool gamemode;

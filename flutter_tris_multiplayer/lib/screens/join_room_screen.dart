@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/resources/socket_methods.dart';
-import 'package:mp_tictactoe/responsive/responsive.dart';
-import 'package:mp_tictactoe/widgets/custom_button.dart';
-import 'package:mp_tictactoe/widgets/custom_text.dart';
-import 'package:mp_tictactoe/widgets/custom_textfield.dart';
-import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/resources/socket_methods.dart';
+import 'package:flutter_tris_multiplayer/responsive/responsive.dart';
+import 'package:flutter_tris_multiplayer/widgets/custom_button.dart';
+import 'package:flutter_tris_multiplayer/widgets/custom_text.dart';
+import 'package:flutter_tris_multiplayer/widgets/custom_textfield.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class JoinRoomScreen extends StatefulWidget {
   static String routeName = '/join-room';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/provider/room_data_provider.dart';
-import 'package:mp_tictactoe/resources/game_methods.dart';
-import 'package:mp_tictactoe/resources/socket_client.dart';
-import 'package:mp_tictactoe/screens/game_screen.dart';
-import 'package:mp_tictactoe/utils/utils.dart';
+import 'package:flutter_tris_multiplayer/provider/room_data_provider.dart';
+import 'package:flutter_tris_multiplayer/resources/game_methods.dart';
+import 'package:flutter_tris_multiplayer/resources/socket_client.dart';
+import 'package:flutter_tris_multiplayer/screens/game_screen.dart';
+import 'package:flutter_tris_multiplayer/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 

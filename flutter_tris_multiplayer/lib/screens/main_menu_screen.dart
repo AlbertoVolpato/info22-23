@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/responsive/responsive.dart';
-import 'package:mp_tictactoe/screens/create_room_screen.dart';
-import 'package:mp_tictactoe/screens/join_room_screen.dart';
-import 'package:mp_tictactoe/widgets/custom_button.dart';
-import 'package:mp_tictactoe/screens/game_screen_1v1.dart';
-import 'package:mp_tictactoe/screens/game_screen_1vIa.dart';
-import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/responsive/responsive.dart';
+import 'package:flutter_tris_multiplayer/screens/create_room_screen.dart';
+import 'package:flutter_tris_multiplayer/screens/join_room_screen.dart';
+import 'package:flutter_tris_multiplayer/widgets/custom_button.dart';
+import 'package:flutter_tris_multiplayer/screens/game_screen_1v1.dart';
+import 'package:flutter_tris_multiplayer/screens/game_screen_1vIa.dart';
+import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static String routeName = '/main-menu';

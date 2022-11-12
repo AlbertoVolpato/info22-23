@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mp_tictactoe/provider/room_data_provider.dart';
-import 'package:mp_tictactoe/utils/utils.dart';
+import 'package:flutter_tris_multiplayer/provider/room_data_provider.dart';
+import 'package:flutter_tris_multiplayer/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
