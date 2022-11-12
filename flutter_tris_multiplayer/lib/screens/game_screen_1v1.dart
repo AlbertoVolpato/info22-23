@@ -12,7 +12,9 @@ class GameScreenTwoPlayer extends StatefulWidget {
 class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
   static const String PLAYER_X = "X";
   static const String PLAYER_O = "O";
-  late String currentPlayer;
+  late int PLAYER_X_POINT = 0;
+  late int PLAYER_O_POINT = 0;
+  late String currentPlayer = PLAYER_O;
   late bool gameEnd;
   late List<String> caselle; // array di caselle
   late bool gamemode;
@@ -25,7 +27,12 @@ class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
 
 //INIZIALIZZA IL GIOCO
   void inizializzaGioco() {
-    currentPlayer = PLAYER_X;
+    //CONDIZIONE PER ALTERNARE IL PLAYER INIZIALE
+    //if (currentPlayer == PLAYER_X) {
+    //  currentPlayer = PLAYER_O;
+    //} else {
+    //  currentPlayer = PLAYER_X;
+    //}
     gameEnd = false;
     caselle = ["", "", "", "", "", "", "", "", ""]; // 3 x 3 caselle
   }
@@ -98,14 +105,14 @@ class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'giocatore x',
+                'player x',
                 style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                '0',
+                PLAYER_X_POINT.toString(),
                 style: const TextStyle(
                   fontSize: 30,
                   color: Colors.white,
@@ -120,14 +127,14 @@ class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'giocatore o',
+                'player o',
                 style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                '0',
+                PLAYER_O_POINT.toString(),
                 style: const TextStyle(
                   fontSize: 30,
                   color: Colors.white,
@@ -220,6 +227,12 @@ class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
             PlayerPosition0 == PlayerPosition2) {
           //showGameOverMessage("Il Giocatore $PlayerPosition0 Ha Vinto");
           showAlertDialog("Il Giocatore $PlayerPosition0 Ha Vinto");
+          //if(PlayerPosition0 == "")
+          if (PlayerPosition0 == "X") {
+            PLAYER_X_POINT = PLAYER_X_POINT + 1;
+          } else {
+            PLAYER_O_POINT = PLAYER_O_POINT + 1;
+          }
           gameEnd = true;
           inizializzaGioco();
           return;

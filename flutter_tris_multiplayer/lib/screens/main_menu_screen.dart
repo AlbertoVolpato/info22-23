@@ -5,6 +5,7 @@ import 'package:mp_tictactoe/screens/join_room_screen.dart';
 import 'package:mp_tictactoe/widgets/custom_button.dart';
 import 'package:mp_tictactoe/screens/game_screen_1v1.dart';
 import 'package:mp_tictactoe/screens/game_screen_1vIa.dart';
+import 'package:mp_tictactoe/utils/colors.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static String routeName = '/main-menu';
@@ -30,6 +31,16 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'TicTacToe',
+          style: const TextStyle(fontSize: 50),
+        ),
+        backgroundColor: buttonColor,
+        centerTitle: true,
+        elevation: 20,
+        toolbarHeight: 70,
+      ),
       body: Responsive(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,6 +66,24 @@ class MainMenuScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          color: buttonColor,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              offset: Offset(4, 8), // Shadow position
+            ),
+          ],
+        ),
+        child: (Center(
+            child: Text(
+          "© Copyright 2022 Alberto Volpato",
+          style: const TextStyle(fontSize: 20, color: Colors.white),
+        ))),
+        padding: EdgeInsets.all(10.0),
       ),
     );
   }

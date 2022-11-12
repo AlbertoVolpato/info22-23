@@ -35,6 +35,16 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'TicTacToe',
+          style: const TextStyle(fontSize: 50),
+        ),
+        backgroundColor: buttonColor,
+        centerTitle: true,
+        elevation: 20,
+        toolbarHeight: 70,
+      ),
       body: Responsive(
         child: Container(
           margin: const EdgeInsets.symmetric(
@@ -69,6 +79,24 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          color: buttonColor,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              offset: Offset(4, 8), // Shadow position
+            ),
+          ],
+        ),
+        child: (Center(
+            child: Text(
+          "© Copyright 2022 Alberto Volpato",
+          style: const TextStyle(fontSize: 20, color: Colors.white),
+        ))),
+        padding: EdgeInsets.all(10.0),
       ),
     );
   }
