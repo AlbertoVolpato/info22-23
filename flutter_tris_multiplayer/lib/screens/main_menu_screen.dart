@@ -47,12 +47,12 @@ class MainMenuScreen extends StatelessWidget {
           children: [
             CustomButton(
               onTap: () => onevsIARoom(context),
-              text: 'Single Player',
+              text: '1 vs 1',
             ),
             const SizedBox(height: 20),
             CustomButton(
               onTap: () => singlePlayerRoom(context),
-              text: 'Multiplayer Locale',
+              text: '1 vs Computer',
             ),
             const SizedBox(height: 20),
             CustomButton(

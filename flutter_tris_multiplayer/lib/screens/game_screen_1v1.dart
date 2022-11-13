@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tris_multiplayer/utils/colors.dart';
 
 class GameScreenTwoPlayer extends StatefulWidget {
-  static String routeName = '/singleplayer';
+  static String routeName = '/1vs1';
   const GameScreenTwoPlayer({Key? key}) : super(key: key);
 
   @override
@@ -262,8 +262,7 @@ class _GameScreenTwoPlayer extends State<GameScreenTwoPlayer> {
   showAlertDialog(String text) {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text('Game Over'),
-      content: Text(text),
+      title: Text(text),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Ok'),

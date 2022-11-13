@@ -75,7 +75,7 @@ class GameMethods {
       //se nessuno di questi check conferma una vittoria il risultato sarà per forza pareggio
     } else if (roomDataProvider.filledBoxes == 9) {
       winner = '';
-      showGameDialog(context, 'Draw');
+      showGameDialog(context, 'Pareggio!');
     }
 //invio messaggio di vittoria ai giocatori
     if (winner != '') {
