@@ -117,7 +117,8 @@ class SocketMethods {
 //aspetta finchè il gioco non è finito con una vincita
   void endGameListener(BuildContext context) {
     _socketClient.on('endGame', (playerData) {
-      showGameDialog(context, '${playerData['nickname']} won the game!');
+      showGameDialog(
+          context, 'Il Giocatore ${playerData['nickname']} Ha Vinto!');
       Navigator.popUntil(context, (route) => false);
     });
   }

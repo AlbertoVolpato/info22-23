@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_tris_multiplayer/screens/game_screen_1vIa.dart';
 
 // from https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
 
@@ -150,7 +149,7 @@ class IAalgo {
       }
     }
 
-    print(bestMove);
+    //print(bestMove);
 
     return (bestMove['row']! * 3) +
         bestMove['col']!; //((bestMove['row']*3) + bestMove['row'])

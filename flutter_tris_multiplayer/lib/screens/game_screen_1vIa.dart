@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tris_multiplayer/utils/colors.dart';
+import 'package:flutter_tris_multiplayer/resources/algoritmoIA.dart';
 
 class GameScreen1vsIA extends StatefulWidget {
-  static String routeName = '/singleplayer';
+  static String routeName = '/1vsIA';
   const GameScreen1vsIA({Key? key}) : super(key: key);
 
   @override
@@ -27,14 +28,11 @@ class _GameScreen1vsIA extends State<GameScreen1vsIA> {
 
 //INIZIALIZZA IL GIOCO
   void inizializzaGioco() {
-    //CONDIZIONE PER ALTERNARE IL PLAYER INIZIALE
-    //if (currentPlayer == PLAYER_X) {
-    //  currentPlayer = PLAYER_O;
-    //} else {
-    //  currentPlayer = PLAYER_X;
-    //}
     gameEnd = false;
     caselle = ["", "", "", "", "", "", "", "", ""]; // 3 x 3 caselle
+    //if (currentPlayer == PLAYER_O) {
+    //  caselle[intelligenzaArtificiale()] = currentPlayer;
+    //}
   }
 
 //CREAZIONE AREA DI GIOCO
@@ -175,6 +173,10 @@ class _GameScreen1vsIA extends State<GameScreen1vsIA> {
           cambiaTurno();
           verificaVincitore();
           verificaPareggio();
+          caselle[intelligenzaArtificiale()] = currentPlayer;
+          cambiaTurno();
+          verificaVincitore();
+          verificaPareggio();
         });
       },
       child: Container(
@@ -199,6 +201,12 @@ class _GameScreen1vsIA extends State<GameScreen1vsIA> {
       currentPlayer = PLAYER_O;
     } else {
       currentPlayer = PLAYER_X;
+    }
+  }
+
+  intelligenzaArtificiale() {
+    if (currentPlayer == PLAYER_O) {
+      return IAalgo.findBestMove(caselle);
     }
   }
 
@@ -262,8 +270,7 @@ class _GameScreen1vsIA extends State<GameScreen1vsIA> {
   showAlertDialog(String text) {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text('Game Over'),
-      content: Text(text),
+      title: Text(text),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Ok'),
