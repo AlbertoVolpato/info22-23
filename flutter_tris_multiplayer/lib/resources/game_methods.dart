@@ -80,13 +80,15 @@ class GameMethods {
 //invio messaggio di vittoria ai giocatori
     if (winner != '') {
       if (roomDataProvider.player1.playerType == winner) {
-        showGameDialog(context, '${roomDataProvider.player1.nickname} won!');
+        showGameDialog(context,
+            'Il Giocatore ${roomDataProvider.player1.nickname} ha Vinto!');
         socketClent.emit('winner', {
           'winnerSocketId': roomDataProvider.player1.socketID,
           'roomId': roomDataProvider.roomData['_id'],
         });
       } else {
-        showGameDialog(context, '${roomDataProvider.player2.nickname} won!');
+        showGameDialog(context,
+            'Il Giocatore ${roomDataProvider.player2.nickname} ha Vinto!');
         socketClent.emit('winner', {
           'winnerSocketId': roomDataProvider.player2.socketID,
           'roomId': roomDataProvider.roomData['_id'],

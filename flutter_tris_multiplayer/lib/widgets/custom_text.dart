@@ -17,7 +17,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: buttonColor,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: fontSize,
         shadows: shadows,

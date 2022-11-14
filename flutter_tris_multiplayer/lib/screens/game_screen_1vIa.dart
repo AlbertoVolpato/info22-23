@@ -234,7 +234,7 @@ class _GameScreen1vsIA extends State<GameScreen1vsIA> {
         if (PlayerPosition0 == PlayerPosition1 &&
             PlayerPosition0 == PlayerPosition2) {
           //showGameOverMessage("Il Giocatore $PlayerPosition0 Ha Vinto");
-          showAlertDialog("Il Giocatore $PlayerPosition0 Ha Vinto");
+          showAlertDialog("Il Giocatore $PlayerPosition0 ha Vinto!");
           //if(PlayerPosition0 == "")
           if (PlayerPosition0 == "X") {
             PLAYER_X_POINT = PLAYER_X_POINT + 1;
@@ -273,8 +273,8 @@ class _GameScreen1vsIA extends State<GameScreen1vsIA> {
       title: Text(text),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Ok'),
-          child: const Text('Ok'),
+          onPressed: () => Navigator.pop(context, 'Play Again'),
+          child: const Text('Play Again'),
         ),
       ],
     );
