@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(mp_tictactoe LANGUAGES CXX)
+project(flutter_tris_multiplayer LANGUAGES CXX)
 
-set(BINARY_NAME "mp_tictactoe")
+set(BINARY_NAME "flutter_tris_multiplayer")
 
 cmake_policy(SET CMP0063 NEW)
 

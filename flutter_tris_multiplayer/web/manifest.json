@@ -1,6 +1,6 @@
 {
-    "name": "mp_tictactoe",
-    "short_name": "mp_tictactoe",
+    "name": "flutter_tris_multiplayer",
+    "short_name": "flutter_tris_multiplayer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
