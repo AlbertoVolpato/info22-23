@@ -1,19 +1,51 @@
 'use strict'
 
 module.exports = async function (fastify, opts) {
-    fastify.get('/comment', (req, reply) => {
-        fastify.pg.connect(onConnect)
-
-        function onConnect(err, client, release) {
-            if (err) return reply.send(err)
-
-            client.query(
-                'SELECT * FROM comments',
-                function onResult(err, result) {
-                    release()
-                    reply.send(err || result)
-                }
+    fastify.get('/comment', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM comment',
             )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
+    fastify.post('/comment', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM comment',
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
+    fastify.put('/comment', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM comment',
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
+    fastify.delete('/comment', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM comment',
+            )
+            return rows
+        } finally {
+            client.release()
         }
     })
 }
