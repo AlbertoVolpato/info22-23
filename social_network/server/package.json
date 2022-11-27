@@ -37,6 +37,7 @@
     "fastify-secure-session": "^3.2.0",
     "fastify-swagger": "^5.2.0",
     "fp": "^0.1.0",
+    "npm": "^9.1.2",
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "pg": "^8.8.0",
