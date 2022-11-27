@@ -1,11 +1,11 @@
 'use strict'
 
 module.exports = async function (fastify, opts) {
-    fastify.get('/comment', async (req, reply) => {
+    fastify.get('/post-like', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
             const { rows } = await client.query(
-                'SELECT * FROM comments',
+                'SELECT * FROM post_likes',
             )
             return rows
         } finally {
@@ -13,12 +13,12 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.get('/comment/:id', async (req, reply) => {
+    fastify.get('/post-like/:id', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'SELECT * FROM comments WHERE id = $1', [id]
+                'SELECT * FROM post_likes WHERE id = $1', [id]
             )
             return rows
         } finally {
@@ -26,13 +26,13 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.post('/comment', async (req, reply) => {
+    fastify.post('/post-like', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
-            const { content, post_id, user_id } = req.body;
+            const { user_id, post_id } = req.body;
             const { rows } = await client.query(
-                'INSERT INTO comments (content, post_id, user_id ) VALUES ($1,$2,$3) RETURNING id',
-                [content, post_id, user_id]
+                'INSERT INTO post_likes (user_id,post_id) VALUES ($1,$2) RETURNING id',
+                [user_id, post_id]
             )
             return rows
         } finally {
@@ -40,14 +40,14 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.put('/comment/:id', async (req, reply) => {
+    fastify.put('/post-like/:id', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
-            const { content, post_id, user_id } = req.body;
+            const { user_id, post_id } = req.body;
             const id = req.params.id;
             const { rows } = await client.query(
-                'UPDATE comments SET content = $1, post_id = $2, user_id = $3 WHERE id = $4 RETURNING id',
-                [content, post_id, user_id, id]
+                'UPDATE post_likes SET user_id = $1 ,post_id = $2 RETURNING id',
+                [user_id, post_id]
             )
             return rows
         } finally {
@@ -55,12 +55,12 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.delete('/comment/:id', async (req, reply) => {
+    fastify.delete('/post-like/:id', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'DELETE FROM comments WHERE id = $1 RETURNING id', [id]
+                'DELETE FROM post_likes WHERE id = $1 RETURNING id', [id]
             )
             return rows
         } finally {
