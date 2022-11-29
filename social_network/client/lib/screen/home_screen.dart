@@ -1,15 +1,19 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<HomePage> createState() => _HomePage();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
     );
   }
 }
