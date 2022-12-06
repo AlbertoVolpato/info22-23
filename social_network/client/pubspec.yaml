@@ -44,6 +44,7 @@ dependencies:
   jiffy: ^5.0.0
   image_picker: ^0.7.2+1
   transparent_image: ^2.0.0
+  font_awesome_flutter: ^10.3.0
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,16 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/images/post0.jpg
+    - assets/images/post1.jpg
+    - assets/images/user0.png
+    - assets/images/user1.png
+    - assets/images/user2.png
+    - assets/images/user3.png
+    - assets/images/user4.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
