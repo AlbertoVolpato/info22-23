@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:client/screens/profile_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
 import 'package:client/screens/view_post_screen.dart';
+import 'package:client/screens/home_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
-  @override
-  _ProfileScreen createState() => _ProfileScreen();
-}
+class _FeedScreen extends State<FeedScreen> {
+  Widget _profileSee() {
+    return Scaffold(
+      backgroundColor: Colors.black,
+    );
+  }
 
-class _ProfileScreen extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFEDF0F6),
-    );
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:client/models/comment_model.dart';
+import 'package:client/screens/profile_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
+import 'package:client/models/comment_model.dart';
 
 class ViewPostScreen extends StatefulWidget {
   final Post post;
@@ -14,12 +16,12 @@ class ViewPostScreen extends StatefulWidget {
 class _ViewPostScreenState extends State<ViewPostScreen> {
   Widget _buildComment(int index) {
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: ListTile(
         leading: Container(
           width: 50.0,
           height: 50.0,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
@@ -42,13 +44,13 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         ),
         title: Text(
           comments[index].authorName,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(comments[index].text),
         trailing: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.favorite_border,
           ),
           color: Colors.grey,
@@ -61,13 +63,13 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEDF0F6),
+      backgroundColor: const Color(0xFFEDF0F6),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 40.0),
+              padding: const EdgeInsets.only(top: 40.0),
               width: double.infinity,
               height: 600.0,
               decoration: BoxDecoration(
@@ -77,14 +79,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Column(
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             IconButton(
-                              icon: Icon(Icons.arrow_back),
+                              icon: const Icon(Icons.arrow_back),
                               iconSize: 30.0,
                               color: Colors.black,
                               onPressed: () => Navigator.pop(context),
@@ -95,7 +97,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                 leading: Container(
                                   width: 50.0,
                                   height: 50.0,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
@@ -119,13 +121,13 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                 ),
                                 title: Text(
                                   widget.post.authorName,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 subtitle: Text(widget.post.timeAgo),
                                 trailing: IconButton(
-                                  icon: Icon(Icons.more_horiz),
+                                  icon: const Icon(Icons.more_horiz),
                                   color: Colors.black,
                                   onPressed: () => print('More'),
                                 ),
@@ -136,12 +138,12 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                         InkWell(
                           onDoubleTap: () => print('Like post'),
                           child: Container(
-                            margin: EdgeInsets.all(10.0),
+                            margin: const EdgeInsets.all(10.0),
                             width: double.infinity,
                             height: 400.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black45,
                                   offset: Offset(0, 5),
@@ -156,7 +158,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -165,11 +167,11 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                   Row(
                                     children: <Widget>[
                                       IconButton(
-                                        icon: Icon(Icons.favorite_border),
+                                        icon: const Icon(Icons.favorite_border),
                                         iconSize: 30.0,
                                         onPressed: () => print('Like post'),
                                       ),
-                                      Text(
+                                      const Text(
                                         '2,515',
                                         style: TextStyle(
                                           fontSize: 14.0,
@@ -178,17 +180,17 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: 20.0),
+                                  const SizedBox(width: 20.0),
                                   Row(
                                     children: <Widget>[
                                       IconButton(
-                                        icon: Icon(Icons.chat),
+                                        icon: const Icon(Icons.chat),
                                         iconSize: 30.0,
                                         onPressed: () {
                                           print('Chat');
                                         },
                                       ),
-                                      Text(
+                                      const Text(
                                         '350',
                                         style: TextStyle(
                                           fontSize: 14.0,
@@ -200,7 +202,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                 ],
                               ),
                               IconButton(
-                                icon: Icon(Icons.bookmark_border),
+                                icon: const Icon(Icons.bookmark_border),
                                 iconSize: 30.0,
                                 onPressed: () => print('Save post'),
                               ),
@@ -213,11 +215,11 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Container(
               width: double.infinity,
               height: 600.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30.0),
@@ -241,7 +243,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         offset: Offset(0.0, -1 * MediaQuery.of(context).viewInsets.bottom),
         child: Container(
           height: 100.0,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30.0),
               topRight: Radius.circular(30.0),
@@ -256,25 +258,25 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
             color: Colors.white,
           ),
           child: Padding(
-            padding: EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(12.0),
             child: TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
-                contentPadding: EdgeInsets.all(20.0),
+                contentPadding: const EdgeInsets.all(20.0),
                 hintText: 'Add a comment',
                 prefixIcon: Container(
-                  margin: EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.all(4.0),
                   width: 48.0,
                   height: 48.0,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -296,15 +298,15 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                   ),
                 ),
                 suffixIcon: Container(
-                  margin: EdgeInsets.only(right: 4.0),
+                  margin: const EdgeInsets.only(right: 4.0),
                   width: 70.0,
                   child: MaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    color: Color(0xFF23B66F),
+                    color: const Color(0xFF23B66F),
                     onPressed: () => print('Post comment'),
-                    child: Icon(
+                    child: const Icon(
                       Icons.send,
                       size: 25.0,
                       color: Colors.white,
