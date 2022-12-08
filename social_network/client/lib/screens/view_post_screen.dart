@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:client/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
 import 'package:client/models/comment_model.dart';

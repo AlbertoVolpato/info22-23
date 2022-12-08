@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
-import 'package:client/screens/profile_screen.dart';
-import 'package:client/screens/view_post_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         //'/': (context) => FeedScreen(),
-        '/': (context) => FeedScreen(),
+        '/': (context) => HomeScreen(),
       },
     );
   }
