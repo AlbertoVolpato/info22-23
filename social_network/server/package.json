@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -l info app.js",
+    "start": "fastify start -l info app.js -p 5000 -a 0.0.0.0",
     "dev": "fastify start -w -l info -P app.js"
   },
   "keywords": [],
@@ -20,7 +20,7 @@
     "@fastify/cors": "^8.2.0",
     "@fastify/env": "^4.1.0",
     "@fastify/oauth2": "^5.1.0",
-    "@fastify/postgres": "^5.1.0",
+    "@fastify/postgres": "^5.2.0",
     "@fastify/sensible": "^5.0.0",
     "@fastify/session": "^10.0.2",
     "@fastify/static": "^5.0.0",

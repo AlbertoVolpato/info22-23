@@ -6,12 +6,12 @@ const AutoLoad = require('@fastify/autoload')
 const cors = require('@fastify/cors')
 //fine plugin personali
 
-
 // Pass --options via CLI arguments in command to enable these options.
 module.exports.options = {}
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
+
 
   // Do not touch the following lines
 
@@ -39,4 +39,6 @@ module.exports = async function (fastify, opts) {
   fastify.register(require('@fastify/postgres'), {
     connectionString: 'postgres://postgres:Alberto@localhost/socialnetwork'
   })
+
+
 }
