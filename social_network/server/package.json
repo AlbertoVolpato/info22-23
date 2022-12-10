@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -l info app.js",
+    "start": "fastify start -l info app.js -p 5000",
     "dev": "fastify start -w -l info -P app.js"
   },
   "keywords": [],
@@ -29,8 +29,10 @@
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-http-proxy": "^1.6.3",
     "express-oauth-server": "^2.0.0",
-    "fastify": "^4.0.0-rc.5",
+    "fastify": "^4.10.2",
     "fastify-cli": "^5.6.0",
     "fastify-flash": "^3.1.0",
     "fastify-oauth2": "^4.6.0",
