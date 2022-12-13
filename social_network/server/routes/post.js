@@ -1,6 +1,14 @@
 'use strict'
 
+const multer = require('fastify-multer') // or import multer from 'fastify-multer'
+const upload = multer({ dest: 'uploads/' })
+
+
 module.exports = async function (fastify, opts) {
+
+    fastify.register(multer.contentParser)
+
+
     fastify.get('/post', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
@@ -67,4 +75,18 @@ module.exports = async function (fastify, opts) {
             client.release()
         }
     })
+
+    fastify.post('/upload', { preHandler: upload.single('images') },
+        async (req, reply) => {
+            // request.file is the `avatar` file
+            // request.body will hold the text fields, if there were any
+            const client = await fastify.pg.connect()
+            try {
+                reply.code(200).send('SUCCESS')
+
+            } finally {
+                client.release()
+            }
+        }
+    )
 }
