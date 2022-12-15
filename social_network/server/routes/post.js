@@ -1,8 +1,6 @@
 'use strict'
 
 const multer = require('fastify-multer') // or import multer from 'fastify-multer'
-const upload = multer({ dest: 'uploads/' })
-
 
 module.exports = async function (fastify, opts) {
 
@@ -76,10 +74,35 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.post('/upload', { preHandler: upload.single('images') },
+    var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, 'uploads')
+        },
+        limits: {
+            files: 1,
+            fileSize: 1024 * 1024
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
+        },
+        onFileUploadStart: function (file) {
+            console.log("Inside uploads");
+            if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    });
+    var upload = multer({ //multer settings
+        storage: storage
+    }).array('images', 10);
+
+    fastify.post('/upload', { preHandler: upload },
         async (req, reply) => {
-            // request.file is the `avatar` file
-            // request.body will hold the text fields, if there were any
+
             const client = await fastify.pg.connect()
             try {
                 reply.code(200).send('SUCCESS')
