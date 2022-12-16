@@ -1,6 +1,34 @@
 'use strict'
 
+const multer = require('fastify-multer') // or import multer from 'fastify-multer'
+const crypto = require('crypto');
+
 module.exports = async function (fastify, opts) {
+    fastify.register(multer.contentParser)
+
+    var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, 'uploads/picture')
+        },
+        filename: function (req, file, cb) {
+            var id = crypto.randomUUID()
+            cb(null, id + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
+        },
+        onFileUploadStart: function (file) {
+            console.log("Inside uploads");
+            if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    });
+
+    var upload = multer({ //multer settings
+        storage: storage
+    }).single('picture');
+
     fastify.get('/user', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {
@@ -26,19 +54,22 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.post('/user', async (req, reply) => {
-        const client = await fastify.pg.connect()
-        try {
-            const { username, email, password } = req.body;
-            const { rows } = await client.query(
-                'INSERT INTO users (username,email,password) VALUES ($1,$2,$3) RETURNING id',
-                [username, email, password]
-            )
-            return rows
-        } finally {
-            client.release()
+    fastify.post('/user', { preHandler: upload },
+        async (req, reply) => {
+            const client = await fastify.pg.connect()
+            try {
+                const { username, email, password, google_token } = req.body;
+                let image = req.file.filename;
+                const { rows } = await client.query(
+                    'INSERT INTO users (username,email,password,google_token,picture) VALUES ($1,$2,$3,$4,$5) RETURNING id',
+                    [username, email, password, google_token, image]
+                )
+                return rows
+            } finally {
+                client.release()
+            }
         }
-    })
+    )
 
     fastify.put('/user/:id', async (req, reply) => {
         const client = await fastify.pg.connect()
@@ -54,6 +85,7 @@ module.exports = async function (fastify, opts) {
             client.release()
         }
     })
+
 
     fastify.delete('/user/:id', async (req, reply) => {
         const client = await fastify.pg.connect()

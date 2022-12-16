@@ -63,8 +63,8 @@ module.exports = async function (fastify, opts) {
             try {
                 const { content, user_id } = req.body;
                 let image = [];
-                for(let i in req.files){
-                    if(req.files[i].filename != null){
+                for (let i in req.files) {
+                    if (req.files[i].filename != null) {
                         image[i] = req.files[i].filename
                     }
                 }
