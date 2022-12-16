@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
 import 'package:client/screens/post_screen.dart';
+import 'package:client/models/post_get.dart';
 import 'package:client/screens/view_post_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _HomeScreen extends State<HomeScreen> {
   selectRouteIndex() {
     if (_selectedIndex == 0) {
       return PostScreen();
+      //[PostScreen(), PostModels()];
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 3) {
     } else if (_selectedIndex == 4) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
-import 'package:client/models/api_get.dart';
+import 'package:client/models/post_get.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,9 +11,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Instagram Feed UI Redesign',
       debugShowCheckedModeBanner: false,
       routes: {
-        //'/': (context) => HomeScreen(),
-        '/': (context) => Post(),
-        '/api': (context) => Post(),
+        '/': (context) => HomeScreen(),
+        //'/': (context) => Post(),
       },
     );
   }
