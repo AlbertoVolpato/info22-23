@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Instagram Feed UI Redesign',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => HomeScreen(),
+        //'/': (context) => HomeScreen(),
+        '/': (context) => Post(),
         '/api': (context) => Post(),
       },
     );
