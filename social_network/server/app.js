@@ -18,9 +18,14 @@ module.exports = async function (fastify, opts) {
     origin: '*'
   })
 
-  //codice aggiunto da me
   fastify.register(require('@fastify/postgres'), {
     connectionString: 'postgres://postgres:Alberto@localhost/socialnetwork'
+  })
+
+  //codice aggiunto da me
+  fastify.register(require('@fastify/static'), {
+    root: path.join(__dirname, 'uploads'),
+    prefix: '/uploads/', // optional: default '/'
   })
 
 
