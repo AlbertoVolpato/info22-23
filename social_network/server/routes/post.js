@@ -44,6 +44,18 @@ module.exports = async function (fastify, opts) {
         }
     })
 
+    fastify.get('/post&user', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM posts, users WHERE posts.user_id = users.id',
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
     fastify.get('/post/:id', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {

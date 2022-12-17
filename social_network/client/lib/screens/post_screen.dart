@@ -93,10 +93,9 @@ class _PostScreen extends State<PostScreen> {
           FutureBuilder(
             future: fetchPost(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              snapshot.data?.length;
               if (snapshot.hasData) {
                 return ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: snapshot.data.length,
                     padding: const EdgeInsets.all(8),
@@ -134,21 +133,14 @@ class _PostScreen extends State<PostScreen> {
                                         ),
                                         child: CircleAvatar(
                                           child: ClipOval(
-                                              child: FutureBuilder(
-                                            future: fetchUserfromId(
-                                                snapshot.data[index].user_id),
-                                            builder: (context, snaphotadad) {
-                                              return Image(
-                                                height: 50.0,
-                                                width: 50.0,
-                                                image: NetworkImage(
-                                                    "http://2.34.202.83:5000/uploads/picture/" +
-                                                        snaphotadad
-                                                            .data!.picture),
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                          )),
+                                            child: Image(
+                                              height: 50.0,
+                                              width: 50.0,
+                                              image: NetworkImage(
+                                                  'http://2.34.202.83:3000/uploads/picture/'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       title: Text(

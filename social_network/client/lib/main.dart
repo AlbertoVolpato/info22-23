@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
-import 'package:client/models/post_get.dart';
+import 'package:client/models/post_api.dart';
 
 void main() => runApp(MyApp());
 
