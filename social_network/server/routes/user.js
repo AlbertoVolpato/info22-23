@@ -75,10 +75,11 @@ module.exports = async function (fastify, opts) {
         const client = await fastify.pg.connect()
         try {
             const { username, email, password } = req.body;
+            let picture = req.file.filename;
             const id = req.params.id;
             const { rows } = await client.query(
-                'UPDATE users SET username = $1, email = $2, password = $3 WHERE user_id = $4 RETURNING user_id',
-                [username, email, password, id]
+                'UPDATE users SET username = $1, email = $2, password = $3, picture = 4$ WHERE user_id = $4  RETURNING user_id',
+                [username, email, password, id , picture]
             )
             return rows
         } finally {
