@@ -48,7 +48,7 @@ module.exports = async function (fastify, opts) {
         const client = await fastify.pg.connect()
         try {
             const { rows } = await client.query(
-                'SELECT * FROM posts, users WHERE posts.user_id = users.id',
+                'SELECT * FROM posts, users WHERE posts.user_id = users.user_id',
             )
             return rows
         } finally {
@@ -61,7 +61,7 @@ module.exports = async function (fastify, opts) {
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'SELECT * FROM posts WHERE id = $1', [id]
+                'SELECT * FROM posts WHERE post_id = $1', [id]
             )
             return rows
         } finally {
@@ -81,7 +81,7 @@ module.exports = async function (fastify, opts) {
                     }
                 }
                 const { rows } = await client.query(
-                    'INSERT INTO posts (content,user_id,image) VALUES ($1,$2,$3) RETURNING id',
+                    'INSERT INTO posts (content,user_id,image) VALUES ($1,$2,$3) RETURNING post_id',
                     [content, user_id, [image]]
                 )
                 reply.code(200).send('post created')
@@ -97,7 +97,7 @@ module.exports = async function (fastify, opts) {
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'DELETE FROM posts WHERE id = $1 RETURNING id', [id]
+                'DELETE FROM posts WHERE post_id = $1 RETURNING post_id', [id]
             )
             return rows
         } finally {

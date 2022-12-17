@@ -46,7 +46,7 @@ module.exports = async function (fastify, opts) {
         const id = req.params.id;
         try {
             const { rows } = await client.query(
-                'SELECT * FROM users WHERE id = $1', [id]
+                'SELECT * FROM users WHERE user_id = $1', [id]
             )
             return rows
         } finally {
@@ -61,7 +61,7 @@ module.exports = async function (fastify, opts) {
                 const { username, email, password, google_token } = req.body;
                 let image = req.file.filename;
                 const { rows } = await client.query(
-                    'INSERT INTO users (username,email,password,google_token,picture) VALUES ($1,$2,$3,$4,$5) RETURNING id',
+                    'INSERT INTO users (username,email,password,google_token,picture) VALUES ($1,$2,$3,$4,$5) RETURNING user_id',
                     [username, email, password, google_token, image]
                 )
                 return rows
@@ -77,7 +77,7 @@ module.exports = async function (fastify, opts) {
             const { username, email, password } = req.body;
             const id = req.params.id;
             const { rows } = await client.query(
-                'UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4 RETURNING id',
+                'UPDATE users SET username = $1, email = $2, password = $3 WHERE user_id = $4 RETURNING user_id',
                 [username, email, password, id]
             )
             return rows
@@ -92,7 +92,7 @@ module.exports = async function (fastify, opts) {
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'DELETE FROM users WHERE id = $1 RETURNING id', [id]
+                'DELETE FROM users WHERE user_id = $1 RETURNING user_id', [id]
             )
             return rows
         } finally {
