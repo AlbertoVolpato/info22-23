@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<PostsContent>> fetchAlbum() async {
+Future<List<PostsContent>> fetchPost() async {
   final response = await http.get(Uri.parse('http://2.34.202.83:5000/post'));
 
   if (response.statusCode == 200) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
-import 'package:client/models/post_get.dart';
+import 'package:client/models/post_api.dart';
+import 'package:client/models/user_api.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/view_post_screen.dart';
 
@@ -90,7 +91,7 @@ class _PostScreen extends State<PostScreen> {
             ),
           ),
           FutureBuilder(
-            future: fetchAlbum(),
+            future: fetchPost(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               snapshot.data?.length;
               if (snapshot.hasData) {
@@ -133,14 +134,21 @@ class _PostScreen extends State<PostScreen> {
                                         ),
                                         child: CircleAvatar(
                                           child: ClipOval(
-                                            child: Image(
-                                              height: 50.0,
-                                              width: 50.0,
-                                              image: AssetImage(
-                                                  snapshot.data[index].user_id),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                              child: FutureBuilder(
+                                            future: fetchUserfromId(
+                                                snapshot.data[index].user_id),
+                                            builder: (context, snaphotadad) {
+                                              return Image(
+                                                height: 50.0,
+                                                width: 50.0,
+                                                image: NetworkImage(
+                                                    "http://2.34.202.83:5000/uploads/picture/" +
+                                                        snaphotadad
+                                                            .data!.picture),
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          )),
                                         ),
                                       ),
                                       title: Text(
