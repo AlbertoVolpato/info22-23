@@ -1,3 +1,4 @@
+import 'package:client/models/post&user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
 import 'package:client/models/post_api.dart';
@@ -91,7 +92,7 @@ class _PostScreen extends State<PostScreen> {
             ),
           ),
           FutureBuilder(
-            future: fetchPost(),
+            future: fetchPostUsers(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -137,14 +138,14 @@ class _PostScreen extends State<PostScreen> {
                                               height: 50.0,
                                               width: 50.0,
                                               image: NetworkImage(
-                                                  'http://2.34.202.83:3000/uploads/picture/'),
+                                                  'http://2.34.202.83:5000/uploads/picture/${snapshot.data[index].picture}'),
                                               fit: BoxFit.cover,
                                             ),
                                           ),
                                         ),
                                       ),
                                       title: Text(
-                                        snapshot.data[index].user_id,
+                                        snapshot.data[index].username,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -187,9 +188,7 @@ class _PostScreen extends State<PostScreen> {
                                           ],
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                                'http://2.34.202.83:5000/uploads/' +
-                                                    snapshot
-                                                        .data[index].image[0]),
+                                                'http://2.34.202.83:5000/uploads/${snapshot.data[index].image[0]}'),
                                             fit: BoxFit.fitWidth,
                                           ),
                                         ),
