@@ -26,7 +26,7 @@ Future<List<PostsUsersContent>> fetchPostUsers() async {
 }
 
 class PostsUsersContent {
-  final String id;
+  final String post_id;
   final String content;
   final String user_id;
   final List image;
@@ -36,7 +36,7 @@ class PostsUsersContent {
   final String created_at;
 
   const PostsUsersContent({
-    required this.id,
+    required this.post_id,
     required this.content,
     required this.user_id,
     required this.image,
@@ -48,7 +48,7 @@ class PostsUsersContent {
 
   factory PostsUsersContent.fromJson(Map<String, dynamic> json) {
     return PostsUsersContent(
-      id: json['id'],
+      post_id: json['post_id'],
       content: json['content'],
       user_id: json['user_id'],
       image: json['image'],

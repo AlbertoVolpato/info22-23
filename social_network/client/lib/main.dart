@@ -1,3 +1,4 @@
+import 'package:client/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:client/models/post_api.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => HomeScreen(),
+        '/login': ((context) => LoginPage())
         //'/': (context) => Post(),
       },
     );

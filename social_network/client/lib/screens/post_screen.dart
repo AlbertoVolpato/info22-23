@@ -106,7 +106,7 @@ class _PostScreen extends State<PostScreen> {
                             horizontal: 10.0, vertical: 5.0),
                         child: Container(
                           width: double.infinity,
-                          height: 560.0,
+                          height: 590.0,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(25.0),
@@ -259,6 +259,47 @@ class _PostScreen extends State<PostScreen> {
                                             iconSize: 30.0,
                                             onPressed: () =>
                                                 print('Save PostModels'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0, horizontal: 34.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              Row(
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot
+                                                        .data[index].username,
+                                                    style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 4.0),
+                                              Row(
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot
+                                                        .data[index].content,
+                                                    style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),

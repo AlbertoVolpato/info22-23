@@ -42,63 +42,55 @@ class _HomeScreen extends State<HomeScreen> {
         topLeft: Radius.circular(30.0),
         topRight: Radius.circular(30.0),
       ),
-      child: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.dashboard,
-              size: 30.0,
-              color: Colors.grey,
-            ),
-            label: '',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-              size: 30.0,
-              color: Colors.grey,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
-              child: MaterialButton(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                color: Color(0xFF23B66F),
-                onPressed: () => print('Upload photo'),
-                child: Icon(
-                  Icons.add,
-                  size: 35.0,
-                  color: Colors.white,
-                ),
+      child: SizedBox(
+        height: 85,
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_outlined,
+                size: 34.0,
+                color: Colors.black87,
               ),
+              label: '',
             ),
-            label: '',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite_border,
-              size: 30.0,
-              color: Colors.grey,
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+                size: 30.0,
+                color: Colors.black87,
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-              size: 30.0,
-              color: Colors.grey,
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add_box_outlined,
+                size: 34.0,
+                color: Colors.black87,
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.favorite_border,
+                size: 30.0,
+                color: Colors.black87,
+              ),
+              label: '',
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_outline,
+                size: 30.0,
+                color: Colors.black87,
+              ),
+              label: '',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
