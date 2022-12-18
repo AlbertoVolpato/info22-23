@@ -82,7 +82,7 @@ module.exports = async function (fastify, opts) {
                 }
                 const { rows } = await client.query(
                     'INSERT INTO posts (content,user_id,image) VALUES ($1,$2,$3) RETURNING post_id',
-                    [content, user_id, [image]]
+                    [content, user_id, image]
                 )
                 reply.code(200).send('post created')
 
