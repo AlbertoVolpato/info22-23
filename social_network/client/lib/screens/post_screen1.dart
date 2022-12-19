@@ -10,14 +10,23 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class PostScreen extends StatefulWidget {
-  const PostScreen({super.key});
-
+class PostScreenone extends StatefulWidget {
+  const PostScreenone({super.key});
   @override
-  State<PostScreen> createState() => _PostScreen();
+  State<PostScreenone> createState() => _PostScreenone();
 }
 
-class _PostScreen extends State<PostScreen> {
+class _PostScreenone extends State<PostScreenone> {
+  final controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {}
+    });
+  }
+
   @override
   Widget build(BuildContext contex) {
     return Scaffold(
@@ -115,6 +124,7 @@ class _PostScreen extends State<PostScreen> {
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+              controller: controller,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data.length,

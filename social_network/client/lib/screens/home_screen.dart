@@ -1,3 +1,4 @@
+import 'package:client/screens/post_screen1.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ class _HomeScreen extends State<HomeScreen> {
 
   selectRouteIndex() {
     if (_selectedIndex == 0) {
-      return PostScreen();
+      // return PostScreenone();
+      return PostScreenone();
       //[PostScreen(), PostModels()];
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 3) {

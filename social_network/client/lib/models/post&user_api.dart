@@ -4,13 +4,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<PostsUsersContent>> fetchPostUser() async {
-  final response = await http.get(Uri.parse('http://2.34.202.83:5000/post'));
+Future<List<PostsUsersContent>> fetchPostUser(int page, int size) async {
+  final response = await http.get(
+      Uri.parse('http://2.34.202.83:5000/post&user?page=$page&size=$size'));
 
   if (response.statusCode == 200) {
-    // If the server did rturn a 200 OK response,
-    // then parse the JSON.
-    //return PostsContent.fromJson(jsonDecode(response.body));
     var parsedPostList = json.decode(response.body);
     List<PostsUsersContent> Posts = <PostsUsersContent>[];
     parsedPostList.forEach((posts) {
