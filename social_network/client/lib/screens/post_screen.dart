@@ -14,7 +14,7 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreen extends State<PostScreen> {
-  List<String> items = List.generate(15, (index) => 'items ${index + 1}');
+  List<String> items = [];
 
   @override
   Widget build(BuildContext contex) {

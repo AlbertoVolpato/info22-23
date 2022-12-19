@@ -40,6 +40,7 @@
     "fastify-multer": "^2.0.3",
     "fastify-multipart": "^5.4.0",
     "fastify-oauth2": "^4.6.0",
+    "fastify-pagination": "^0.1.2",
     "fastify-passport": "^0.6.0",
     "fastify-plugin": "^4.4.0",
     "fastify-secure-session": "^3.2.0",

@@ -34,10 +34,10 @@ module.exports = async function (fastify, opts) {
 
     fastify.get('/post', async (req, reply) => {
         const client = await fastify.pg.connect()
+        const { page, size } = req.query;
         try {
             const { rows } = await client.query(
-                'SELECT * FROM posts',
-            )
+                'SELECT * FROM posts LIMIT $2 OFFSET(($1 - 1) * 2);', [page, size]);
             return rows
         } finally {
             client.release()
@@ -46,9 +46,11 @@ module.exports = async function (fastify, opts) {
 
     fastify.get('/post&user', async (req, reply) => {
         const client = await fastify.pg.connect()
+        const { page, size } = req.query;
+
         try {
             const { rows } = await client.query(
-                'SELECT * FROM posts, users WHERE posts.user_id = users.user_id',
+                'SELECT * FROM posts, users WHERE posts.user_id = users.user_id LIMIT $2 OFFSET(($1 - 1) * 2);', [page, size],
             )
             return rows
         } finally {
