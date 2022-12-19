@@ -6,6 +6,10 @@ import 'package:client/models/user_api.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/view_post_screen.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
 
@@ -14,7 +18,23 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreen extends State<PostScreen> {
+  final controller = ScrollController();
   List<String> items = [];
+  int page = 1;
+
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        fetchPostUser();
+      }
+    });
+  }
+
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext contex) {
@@ -94,16 +114,18 @@ class _PostScreen extends State<PostScreen> {
             ),
           ),
           FutureBuilder(
-            future: fetchPostUsers(),
+            future: fetchPostUser(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
+                    controller: controller,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: items.length + 1,
                     padding: const EdgeInsets.all(8),
                     itemBuilder: (BuildContext context, int index) {
                       if (index < items.length) {
+                        final item = items[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5.0),
