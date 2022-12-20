@@ -17,14 +17,54 @@ class PostScreenone extends StatefulWidget {
 }
 
 class _PostScreenone extends State<PostScreenone> {
+  int page = 1;
+  int size = 3;
+  bool hasMore = true;
+
   final controller = ScrollController();
+  late List<PostsUsersContent> Posts = [];
 
   @override
   void initState() {
     super.initState();
+    getPosts();
+    if (Posts.length < size) {
+      hasMore = false;
+    }
     controller.addListener(() {
-      if (controller.position.maxScrollExtent == controller.offset) {}
+      if (controller.position.maxScrollExtent == controller.offset) {
+        getPosts();
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<List<PostsUsersContent>> getPosts() async {
+    final response = await http.get(
+        Uri.parse('http://2.34.202.83:5000/post&user?page=$page&size=$size'));
+
+    if (response.statusCode == 200) {
+      var parsedPostList = json.decode(response.body);
+      parsedPostList.forEach((posts) {
+        Posts.add(PostsUsersContent.fromJson(posts));
+      });
+      setState(() {
+        page++;
+        if (controller.position.maxScrollExtent == controller.offset) {
+          hasMore = false;
+        }
+      });
+      return Posts;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
   }
 
   @override
@@ -119,21 +159,22 @@ class _PostScreenone extends State<PostScreenone> {
   }
 
   Widget _post() {
-    return FutureBuilder(
-      future: fetchPostUser(1, 20),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-              controller: controller,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              padding: const EdgeInsets.all(8),
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 5.0),
-                  child: Container(
+    return ListView.builder(
+        controller: controller,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: Posts.length,
+        padding: const EdgeInsets.all(8),
+        itemBuilder: (BuildContext context, int index) {
+          if (index < Posts.length) {
+            final item = Posts[index];
+          }
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            child: hasMore
+                ? const CircularProgressIndicator()
+                : Container(
                     width: double.infinity,
                     height: 590.0,
                     decoration: BoxDecoration(
@@ -166,19 +207,20 @@ class _PostScreenone extends State<PostScreenone> {
                                         height: 50.0,
                                         width: 50.0,
                                         image: NetworkImage(
-                                            'http://2.34.202.83:5000/uploads/picture/${snapshot.data[index].picture}'),
+                                            'http://2.34.202.83:5000/uploads/picture/' +
+                                                Posts[index].picture),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                 ),
                                 title: Text(
-                                  snapshot.data[index].username,
+                                  Posts[index].username,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                subtitle: Text(snapshot.data[index].created_at),
+                                subtitle: Text(Posts[index].created_at),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.more_horiz),
                                   color: Colors.black,
@@ -213,7 +255,7 @@ class _PostScreenone extends State<PostScreenone> {
                                     ],
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          'http://2.34.202.83:5000/uploads/${snapshot.data[index].image[0]}'),
+                                          'http://2.34.202.83:5000/uploads/${Posts[index].image[0]}'),
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -295,7 +337,7 @@ class _PostScreenone extends State<PostScreenone> {
                                         Row(
                                           children: <Widget>[
                                             Text(
-                                              snapshot.data[index].username,
+                                              Posts[index].username,
                                               style: const TextStyle(
                                                 fontSize: 18.0,
                                                 fontWeight: FontWeight.w900,
@@ -307,7 +349,7 @@ class _PostScreenone extends State<PostScreenone> {
                                         Row(
                                           children: <Widget>[
                                             Text(
-                                              snapshot.data[index].content,
+                                              Posts[index].content,
                                               style: const TextStyle(
                                                 fontSize: 18.0,
                                                 fontWeight: FontWeight.w400,
@@ -326,22 +368,7 @@ class _PostScreenone extends State<PostScreenone> {
                       ],
                     ),
                   ),
-                );
-                //} else {
-                //return const Padding(
-                //  padding: EdgeInsets.symmetric(vertical: 32),
-                //  child: Center(
-                //    child: CircularProgressIndicator(),
-                //  ),
-                //);
-                //}
-              });
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
-      },
-    );
+          );
+        });
   }
 }
