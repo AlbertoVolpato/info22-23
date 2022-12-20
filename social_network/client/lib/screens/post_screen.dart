@@ -12,25 +12,78 @@ import 'dart:convert';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
-
   @override
   State<PostScreen> createState() => _PostScreen();
 }
 
 class _PostScreen extends State<PostScreen> {
+  List<PostsUsersContent> Posts = <PostsUsersContent>[];
+  final controller = ScrollController();
+  int page = 1;
+  int size = 2;
+  bool hasMore = true;
+  bool isLoading = false;
+
+  Future<List<PostsUsersContent>> getPosts() async {
+    if (isLoading) {
+      return Posts;
+    }
+    setState(() {
+      isLoading = true;
+    });
+
+    final response = await http.get(
+        Uri.parse('http://2.34.202.83:5000/post&user?page=$page&size=$size'));
+
+    if (response.statusCode == 200) {
+      var parsedPostList = json.decode(response.body);
+      parsedPostList.forEach((posts) {
+        Posts.add(PostsUsersContent.fromJson(posts));
+      });
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+    setState(() {
+      print(page);
+      page = page + 1;
+      isLoading = false;
+
+      if (Posts.length < size) {
+        hasMore = false;
+      }
+    });
+    return Posts;
+  }
+
   @override
-  Widget build(BuildContext contex) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEDF0F6),
-      body: ListView(
-        children: <Widget>[
-          _header(),
-          const SizedBox(height: 10),
-          _stories(),
-          _post(),
-        ],
-      ),
-    );
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPosts();
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        getPosts();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future refresh() async {
+    setState(() {
+      isLoading = false;
+      hasMore = true;
+      page = 0;
+      Posts.clear();
+    });
+    getPosts();
   }
 
   Widget _header() {
@@ -110,228 +163,239 @@ class _PostScreen extends State<PostScreen> {
   }
 
   Widget _post() {
-    return FutureBuilder(
-      future: fetchPostUser(1, 20),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              padding: const EdgeInsets.all(8),
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 5.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 590.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                leading: Container(
-                                  width: 50.0,
-                                  height: 50.0,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black45,
-                                        offset: Offset(0, 2),
-                                        blurRadius: 6.0,
-                                      ),
-                                    ],
+    return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: Posts.length + 1,
+        padding: const EdgeInsets.all(8),
+        itemBuilder: (context, index) {
+          if (index < Posts.length) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              child: Container(
+                width: double.infinity,
+                height: 590.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Column(
+                        children: <Widget>[
+                          ListTile(
+                            leading: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black45,
+                                    offset: Offset(0, 2),
+                                    blurRadius: 6.0,
                                   ),
-                                  child: CircleAvatar(
-                                    child: ClipOval(
-                                      child: Image(
-                                        height: 50.0,
-                                        width: 50.0,
-                                        image: NetworkImage(
-                                            'http://2.34.202.83:5000/uploads/picture/${snapshot.data[index].picture}'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                title: Text(
-                                  snapshot.data[index].username,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: Text(snapshot.data[index].created_at),
-                                trailing: IconButton(
-                                  icon: const Icon(Icons.more_horiz),
-                                  color: Colors.black,
-                                  onPressed: () => print('More'),
-                                ),
+                                ],
                               ),
-                              InkWell(
-                                onDoubleTap: () => print('Like PostModels'),
-                                onTap: () {
-                                  //Navigator.push(
-                                  //  context,
-                                  //  MaterialPageRoute(
-                                  //    builder: (context) =>
-                                  //        ViewPostModelsScreen(
-                                  //      PostModels: PostModelss[index],
-                                  //    ),
-                                  //  ),
-                                  //);
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.all(10.0),
-                                  width: double.infinity,
-                                  height: 400.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black45,
-                                        offset: Offset(0, 5),
-                                        blurRadius: 8.0,
-                                      ),
-                                    ],
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          'http://2.34.202.83:5000/uploads/${snapshot.data[index].image[0]}'),
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                              child: CircleAvatar(
+                                child: ClipOval(
+                                  child: Image(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    image: NetworkImage(
+                                        'http://2.34.202.83:5000/uploads/picture/${Posts[index].picture}'),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            IconButton(
-                                              icon: const Icon(
-                                                  Icons.favorite_border),
-                                              iconSize: 30.0,
-                                              onPressed: () =>
-                                                  print('Like PostModels'),
-                                            ),
-                                            const Text(
-                                              '2,515',
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 20.0),
-                                        Row(
-                                          children: <Widget>[
-                                            IconButton(
-                                              icon: const Icon(Icons.chat),
-                                              iconSize: 30.0,
-                                              onPressed: () {
-                                                //Navigator.push(
-                                                //  context,
-                                                //  MaterialPageRoute(
-                                                //    builder: (context) =>
-                                                //        ViewPostModelsScreen(
-                                                //      PostModels: PostModelss[index],
-                                                //    ),
-                                                //  ),
-                                                //);
-                                              },
-                                            ),
-                                            const Text(
-                                              '350',
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.bookmark_border),
-                                      iconSize: 30.0,
-                                      onPressed: () => print('Save PostModels'),
-                                    ),
-                                  ],
-                                ),
+                            ),
+                            title: Text(
+                              Posts[index].username,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2.0, horizontal: 34.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              snapshot.data[index].username,
-                                              style: const TextStyle(
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.w900,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 4.0),
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              snapshot.data[index].content,
-                                              style: const TextStyle(
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
+                            subtitle: Text(Posts[index].created_at),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.more_horiz),
+                              color: Colors.black,
+                              onPressed: () => print('More'),
+                            ),
                           ),
-                        ),
-                      ],
+                          InkWell(
+                            onDoubleTap: () => print('Like PostModels'),
+                            onTap: () {
+                              //Navigator.push(
+                              //  context,
+                              //  MaterialPageRoute(
+                              //    builder: (context) =>
+                              //        ViewPostModelsScreen(
+                              //      PostModels: PostModelss[index],
+                              //    ),
+                              //  ),
+                              //);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(10.0),
+                              width: double.infinity,
+                              height: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black45,
+                                    offset: Offset(0, 5),
+                                    blurRadius: 8.0,
+                                  ),
+                                ],
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      'http://2.34.202.83:5000/uploads/${Posts[index].image[0]}'),
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        IconButton(
+                                          icon:
+                                              const Icon(Icons.favorite_border),
+                                          iconSize: 30.0,
+                                          onPressed: () =>
+                                              print('Like PostModels'),
+                                        ),
+                                        const Text(
+                                          '2,515',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(width: 20.0),
+                                    Row(
+                                      children: <Widget>[
+                                        IconButton(
+                                          icon: const Icon(Icons.chat),
+                                          iconSize: 30.0,
+                                          onPressed: () {
+                                            //Navigator.push(
+                                            //  context,
+                                            //  MaterialPageRoute(
+                                            //    builder: (context) =>
+                                            //        ViewPostModelsScreen(
+                                            //      PostModels: PostModelss[index],
+                                            //    ),
+                                            //  ),
+                                            //);
+                                          },
+                                        ),
+                                        const Text(
+                                          '350',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.bookmark_border),
+                                  iconSize: 30.0,
+                                  onPressed: () => print('Save PostModels'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2.0, horizontal: 34.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          Posts[index].username,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(width: 4.0),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          Posts[index].content,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-                //} else {
-                //return const Padding(
-                //  padding: EdgeInsets.symmetric(vertical: 32),
-                //  child: Center(
-                //    child: CircularProgressIndicator(),
-                //  ),
-                //);
-                //}
-              });
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
-      },
+                  ],
+                ),
+              ),
+            );
+          } else {
+            if (hasMore = true) {
+              return const SizedBox(
+                width: 60,
+                height: 60,
+                child: FittedBox(child: CircularProgressIndicator()),
+              );
+            } else {
+              return Text('all data loaded');
+            }
+          }
+        });
+    ;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: refresh,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFEDF0F6),
+        body: ListView(
+          controller: controller,
+          children: <Widget>[
+            _header(),
+            const SizedBox(height: 10),
+            _stories(),
+            _post(),
+          ],
+        ),
+      ),
     );
   }
 }

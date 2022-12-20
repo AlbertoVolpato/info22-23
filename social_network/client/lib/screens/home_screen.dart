@@ -20,7 +20,7 @@ class _HomeScreen extends State<HomeScreen> {
   selectRouteIndex() {
     if (_selectedIndex == 0) {
       // return PostScreenone();
-      return PostScreenone();
+      return PostScreen();
       //[PostScreen(), PostModels()];
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 3) {
