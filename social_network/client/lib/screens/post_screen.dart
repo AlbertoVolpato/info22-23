@@ -18,6 +18,8 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreen extends State<PostScreen> {
   List<PostsUsersContent> Posts = <PostsUsersContent>[];
+  List<PostsUsersContent> PostLenght = <PostsUsersContent>[];
+
   final controller = ScrollController();
   int page = 1;
   int size = 2;
@@ -36,6 +38,8 @@ class _PostScreen extends State<PostScreen> {
         Uri.parse('http://2.34.202.83:5000/post&user?page=$page&size=$size'));
 
     if (response.statusCode == 200) {
+      //print('getting data');
+
       var parsedPostList = json.decode(response.body);
       parsedPostList.forEach((posts) {
         Posts.add(PostsUsersContent.fromJson(posts));
@@ -46,14 +50,16 @@ class _PostScreen extends State<PostScreen> {
       throw Exception('Failed to load album');
     }
     setState(() {
-      print(page);
-      page = page + 1;
-      isLoading = false;
-
-      if (Posts.length < size) {
+      if (Posts.length < (page * size)) {
         hasMore = false;
+      } else {
+        page = page + 1;
+        isLoading = false;
       }
+      //print(hasMore);
     });
+    //print(hasMore);
+
     return Posts;
   }
 
@@ -65,7 +71,9 @@ class _PostScreen extends State<PostScreen> {
 
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
-        getPosts();
+        if (hasMore == true) {
+          getPosts();
+        }
       }
     });
   }
@@ -77,13 +85,13 @@ class _PostScreen extends State<PostScreen> {
   }
 
   Future refresh() async {
+    Posts.clear();
+    getPosts();
     setState(() {
       isLoading = false;
       hasMore = true;
       page = 0;
-      Posts.clear();
     });
-    getPosts();
   }
 
   Widget _header() {
@@ -365,19 +373,20 @@ class _PostScreen extends State<PostScreen> {
                 ),
               ),
             );
+          } else if (hasMore == false) {
+            return const SizedBox(
+              width: 60,
+              height: 60,
+              child: FittedBox(child: Text('all data loaded')),
+            );
           } else {
-            if (hasMore = true) {
-              return const SizedBox(
-                width: 60,
-                height: 60,
-                child: FittedBox(child: CircularProgressIndicator()),
-              );
-            } else {
-              return Text('all data loaded');
-            }
+            return const SizedBox(
+              width: 60,
+              height: 60,
+              child: FittedBox(child: CircularProgressIndicator()),
+            );
           }
         });
-    ;
   }
 
   @override
