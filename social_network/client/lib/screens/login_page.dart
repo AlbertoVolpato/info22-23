@@ -1,7 +1,7 @@
+import 'package:client/models/oaut_google.dart';
 import 'package:flutter/material.dart';
-import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
-import 'package:client/components/square_tile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -11,7 +11,6 @@ class LoginPage extends StatelessWidget {
   final passwordController = TextEditingController();
 
   // sign user in method
-  void signUserIn() {}
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +77,6 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 25),
 
               // sign in button
-              MyButton(
-                onTap: signUserIn,
-              ),
 
               const SizedBox(height: 50),
 
@@ -115,18 +111,17 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 50),
 
               // google + apple sign in buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  // google button
-                  SquareTile(imagePath: 'assets/images/google.png'),
-
-                  SizedBox(width: 25),
-
-                  // apple button
-                  SquareTile(imagePath: 'assets/images/apple.png')
-                ],
-              ),
+              ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.google,
+                    color: Colors.white,
+                  ),
+                  label: const Text('Sing Up With Google'),
+                  onPressed: () => print("ciao") //singIn,
+                  ),
 
               const SizedBox(height: 50),
 
@@ -154,4 +149,8 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  //Future singIn() async {
+  //  await GoogleSignInApi.login();
+  //}
 }

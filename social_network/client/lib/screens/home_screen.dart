@@ -1,11 +1,6 @@
-import 'package:client/screens/post_screen1.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:client/models/post_model.dart';
 import 'package:client/screens/post_screen.dart';
-import 'package:client/models/post_api.dart';
-import 'package:client/screens/view_post_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

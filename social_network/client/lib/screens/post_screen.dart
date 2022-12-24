@@ -1,10 +1,6 @@
 import 'package:client/models/post&user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
-import 'package:client/models/post_api.dart';
-import 'package:client/models/user_api.dart';
-import 'package:client/screens/profile_screen.dart';
-import 'package:client/screens/view_post_screen.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -22,7 +18,7 @@ class _PostScreen extends State<PostScreen> {
 
   final controller = ScrollController();
   int page = 1;
-  int size = 2;
+  int size = 5;
   bool hasMore = true;
   bool isLoading = false;
 
@@ -374,12 +370,14 @@ class _PostScreen extends State<PostScreen> {
               ),
             );
           } else if (hasMore == false) {
+            const SizedBox(height: 20.0);
             return const SizedBox(
               width: 60,
               height: 60,
               child: FittedBox(child: Text('all data loaded')),
             );
           } else {
+            const SizedBox(height: 20.0);
             return const SizedBox(
               width: 60,
               height: 60,
