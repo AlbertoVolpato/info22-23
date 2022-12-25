@@ -55,8 +55,8 @@ android {
 
     singingConfigs {
         debug{
-            kayAlias: 'upload'
-            keyPassword; 'Alberto'
+            kayAlias 'upload'
+            keyPassword 'Alberto'
             storeFile file('upload-keystore.jks')
             stirePassword 'Alberto'
         }
