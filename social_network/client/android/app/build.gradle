@@ -53,14 +53,14 @@ android {
         versionName flutterVersionName
     }
 
-    singingConfigs {
-        debug{
-            kayAlias 'upload'
-            keyPassword 'Alberto'
-            storeFile file('upload-keystore.jks')
-            stirePassword 'Alberto'
-        }
-    }
+    //signingConfigs {
+    //    debug{
+    //        keyAlias 'upload'
+    //        keyPassword 'Alberto'
+    //        storeFile file('upload-keystore.jks')
+    //        stirePassword 'Alberto'
+    //    }
+    //}
 
     buildTypes {
         debug {
