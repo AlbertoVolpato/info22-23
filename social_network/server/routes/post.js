@@ -50,7 +50,7 @@ module.exports = async function (fastify, opts) {
 
         try {
             const { rows } = await client.query(
-                'SELECT * FROM posts, users WHERE posts.user_id = users.user_id LIMIT $2 OFFSET(($1 - 1) * 2);', [page, size],
+                'SELECT * FROM posts, users WHERE posts.user_id = users.user_id LIMIT $2 OFFSET(($1 - 1) * $2);', [page, size],
             )
             return rows
         } finally {
