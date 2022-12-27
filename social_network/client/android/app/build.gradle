@@ -55,7 +55,7 @@ android {
 
     signingConfigs {
         debug{
-            storeFile file('key.jks')
+            storeFile file('key.jsk')
             storePassword 'Alberto'
             keyAlias 'google_oaut'
             keyPassword 'Alberto'

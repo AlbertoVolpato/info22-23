@@ -47,7 +47,10 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   oauth2: ^2.0.1
   google_sign_in: ^5.4.2
-  objectbox: ^1.7.0
+  #ObjectBox
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -59,8 +62,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  #OBJECTBOX
   build_runner: ^2.3.3
-  objectbox_generator: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

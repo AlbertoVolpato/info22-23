@@ -1,11 +1,9 @@
+import 'package:client/models/local_user.dart';
 import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
 import 'package:client/components/square_tile.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +33,10 @@ class LoginPage extends StatelessWidget {
       final result = await _googleSignIn.signIn();
       final googleAuth = await result?.authentication;
       print(googleAuth?.accessToken);
+      String g_token = googleAuth?.accessToken;
+      user.put('users', User(token: g_token));
+      // gets new id
+
     } catch (error) {
       print(error);
     }
