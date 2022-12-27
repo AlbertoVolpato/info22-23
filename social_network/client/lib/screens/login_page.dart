@@ -4,6 +4,7 @@ import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
 import 'package:client/components/square_tile.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:client/screens/home_screen.dart';
 
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
@@ -31,15 +32,20 @@ class LoginPage extends StatelessWidget {
   Future<void> _handleSignIn() async {
     try {
       final result = await _googleSignIn.signIn();
-      final googleAuth = await result?.authentication;
-      print(googleAuth?.accessToken);
-      String g_token = googleAuth?.accessToken;
-      user.put('users', User(token: g_token));
+      final googleAuth = await result!.authentication;
+      String g_token = googleAuth.accessToken.toString();
+      print(g_token);
+      user.put('user', g_token); //User(token: g_token));
       // gets new id
 
     } catch (error) {
       print(error);
     }
+  }
+
+  Future<void> _handleSignOut() async {
+    _googleSignIn.disconnect();
+    user.delete('user');
   }
 
   @override
@@ -60,17 +66,6 @@ class LoginPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 50),
-
-              // welcome back, you've been missed!
-              Text(
-                'Welcome back you\'ve been missed!',
-                style: TextStyle(
-                  color: Colors.grey[900],
-                  fontSize: 16,
-                ),
-              ),
-
-              const SizedBox(height: 25),
 
               // username textfield
               MyTextField(
@@ -111,7 +106,7 @@ class LoginPage extends StatelessWidget {
                 onTap: signUserIn,
               ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
 
               // or continue with
               Padding(
@@ -141,7 +136,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
 
               // google + apple sign in buttons
               OutlinedButton(
@@ -182,7 +177,44 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 10),
+
+              OutlinedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  _handleSignOut();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(Icons.exit_to_app, size: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          ' LogOut',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
 
               // not a member? register now
               Row(

@@ -1,3 +1,5 @@
+import 'package:client/main.dart';
+import 'package:client/screens/login_page.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
@@ -12,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  selectRouteIndex() {
+  selectRouter() {
     if (_selectedIndex == 0) {
       // return PostScreenone();
       return PostScreen();
@@ -95,7 +97,6 @@ class _HomeScreen extends State<HomeScreen> {
 //PAGINA PRINCIPALE
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: selectRouteIndex(), bottomNavigationBar: _bottomNav());
+    return Scaffold(body: selectRouter(), bottomNavigationBar: _bottomNav());
   }
 }
