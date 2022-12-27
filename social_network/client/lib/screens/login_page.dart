@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
 import 'package:client/components/square_tile.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+
+import 'package:client/main.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -13,10 +20,30 @@ class LoginPage extends StatelessWidget {
   // sign user in method
   void signUserIn() {}
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    clientId:
+        '13359980221-62s9pb9ffon3gu0gik6bgk9h43ssvogj.apps.googleusercontent.com',
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  Future<void> _handleSignIn() async {
+    try {
+      final result = await _googleSignIn.signIn();
+      final googleAuth = await result?.authentication;
+      print(googleAuth?.accessToken);
+    } catch (error) {
+      print(error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEDF0F6),
+      backgroundColor: const Color(0xFFEDF0F6),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -36,7 +63,7 @@ class LoginPage extends StatelessWidget {
               Text(
                 'Welcome back you\'ve been missed!',
                 style: TextStyle(
-                  color: Colors.grey[700],
+                  color: Colors.grey[900],
                   fontSize: 16,
                 ),
               ),
@@ -69,7 +96,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     Text(
                       'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(color: Colors.grey[800]),
                     ),
                   ],
                 ),
@@ -115,17 +142,42 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 50),
 
               // google + apple sign in buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  // google button
-                  SquareTile(imagePath: 'assets/images/google.png'),
-
-                  SizedBox(width: 25),
-
-                  // apple button
-                  SquareTile(imagePath: 'assets/images/apple.png')
-                ],
+              OutlinedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  _handleSignIn();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Image(
+                        image: AssetImage("assets/images/google.png"),
+                        height: 35.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Sign in with Google',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
 
               const SizedBox(height: 50),
