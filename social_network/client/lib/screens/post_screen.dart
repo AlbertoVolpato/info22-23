@@ -82,12 +82,12 @@ class _PostScreen extends State<PostScreen> {
 
   Future refresh() async {
     Posts.clear();
-    getPosts();
     setState(() {
       isLoading = false;
       hasMore = true;
-      page = 0;
+      page = 1;
     });
+    getPosts();
   }
 
   Widget _header() {
@@ -258,7 +258,7 @@ class _PostScreen extends State<PostScreen> {
                                 image: DecorationImage(
                                   image: NetworkImage(
                                       'http://2.34.202.83:5000/uploads/${Posts[index].image[0]}'),
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
