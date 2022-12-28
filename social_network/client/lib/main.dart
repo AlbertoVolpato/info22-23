@@ -2,6 +2,7 @@ import 'package:client/models/local_user.dart';
 import 'package:client/models/oaut_google.dart';
 import 'package:client/screens/login_page.dart';
 import 'package:client/screens/screen_controller.dart';
+import 'package:client/screens/complete_registration.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,10 +25,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Instagram Feed UI Redesign',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => ScreenController(),
-        '/hone': (context) => HomeScreen(),
+        // '/': (context) => ScreenController(),
+        '/home': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
         '/register': (context) => SignInDemo(),
+        // '/completeregistration': (context) => CompleteRegistration(),
+        '/': (context) => CompleteRegistration(),
       },
     );
   }

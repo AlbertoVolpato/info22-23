@@ -60,3 +60,17 @@ class UserContent {
     );
   }
 }
+
+class Username {
+  final String username;
+
+  const Username({
+    required this.username,
+  });
+
+  factory Username.fromJson(Map<String, dynamic> json) {
+    return Username(
+      username: json['username'],
+    );
+  }
+}
