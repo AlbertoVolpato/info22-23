@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -39,25 +40,61 @@ Future<UserContent> fetchUserfromId(token) async {
 }
 
 class UserContent {
-  final String id;
-  final String username;
-  final String email;
-  final String picture;
+  final String user_id;
+  final String google_token;
 
   const UserContent({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.picture,
+    required this.user_id,
+    required this.google_token,
   });
 
   factory UserContent.fromJson(Map<String, dynamic> json) {
     return UserContent(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
-      picture: json['picture'],
-    );
+        user_id: json['user_id'], google_token: json['google_token']);
+  }
+}
+
+class UserForPost {
+  final String id;
+  final String username;
+  final File picture;
+  final String singup_date;
+  final String google_token;
+
+  const UserForPost({
+    required this.id,
+    required this.username,
+    required this.picture,
+    required this.singup_date,
+    required this.google_token,
+  });
+
+  factory UserForPost.fromJson(Map<String, dynamic> json) {
+    return UserForPost(
+        id: json['id'],
+        username: json['username'],
+        picture: json['picture'],
+        singup_date: json['singup_date'],
+        google_token: json['google_token']);
+  }
+}
+
+class PartialUser {
+  final String username;
+  final String picture;
+  final String google_token;
+
+  const PartialUser({
+    required this.username,
+    required this.picture,
+    required this.google_token,
+  });
+
+  factory PartialUser.fromJson(Map<String, dynamic> json) {
+    return PartialUser(
+        username: json['username'],
+        picture: json['picture'],
+        google_token: json['google_token']);
   }
 }
 

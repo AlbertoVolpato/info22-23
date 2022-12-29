@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:client/models/local_user.dart';
+import 'package:client/screens/complete_registration.dart';
+import 'package:client/screens/screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
@@ -9,15 +13,50 @@ import 'package:client/screens/home_screen.dart';
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+import '../models/user_api.dart';
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  late List<UserContent> VerifyToken = <UserContent>[];
+
   // sign user in method
   void signUserIn() {}
+
+  Future<List<UserContent>> fetchByToken(String token) async {
+    final response = await http.post(
+      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'google_token': token,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      var parsedPostList = json.decode(response.body);
+      parsedPostList.forEach((index) {
+        VerifyToken.add(UserContent.fromJson(index));
+      });
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+    return VerifyToken;
+  }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     // Optional clientId
@@ -34,10 +73,32 @@ class LoginPage extends StatelessWidget {
       final result = await _googleSignIn.signIn();
       final googleAuth = await result!.authentication;
       String g_token = googleAuth.accessToken.toString();
-      print(g_token);
       user.put('user', g_token); //User(token: g_token));
       // gets new id
+      //print(g_token);
+      var g_tokenOne =
+          "ya29.a0AX9GBdUeo2R9bbWtPLEu8TYdPkUVN5RbNEQBjBUEYG2W6Lrc1AGAVmYA0zPza3l0jMzWBFVg6nXBgwDdpIC4bdZRD0yuliIL_bUJFbJ1Rc98mRV09Fyv3_98J-v6InXRa5spauFqzg7sywxxn7kbCUhad9l5aCgYKAYQSARASFQHUCsbCBJcHJjMPEubw0UAVFKc8Og0163";
 
+      fetchByToken(g_token);
+
+      try {
+        if (VerifyToken[0].user_id != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenController()),
+          );
+        }
+      } catch (error) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CompleteRegistration()),
+        );
+      }
+
+      //Navigator.push(
+      //  context,
+      //  MaterialPageRoute(builder: (context) => const ScreenController()),
+      //);
     } catch (error) {
       print(error);
     }

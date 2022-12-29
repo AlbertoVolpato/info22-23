@@ -13,8 +13,6 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
   user = await Hive.openBox('user');
-  print(user.get('user'));
-
   runApp(MyApp());
 }
 
@@ -29,8 +27,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
         '/register': (context) => SignInDemo(),
-        // '/completeregistration': (context) => CompleteRegistration(),
-        '/': (context) => CompleteRegistration(),
+        '/': (context) => ScreenController(),
       },
     );
   }
