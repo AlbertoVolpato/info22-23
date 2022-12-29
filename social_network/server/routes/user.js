@@ -67,17 +67,39 @@ module.exports = async function (fastify, opts) {
         }
     })
 
+    fastify.get('/username/:id', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        const id = req.params.id;
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM users WHERE username = $1', [id]
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
     fastify.post('/user', { preHandler: upload },
         async (req, reply) => {
             const client = await fastify.pg.connect()
             try {
                 const { username, email, password, google_token } = req.body;
-                let image = req.file.filename;
-                const { rows } = await client.query(
-                    'INSERT INTO users (username,email,password,google_token,picture) VALUES ($1,$2,$3,$4,$5) RETURNING user_id',
-                    [username, email, password, google_token, image]
-                )
-                return rows
+                if (req.file != undefined) {
+                    let image = req.file.filename;
+                    const { rows } = await client.query(
+                        'INSERT INTO users (username,email,password,google_token,picture) VALUES ($1,$2,$3,$4,$5) RETURNING user_id',
+                        [username, email, password, google_token, image]
+                    )
+                    return rows
+                } else {
+                    const { rows } = await client.query(
+                        'INSERT INTO users (username,email,password,google_token) VALUES ($1,$2,$3,$4) RETURNING user_id',
+                        [username, email, password, google_token]
+                    )
+                    return rows
+                }
+
             } finally {
                 client.release()
             }
@@ -91,7 +113,7 @@ module.exports = async function (fastify, opts) {
             const id = req.params.id;
             const { rows } = await client.query(
                 'UPDATE users SET username = $1, email = $2, password = $3 WHERE user_id = $4  RETURNING user_id',
-                [username, email, password , id]
+                [username, email, password, id]
             )
             return rows
         } finally {
