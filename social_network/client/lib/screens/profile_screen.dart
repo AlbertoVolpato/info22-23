@@ -1,4 +1,12 @@
+import 'package:client/models/post_model.dart';
 import 'package:flutter/material.dart';
+import 'package:client/main.dart';
+import 'package:client/models/post&user_api.dart';
+import 'package:client/models/user_api.dart';
+import 'package:client/screens/profile_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -8,23 +16,63 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-  List<Map<String, String>> listPosts = [
-    {
-      'image': 'assets/images/user2.png',
-    },
-    {
-      'image': 'assets/images/post1.jpg',
-    },
-    {
-      'image': 'assets/images/post0.jpg',
-    },
-    {
-      'image': 'assets/images/post1.jpg',
-    },
-    {
-      'image': 'assets/images/post0.jpg',
-    },
-  ];
+  List<PostsUsersContent> Posts = <PostsUsersContent>[];
+  List<UserContent> VerifyToken = <UserContent>[];
+
+  Future<List<UserContent>> fetchByToken(String token) async {
+    final response = await http.post(
+      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'google_token': token,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      var parsedPostList = json.decode(response.body);
+      parsedPostList.forEach((index) {
+        VerifyToken.add(UserContent.fromJson(index));
+      });
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+    print(VerifyToken[0].user_id);
+    await getPosts(VerifyToken[0].user_id);
+    return VerifyToken;
+  }
+
+  Future<List<PostsUsersContent>> getPosts(userId) async {
+    final response =
+        await http.get(Uri.parse('http://2.34.202.83:5000/postofuser/$userId'));
+
+    if (response.statusCode == 200) {
+      //print('getting data');
+
+      var parsedPostList = json.decode(response.body);
+      parsedPostList.forEach((posts) {
+        Posts.add(PostsUsersContent.fromJson(posts));
+      });
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+    //print(hasMore);
+
+    return Posts;
+  }
+
+  @override
+  void initState() {
+    fetchByToken(user.get('user'));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext contex) {
@@ -40,7 +88,8 @@ class _Profile extends State<Profile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'username_me',
+                    // VerifyToken[0].username,
+                    "username",
                     style: TextStyle(
                         fontFamily: 'Billabong',
                         fontSize: 30.0,
@@ -308,28 +357,28 @@ class _Profile extends State<Profile> {
                       ),
                     ),
                     // grid post
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 1 / 1,
-                        crossAxisSpacing: 2,
-                        mainAxisSpacing: 2,
-                      ),
-                      itemBuilder: (context, index) {
-                        final post = listPosts[index];
-                        return Container(
-                          color: Colors.black,
-                          child: Image.asset(
-                            post['image']!,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                      itemCount: listPosts.length,
-                    ),
+                    // GridView.builder(
+                    //   shrinkWrap: true,
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   gridDelegate:
+                    //       const SliverGridDelegateWithFixedCrossAxisCount(
+                    //     crossAxisCount: 3,
+                    //     childAspectRatio: 1 / 1,
+                    //     crossAxisSpacing: 2,
+                    //     mainAxisSpacing: 2,
+                    //   ),
+                    //   //itemBuilder: (context, index) {
+                    //   //  final post = Posts[index];
+                    //   //  return Container(
+                    //   //    color: Colors.black,
+                    //   //    child: Image.network(
+                    //   //      'http:2.34.202.83:5000/uploads/${post.image}',
+                    //   //      fit: BoxFit.cover,
+                    //   //    ),
+                    //   //  );
+                    //   //},
+                    //   //itemCount: Posts.length,
+                    // ),
                   ],
                 ),
               ),

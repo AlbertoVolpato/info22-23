@@ -40,16 +40,23 @@ Future<UserContent> fetchUserfromId(token) async {
 
 class UserContent {
   final String user_id;
-  final String google_token;
+  final String username;
+  final String singup_date;
+  final String picture;
 
   const UserContent({
     required this.user_id,
-    required this.google_token,
+    required this.username,
+    required this.singup_date,
+    required this.picture,
   });
 
   factory UserContent.fromJson(Map<String, dynamic> json) {
     return UserContent(
-        user_id: json['user_id'], google_token: json['google_token']);
+        user_id: json['user_id'],
+        username: json['username'],
+        singup_date: json['singup_date'],
+        picture: json['picture']);
   }
 }
 
@@ -113,7 +120,6 @@ class Username {
 
 class FullOautInfo {
   final String user_id;
-
   final String email;
 
   const FullOautInfo({

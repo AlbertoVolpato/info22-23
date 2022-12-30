@@ -28,15 +28,13 @@ class _LoginPage extends State<LoginPage> {
   final passwordController = TextEditingController();
   String? google_token;
 
-  late List<UserContent> VerifyToken = <UserContent>[];
+  late List<FullOautInfo> VerifyToken = <FullOautInfo>[];
   FullOautInfo? FullUserInfo;
 
   // sign user in method
-  void signUserIn() {
-    Navigator.pushReplacementNamed(context, '/');
-  }
+  void signUserIn() {}
 
-  Future<List<UserContent>> fetchByToken(String token) async {
+  Future<List<FullOautInfo>> fetchByToken(String token) async {
     final response = await http.post(
       Uri.parse('http://2.34.202.83:5000/userbytoken'),
       headers: <String, String>{
@@ -52,7 +50,7 @@ class _LoginPage extends State<LoginPage> {
       // then parse the JSON.
       var parsedPostList = json.decode(response.body);
       parsedPostList.forEach((index) {
-        VerifyToken.add(UserContent.fromJson(index));
+        VerifyToken.add(FullOautInfo.fromJson(index));
       });
     } else {
       // If the server did not return a 201 CREATED response,
