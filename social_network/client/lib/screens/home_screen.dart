@@ -45,8 +45,8 @@ class _HomeScreen extends State<HomeScreen> {
         height: 85,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: [
-            const BottomNavigationBarItem(
+          items: const [
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_outlined,
                 size: 34.0,
@@ -54,7 +54,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.search,
                 size: 30.0,
@@ -62,7 +62,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.add_box_outlined,
                 size: 34.0,
@@ -70,7 +70,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.favorite_border,
                 size: 30.0,
@@ -78,7 +78,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_outline,
                 size: 30.0,

@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 Future<UserContent> fetchUser() async {
   final response = await http.get(Uri.parse('http://2.34.202.83:5000/user'));
@@ -108,6 +107,23 @@ class Username {
   factory Username.fromJson(Map<String, dynamic> json) {
     return Username(
       username: json['username'],
+    );
+  }
+}
+
+class FullOautInfo {
+  final String user_id;
+
+  final String email;
+
+  const FullOautInfo({
+    required this.user_id,
+    required this.email,
+  });
+  factory FullOautInfo.fromJson(Map<String, dynamic> json) {
+    return FullOautInfo(
+      user_id: json['user_id'],
+      email: json['email'],
     );
   }
 }

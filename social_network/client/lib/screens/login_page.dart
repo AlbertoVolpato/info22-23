@@ -26,11 +26,15 @@ class _LoginPage extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  String? google_token;
 
   late List<UserContent> VerifyToken = <UserContent>[];
+  FullOautInfo? FullUserInfo;
 
   // sign user in method
-  void signUserIn() {}
+  void signUserIn() {
+    Navigator.pushReplacementNamed(context, '/');
+  }
 
   Future<List<UserContent>> fetchByToken(String token) async {
     final response = await http.post(
@@ -73,14 +77,12 @@ class _LoginPage extends State<LoginPage> {
       final result = await _googleSignIn.signIn();
       final googleAuth = await result!.authentication;
       String g_token = googleAuth.accessToken.toString();
-      user.put('user', g_token); //User(token: g_token));
-      // gets new id
-      //print(g_token);
-      var g_tokenOne =
-          "ya29.a0AX9GBdUeo2R9bbWtPLEu8TYdPkUVN5RbNEQBjBUEYG2W6Lrc1AGAVmYA0zPza3l0jMzWBFVg6nXBgwDdpIC4bdZRD0yuliIL_bUJFbJ1Rc98mRV09Fyv3_98J-v6InXRa5spauFqzg7sywxxn7kbCUhad9l5aCgYKAYQSARASFQHUCsbCBJcHJjMPEubw0UAVFKc8Og0163";
-
-      fetchByToken(g_token);
-
+      google_token = g_token;
+      await _handleGetFullOautInfo(g_token);
+      //print(FullUserInfo!.user_id);
+      var user_id_google = FullUserInfo!.user_id;
+      user.put('user', user_id_google);
+      await fetchByToken(user_id_google);
       try {
         if (VerifyToken[0].user_id != null) {
           Navigator.push(
@@ -89,18 +91,28 @@ class _LoginPage extends State<LoginPage> {
           );
         }
       } catch (error) {
+        user.put('user', FullUserInfo!.user_id);
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const CompleteRegistration()),
         );
       }
-
-      //Navigator.push(
-      //  context,
-      //  MaterialPageRoute(builder: (context) => const ScreenController()),
-      //);
     } catch (error) {
       print(error);
+    }
+  }
+
+  Future<FullOautInfo> _handleGetFullOautInfo(String token) async {
+    var parsedOuatFull;
+    final response = await http.get(Uri.parse(
+        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=$token'));
+    if (response.statusCode == 200) {
+      parsedOuatFull = jsonDecode(response.body);
+      FullUserInfo = FullOautInfo.fromJson(parsedOuatFull);
+      return FullUserInfo!;
+    } else {
+      throw Exception('Failed to load album');
     }
   }
 

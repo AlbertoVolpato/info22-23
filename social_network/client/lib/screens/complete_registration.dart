@@ -83,31 +83,12 @@ class _CompleteRegistration extends State<CompleteRegistration> {
     request.fields['username'] = username;
     request.fields['google_token'] = google_token;
 
-    //if (webImage != null) {
-    //  final tempDir = await getTemporaryDirectory();
-    //  File file = await File('${tempDir.path}/image.png').create();
-    //  file.writeAsBytesSync(webImage!);
-    //  var length = await file.length();
-    //  var stream = http.ByteStream(file.openRead());
-    //  stream.cast();
-    //  var multiport = http.MultipartFile('picture', stream, length);
-    //  request.files.add(multiport);
-    //} else if (webImage != null) {
-    //  var length = await _image!.length();
-    //  var stream = http.ByteStream(_image!.openRead());
-    //  stream.cast();
-    //  var multiport = http.MultipartFile('picture', stream, length);
-    //  request.files.add(multiport);
-    //}
-
     var response = await request.send();
 
     if (response.statusCode == 200) {
       print('lezGo');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ScreenController()),
-      );
+      Navigator.pushReplacementNamed(context, '/');
+      ;
     } else {
       throw Exception('Errore');
     }
