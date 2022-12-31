@@ -1,6 +1,7 @@
 import 'package:client/models/local_user.dart';
 import 'package:client/models/oaut_google.dart';
 import 'package:client/screens/login_page.dart';
+import 'package:client/screens/profile_screen_one.dart';
 import 'package:client/screens/screen_controller.dart';
 import 'package:client/screens/complete_registration.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         // '/': (context) => ScreenController(),
         '/home': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
-        '/': (context) => ScreenController(),
+        //'/': (context) => ScreenController(),
+        '/': (context) => ProfileScreen1(),
       },
     );
   }

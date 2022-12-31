@@ -61,27 +61,37 @@ class UserContent {
 }
 
 class UserForPost {
-  final String id;
+  final String post_id;
+  final String content;
+  final String user_id;
+  final List<dynamic> image;
+  final String created_at;
   final String username;
-  final File picture;
   final String singup_date;
-  final String google_token;
+  final String picture;
 
   const UserForPost({
-    required this.id,
+    required this.post_id,
+    required this.content,
+    required this.user_id,
+    required this.image,
+    required this.created_at,
     required this.username,
-    required this.picture,
     required this.singup_date,
-    required this.google_token,
+    required this.picture,
   });
 
   factory UserForPost.fromJson(Map<String, dynamic> json) {
     return UserForPost(
-        id: json['id'],
-        username: json['username'],
-        picture: json['picture'],
-        singup_date: json['singup_date'],
-        google_token: json['google_token']);
+      post_id: json['post_id'],
+      content: json['content'],
+      user_id: json['user_id'],
+      image: json['image'],
+      created_at: json['created_at'],
+      username: json['username'],
+      singup_date: json['singup_date'],
+      picture: json['picture'],
+    );
   }
 }
 
