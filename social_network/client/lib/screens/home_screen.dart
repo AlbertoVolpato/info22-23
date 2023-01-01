@@ -1,6 +1,7 @@
 import 'package:client/main.dart';
 import 'package:client/screens/login_page.dart';
 import 'package:client/screens/profile_screen.dart';
+import 'package:client/screens/profile_screen_one.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
 
@@ -22,7 +23,7 @@ class _HomeScreen extends State<HomeScreen> {
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 3) {
     } else if (_selectedIndex == 4) {
-      return Profile();
+      return ProfileScreen1();
     }
   }
 
@@ -45,8 +46,8 @@ class _HomeScreen extends State<HomeScreen> {
         height: 85,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: [
-            const BottomNavigationBarItem(
+          items: const [
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_outlined,
                 size: 34.0,
@@ -54,7 +55,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.search,
                 size: 30.0,
@@ -62,7 +63,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.add_box_outlined,
                 size: 34.0,
@@ -70,7 +71,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.favorite_border,
                 size: 30.0,
@@ -78,7 +79,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_outline,
                 size: 30.0,

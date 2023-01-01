@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:client/models/local_user.dart';
+import 'package:client/screens/screen_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
@@ -9,11 +10,10 @@ import 'package:client/components/my_textfield.dart';
 import 'package:client/components/square_tile.dart';
 import 'package:client/models/user_api.dart';
 
-import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CompleteRegistration extends StatefulWidget {
   const CompleteRegistration({super.key});
@@ -28,7 +28,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
 
   File? _image;
   Uint8List? webImage;
-  List<Username> _user = <Username>[];
+  late List<Username> _user;
 
   Future<void> getImage() async {
     if (!kIsWeb) {
@@ -55,7 +55,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
     }
   }
 
-  fetchUsername(username) async {
+  Future<void> fetchUsername(username) async {
     final response = await http
         .get(Uri.parse('http://2.34.202.83:5000/username/' + username));
 
@@ -64,14 +64,33 @@ class _CompleteRegistration extends State<CompleteRegistration> {
       // then parse the JSON.
       print(response.body);
 
-      var parsedPostList = json.decode(response.body);
-      parsedPostList.forEach((index) {
+      var usernameList = json.decode(response.body);
+      usernameList.forEach((index) {
         _user.add(Username.fromJson(index));
       });
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load album');
+    }
+  }
+
+  uploadUser(username) async {
+    var google_token = user.get('user');
+
+    var postUri = Uri.parse('http://2.34.202.83:5000/user');
+    var request = new http.MultipartRequest("POST", postUri);
+    request.fields['username'] = username;
+    request.fields['google_token'] = google_token;
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      print('lezGo');
+      Navigator.pushReplacementNamed(context, '/');
+      ;
+    } else {
+      throw Exception('Errore');
     }
   }
 
@@ -144,7 +163,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                   ),
                 ),
                 onPressed: () {
-                  fetchUsername('TeonyBueghin');
+                  uploadUser(usernameController.text.toLowerCase());
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

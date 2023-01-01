@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:client/models/local_user.dart';
+import 'package:client/screens/complete_registration.dart';
+import 'package:client/screens/screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
@@ -9,15 +13,52 @@ import 'package:client/screens/home_screen.dart';
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+import '../models/user_api.dart';
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  String? google_token;
+
+  late List<FullOautInfo> VerifyToken = <FullOautInfo>[];
+  FullOautInfo? FullUserInfo;
 
   // sign user in method
   void signUserIn() {}
+
+  Future<List<FullOautInfo>> fetchByToken(String token) async {
+    final response = await http.post(
+      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'google_token': token,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      var parsedPostList = json.decode(response.body);
+      parsedPostList.forEach((index) {
+        VerifyToken.add(FullOautInfo.fromJson(index));
+      });
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+    return VerifyToken;
+  }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     // Optional clientId
@@ -34,12 +75,42 @@ class LoginPage extends StatelessWidget {
       final result = await _googleSignIn.signIn();
       final googleAuth = await result!.authentication;
       String g_token = googleAuth.accessToken.toString();
-      print(g_token);
-      user.put('user', g_token); //User(token: g_token));
-      // gets new id
+      google_token = g_token;
+      await _handleGetFullOautInfo(g_token);
+      //print(FullUserInfo!.user_id);
+      var user_id_google = FullUserInfo!.user_id;
+      user.put('user', user_id_google);
+      await fetchByToken(user_id_google);
+      try {
+        if (VerifyToken[0].user_id != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenController()),
+          );
+        }
+      } catch (error) {
+        user.put('user', FullUserInfo!.user_id);
 
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CompleteRegistration()),
+        );
+      }
     } catch (error) {
       print(error);
+    }
+  }
+
+  Future<FullOautInfo> _handleGetFullOautInfo(String token) async {
+    var parsedOuatFull;
+    final response = await http.get(Uri.parse(
+        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=$token'));
+    if (response.statusCode == 200) {
+      parsedOuatFull = jsonDecode(response.body);
+      FullUserInfo = FullOautInfo.fromJson(parsedOuatFull);
+      return FullUserInfo!;
+    } else {
+      throw Exception('Failed to load album');
     }
   }
 
