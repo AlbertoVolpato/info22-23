@@ -58,6 +58,35 @@ module.exports = async function (fastify, opts) {
         }
     })
 
+    fastify.get('/post&user/:id', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        const id = req.params.id;
+
+        const { page, size } = req.query;
+
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM posts, users WHERE posts.user_id = users.user_id AND users.google_token = $3 LIMIT $2 OFFSET(($1 - 1) * $2);', [page, size, id],
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
+    fastify.get('/postofuser/:id', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        const id = req.params.id;
+        try {
+            const { rows } = await client.query(
+                'SELECT * FROM posts WHERE user_id = $1', [id],
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
     fastify.get('/post/:id', async (req, reply) => {
         const client = await fastify.pg.connect()
         try {

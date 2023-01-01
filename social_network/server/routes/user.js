@@ -54,12 +54,12 @@ module.exports = async function (fastify, opts) {
         }
     })
 
-    fastify.get('/userbytoken/:id', async (req, reply) => {
+    fastify.post('/userbytoken', async (req, reply) => {
         const client = await fastify.pg.connect()
-        const id = req.params.id;
+        const google_token = req.body.google_token;
         try {
             const { rows } = await client.query(
-                'SELECT * FROM users WHERE google_token = $1', [id]
+                'SELECT * FROM users WHERE google_token = $1', [google_token]
             )
             return rows
         } finally {
