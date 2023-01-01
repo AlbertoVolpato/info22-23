@@ -1,6 +1,7 @@
 import 'package:client/main.dart';
 import 'package:client/screens/login_page.dart';
 import 'package:client/screens/profile_screen.dart';
+import 'package:client/screens/profile_screen_one.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
 
@@ -22,7 +23,7 @@ class _HomeScreen extends State<HomeScreen> {
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 3) {
     } else if (_selectedIndex == 4) {
-      return Profile();
+      return ProfileScreen1();
     }
   }
 
