@@ -4,6 +4,10 @@ import 'package:client/screens/login_page.dart';
 import 'package:client/screens/profile_screen_one.dart';
 import 'package:client/screens/screen_controller.dart';
 import 'package:client/screens/complete_registration.dart';
+import 'package:client/screens_1/add_post_camera.dart';
+import 'package:client/screens_1/add_post_gallery.dart';
+import 'package:client/screens_1/add_post_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,11 +28,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Instagram Feed UI Redesign',
       debugShowCheckedModeBanner: false,
       routes: {
-        // '/': (context) => ScreenController(),
         '/home': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
         '/': (context) => ScreenController(),
-        //'/': (context) => ProfileScreen1(),
+        '/post': (context) => AddPostScreen(),
       },
     );
   }
