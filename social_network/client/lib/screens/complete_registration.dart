@@ -104,7 +104,6 @@ class _CompleteRegistration extends State<CompleteRegistration> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 100),
-
               // logo
               Text(
                 'Complete your registration',

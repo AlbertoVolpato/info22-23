@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 Widget cameraOptions() {
   return Align(
@@ -12,12 +11,12 @@ Widget cameraOptions() {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Icon(
-            Feather.rotate_ccw,
+            Icons.cached,
             color: Colors.white,
             size: 30,
           ),
           Icon(
-            Ionicons.ios_flash,
+            Icons.flash_on,
             color: Colors.white,
             size: 30,
           )

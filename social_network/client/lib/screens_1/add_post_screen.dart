@@ -1,66 +1,106 @@
+import 'package:client/screens/home_screen.dart';
+import 'package:client/screens/screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens_1/add_post_camera.dart';
 import 'package:client/screens_1/add_post_gallery.dart';
-import 'package:client/screens_1/add_post_video.dart';
-import 'package:client/widgets/add_post_bottom_bar.dart';
+
+import 'camera_screen.dart';
 
 class AddPostScreen extends StatefulWidget {
-  const AddPostScreen({Key? key}) : super(key: key);
-
+  const AddPostScreen({super.key});
   @override
   _AddPostScreenState createState() => _AddPostScreenState();
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
-  var _pages = [
-    AddPostGallery(),
-    AddPostCamera(),
-    AddPostVideo(),
-  ];
+  int _selectedIndex = 0;
 
-  late PageController _pageController;
+  selectRouter() {
+    if (_selectedIndex == 0) {
+      return AddPostGallery();
+    } else if (_selectedIndex == 1) {
+      return CameraApp();
+    }
+  }
 
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
+//QUANDO SI PREME SUL FOOTHER
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print(index);
+    });
   }
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  int pageIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFEDF0F6),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() => pageIndex = index);
-        },
-        children: _pages,
-      ),
-      bottomNavigationBar: AddPostBottomBar(
-        onTap: (value) {
-          _onItemTapped(value);
-        },
-        height: 45,
+  Widget AddPostBottomBar() {
+    return Container(
+      color: Color(0xFFEDF0F6),
+      height: 65,
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_photo_alternate_outlined,
+              size: 34.0,
+              color: Colors.black87,
+            ),
+            label: 'Gallery',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.camera_alt_outlined,
+              size: 34.0,
+              color: Colors.black87,
+            ),
+            label: 'Camera',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      pageIndex = index;
-      //
-      //
-      //using this page controller you can make beautiful animation effects
-      _pageController.animateToPage(index,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-    });
+  Widget AddPostAppBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            MaterialButton(
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                    fontSize: 18,
+                  ),
+                ),
+                onPressed: () {}),
+          ]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFFEDF0F6),
+      appBar: AppBar(
+        leading: BackButton(
+            color: Colors.black,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ScreenController()),
+              );
+            }), //automaticallyImplyLeading: false,
+        actions: [AddPostAppBar()],
+        backgroundColor: Color(0xFFEDF0F6),
+      ),
+      body: (selectRouter()),
+      bottomNavigationBar: AddPostBottomBar(),
+    );
   }
 }

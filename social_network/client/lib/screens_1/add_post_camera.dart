@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:client/common/utils.dart';
-import 'package:client/widgets/add_post_app_bar.dart';
 import 'package:client/widgets/add_post_camera_button.dart';
 
-class AddPostCamera extends StatelessWidget {
-  const AddPostCamera({Key? key}) : super(key: key);
+class AddPostCamera extends StatefulWidget {
+  const AddPostCamera({super.key});
+  @override
+  _AddPostCamera createState() => _AddPostCamera();
+}
 
+class _AddPostCamera extends State<AddPostCamera> {
   @override
   Widget build(BuildContext context) {
     Size _screen = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AddPostAppBar(
-        screenName: 'camera',
-        height: 45,
-      ),
       body: Container(
         height: _screen.height,
         width: _screen.width,
-        color: Color(0xFFEDF0F6),
         child: Column(
           children: <Widget>[
             Container(
@@ -35,7 +33,7 @@ class AddPostCamera extends StatelessWidget {
             ),
             Container(
               height: _screen.height - 410 - 45 - 45,
-              color: Theme.of(context).primaryColorDark,
+              color: Color(0xFFEDF0F6),
               child: Stack(
                 children: <Widget>[
                   Align(

@@ -4,6 +4,7 @@ import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/profile_screen_one.dart';
 import 'package:client/screens_1/add_post_camera.dart';
 import 'package:client/screens_1/add_post_screen.dart';
+import 'package:client/screens_1/camera_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
@@ -25,11 +26,7 @@ class _HomeScreen extends State<HomeScreen> {
       //[PostScreen(), PostModels()];
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 2) {
-      //  return AddPostCamera();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AddPostScreen()),
-      );
+      return AddPostScreen();
     } else if (_selectedIndex == 3) {
     } else if (_selectedIndex == 4) {
       return ProfileScreen1();
@@ -107,6 +104,8 @@ class _HomeScreen extends State<HomeScreen> {
 //PAGINA PRINCIPALE
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: selectRouter(), bottomNavigationBar: _bottomNav());
+    return Scaffold(
+        body: selectRouter(),
+        bottomNavigationBar: _selectedIndex != 2 ? _bottomNav() : null);
   }
 }

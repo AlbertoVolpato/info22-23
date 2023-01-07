@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:client/common/utils.dart';
-import 'package:client/widgets/add_post_app_bar.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
-class AddPostGallery extends StatelessWidget {
-  AddPostGallery({Key? key}) : super(key: key);
+class AddPostGallery extends StatefulWidget {
+  const AddPostGallery({super.key});
+  @override
+  _AddPostGallery createState() => _AddPostGallery();
+}
 
+class _AddPostGallery extends State<AddPostGallery> {
   final ScrollController _gridScrollController = ScrollController();
   final ScrollController _singleChildController = ScrollController();
 
@@ -31,7 +33,6 @@ class AddPostGallery extends StatelessWidget {
           controller: _singleChildController,
           child: Column(
             children: <Widget>[
-              AddPostAppBar(screenName: 'gallery', height: 45),
               Container(
                 height: 410,
                 color: Colors.green,
@@ -52,8 +53,7 @@ class AddPostGallery extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            _circularStackButton(
-                                icon: FontAwesome.expand, text: ''),
+                            _circularStackButton(icon: Icons.expand, text: ''),
                             Container(
                               width: _screen.width / 1.6,
                               child: Row(
@@ -61,12 +61,13 @@ class AddPostGallery extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   _circularStackButton(
-                                      icon: Entypo.infinity, text: ''),
+                                      icon: Icons.loop, text: ''),
                                   _circularStackButton(
-                                      icon: Feather.layout, text: ''),
+                                      icon: Icons.auto_awesome_mosaic_outlined,
+                                      text: ''),
                                   _circularStackButton(
-                                      icon: MaterialCommunityIcons
-                                          .checkbox_multiple_blank_outline,
+                                      icon: Icons
+                                          .check_box_outline_blank_outlined,
                                       text: 'SELECT MULTIPLE'),
                                 ],
                               ),
