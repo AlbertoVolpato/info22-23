@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:client/models/local_user.dart';
 import 'package:client/screens/screen_controller.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
@@ -25,34 +26,41 @@ class CompleteRegistration extends StatefulWidget {
 class _CompleteRegistration extends State<CompleteRegistration> {
   // text editing controllers
   final usernameController = TextEditingController();
-
-  File? _image;
-  Uint8List? webImage;
+  XFile? image;
   late List<Username> _user;
+  final ImagePicker picker = ImagePicker();
 
-  Future<void> getImage() async {
-    if (!kIsWeb) {
-      final ImagePicker picker = ImagePicker();
-      XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //Future<void> getImage() async {
+  //  if (!kIsWeb) {
+  //    final ImagePicker picker = ImagePicker();
+  //    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+//
+  //    if (pickedFile != null) {
+  //      var selected = File(pickedFile.path);
+  //      setState(() {
+  //        _image = selected;
+  //      });
+  //    }
+  //  } else if (kIsWeb) {
+  //    final ImagePicker picker = ImagePicker();
+  //    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+//
+  //    if (pickedFile != null) {
+  //      var f = await pickedFile.readAsBytes();
+//
+  //      setState(() {
+  //        webImage = f;
+  //      });
+  //    }
+  //  }
+  //}
 
-      if (pickedFile != null) {
-        var selected = File(pickedFile.path);
-        setState(() {
-          _image = selected;
-        });
-      }
-    } else if (kIsWeb) {
-      final ImagePicker picker = ImagePicker();
-      XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
 
-      if (pickedFile != null) {
-        var f = await pickedFile.readAsBytes();
-
-        setState(() {
-          webImage = f;
-        });
-      }
-    }
+    setState(() {
+      image = img;
+    });
   }
 
   Future<void> fetchUsername(username) async {
@@ -75,23 +83,76 @@ class _CompleteRegistration extends State<CompleteRegistration> {
     }
   }
 
-  uploadUser(username) async {
-    var google_token = user.get('user');
+  void _upload(username) async {
+    Dio dio = new Dio();
+    var google_token = await user.get('user');
+    String fileName = image!.path.split('/').last;
+    FormData data = FormData.fromMap({
+      "picture": await MultipartFile.fromFile(
+        image!.path,
+        filename: fileName,
+      ),
+      "username": username,
+      "google_token": google_token,
+    });
 
-    var postUri = Uri.parse('http://2.34.202.83:5000/user');
-    var request = new http.MultipartRequest("POST", postUri);
-    request.fields['username'] = username;
-    request.fields['google_token'] = google_token;
+    await dio.post("http://2.34.202.83:5000/user", data: data).then(
+      (response) {
+        print(response);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ScreenController()),
+        );
+      },
+    ).catchError((error) => print(error));
+  }
 
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      print('lezGo');
-      Navigator.pushReplacementNamed(context, '/');
-      ;
-    } else {
-      throw Exception('Errore');
-    }
+  void myAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please choose media to select'),
+            content: Container(
+              height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    //if user click this button, user can upload image from gallery
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.gallery);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.image),
+                        Text('From Gallery'),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    //if user click this button. user can upload image from camera
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.camera);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.camera),
+                        Text('From Camera'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -115,20 +176,18 @@ class _CompleteRegistration extends State<CompleteRegistration> {
               const SizedBox(height: 30),
 
               InkWell(
-                onTap: getImage,
+                onTap: myAlert,
                 child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 100.0,
-                    child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 100.0,
+                  child: CircleAvatar(
                       radius: 100.0 - 5,
                       backgroundColor: Colors.white,
-                      child: webImage == null && _image == null
+                      child: image == null
                           ? ClipOval(
                               child: Image.asset('assets/images/profile.png'))
-                          : kIsWeb
-                              ? ClipOval(child: Image.memory(webImage!))
-                              : ClipOval(child: Image.file(_image!)),
-                    )),
+                          : ClipOval(child: Image.file(File(image!.path)))),
+                ),
               ),
 
               const SizedBox(height: 50),
@@ -162,7 +221,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                   ),
                 ),
                 onPressed: () {
-                  uploadUser(usernameController.text.toLowerCase());
+                  _upload(usernameController.text.toLowerCase());
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

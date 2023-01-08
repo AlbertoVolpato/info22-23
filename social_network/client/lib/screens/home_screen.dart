@@ -9,6 +9,8 @@ import 'package:client/screens_1/camera_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
 
+import 'package:client/screens_1/upload_post.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -28,6 +30,7 @@ class _HomeScreen extends State<HomeScreen> {
     } else if (_selectedIndex == 2) {
       return AddPostScreen();
     } else if (_selectedIndex == 3) {
+      return UploadPost();
     } else if (_selectedIndex == 4) {
       return ProfileScreen1();
     }

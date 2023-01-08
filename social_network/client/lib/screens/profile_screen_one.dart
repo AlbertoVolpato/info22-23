@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:client/main.dart';
+import 'package:client/screens/screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/user_api.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
@@ -13,11 +15,14 @@ class ProfileScreen1 extends StatefulWidget {
 }
 
 class _ProfileScreen1 extends State<ProfileScreen1> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<UserForPost> Posts = <UserForPost>[];
   List<UserContent> User = <UserContent>[];
 
   Future<List<UserForPost>> getPostsofUser() async {
-    var token = user.get('user');
+    var token = await user.get('user');
+    print(await user.get('user'));
     final response =
         await http.get(Uri.parse('http://2.34.202.83:5000/post&user/$token'));
 
@@ -31,7 +36,6 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
       }
       //print('getting data');
 
-    } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load album');
@@ -42,7 +46,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
   }
 
   Future<List<UserContent>> fetchByToken() async {
-    var token = user.get('user');
+    var token = await user.get('user');
     print(token);
     final response = await http.post(
       Uri.parse('http://2.34.202.83:5000/userbytoken'),
@@ -53,17 +57,32 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
         'google_token': token,
       }),
     );
-    print(response.body);
 
     if (response.statusCode == 200) {
       var parsedList = json.decode(response.body);
+      print(parsedList);
       parsedList.forEach((index) {
         User.add(UserContent.fromJson(index));
       });
+      return User;
     } else {
       throw Exception('Failed to create album.');
     }
-    return User;
+  }
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    clientId:
+        '13359980221-62s9pb9ffon3gu0gik6bgk9h43ssvogj.apps.googleusercontent.com',
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  Future<void> _handleSignOut() async {
+    await _googleSignIn.disconnect();
+    await user.delete('user');
   }
 
   Widget _post() {
@@ -82,12 +101,11 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
             itemBuilder: (context, index) {
               final post = Posts[index];
               return Container(
-                color: Colors.black,
-                child: Image.network(
-                  'http://2.34.202.83:5000/uploads/' + Posts[index].image[0],
-                  fit: BoxFit.cover,
-                ),
-              );
+                  color: Colors.black,
+                  child: Image.network(
+                    'http://2.34.202.83:5000/uploads/' + Posts[index].image[0],
+                    fit: BoxFit.cover,
+                  ));
             },
             itemCount: Posts.length,
           );
@@ -101,6 +119,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
+              key: _scaffoldKey,
               backgroundColor: Color(0xFFEDF0F6),
               body: SafeArea(
                 child: Column(
@@ -133,7 +152,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                 child: IconButton(
                                   icon: Icon(Icons.dehaze),
                                   iconSize: 30.0,
-                                  onPressed: () => print('Direct Messages'),
+                                  onPressed: () {
+                                    _scaffoldKey.currentState?.openDrawer();
+                                  },
                                 ),
                               )
                             ],
@@ -154,12 +175,19 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                               child: Row(
                                 children: [
                                   ClipOval(
-                                    child: Image.network(
-                                      'http://2.34.202.83:5000/uploads/picture/${User[0].picture}',
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: snapshot.data![0].picture == null
+                                        ? Image.asset(
+                                            'assets/images/profile.png',
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            'http://2.34.202.83:5000/uploads/picture/${snapshot.data![0].picture}',
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                   const SizedBox(width: 24),
                                   Expanded(
@@ -314,9 +342,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      children: [
-                                        const Spacer(),
-                                        const Divider(
+                                      children: const [
+                                        Spacer(),
+                                        Divider(
                                           height: 1,
                                           thickness: 1,
                                           color: Colors.black,
@@ -326,9 +354,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      children: [
-                                        const Spacer(),
-                                        const Divider(
+                                      children: const [
+                                        Spacer(),
+                                        Divider(
                                           height: 1,
                                           thickness: 1,
                                           color: Colors.white,
@@ -338,9 +366,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      children: [
-                                        const Spacer(),
-                                        const Divider(
+                                      children: const [
+                                        Spacer(),
+                                        Divider(
                                           height: 1,
                                           thickness: 1,
                                           color: Colors.white,
@@ -350,9 +378,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      children: [
-                                        const Spacer(),
-                                        const Divider(
+                                      children: const [
+                                        Spacer(),
+                                        Divider(
                                           height: 1,
                                           thickness: 1,
                                           color: Colors.white,
@@ -373,10 +401,57 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                   ],
                 ),
               ),
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height / 1.3),
+                    OutlinedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.black),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        await _handleSignOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ScreenController()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Icon(Icons.exit_to_app, size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                ' LogOut',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
-          } else {
-            return Text('Failed to load data');
-          }
+          } // else {
+          return const Text('Failed to load data');
         });
   }
 }

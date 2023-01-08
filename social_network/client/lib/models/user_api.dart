@@ -130,16 +130,13 @@ class Username {
 
 class FullOautInfo {
   final String user_id;
-  final String email;
 
   const FullOautInfo({
     required this.user_id,
-    required this.email,
   });
   factory FullOautInfo.fromJson(Map<String, dynamic> json) {
     return FullOautInfo(
       user_id: json['user_id'],
-      email: json['email'],
     );
   }
 }
