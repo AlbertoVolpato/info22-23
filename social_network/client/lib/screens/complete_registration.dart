@@ -86,25 +86,40 @@ class _CompleteRegistration extends State<CompleteRegistration> {
   void _upload(username) async {
     Dio dio = new Dio();
     var google_token = await user.get('user');
-    String fileName = image!.path.split('/').last;
-    FormData data = FormData.fromMap({
-      "picture": await MultipartFile.fromFile(
-        image!.path,
-        filename: fileName,
-      ),
-      "username": username,
-      "google_token": google_token,
-    });
-
-    await dio.post("http://2.34.202.83:5000/user", data: data).then(
-      (response) {
-        print(response);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ScreenController()),
-        );
-      },
-    ).catchError((error) => print(error));
+    if (image != null) {
+      String fileName = image!.path.split('/').last;
+      FormData data = FormData.fromMap({
+        "picture": await MultipartFile.fromFile(
+          image!.path,
+          filename: fileName,
+        ),
+        "username": username,
+        "google_token": google_token,
+      });
+      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+        (response) {
+          print(response);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenController()),
+          );
+        },
+      ).catchError((error) => print(error));
+    } else {
+      FormData data = FormData.fromMap({
+        "username": username,
+        "google_token": google_token,
+      });
+      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+        (response) {
+          print(response);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenController()),
+          );
+        },
+      ).catchError((error) => print(error));
+    }
   }
 
   void myAlert() {

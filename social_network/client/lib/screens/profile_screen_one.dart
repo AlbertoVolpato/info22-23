@@ -434,7 +434,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
-                                ' LogOut',
+                                'LogOut',
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
