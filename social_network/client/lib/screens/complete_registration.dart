@@ -104,7 +104,10 @@ class _CompleteRegistration extends State<CompleteRegistration> {
             MaterialPageRoute(builder: (context) => const ScreenController()),
           );
         },
-      ).catchError((error) => print(error));
+      ).catchError((error) {
+        print(error);
+        errorAllert();
+      });
     } else {
       FormData data = FormData.fromMap({
         "username": username,
@@ -118,7 +121,10 @@ class _CompleteRegistration extends State<CompleteRegistration> {
             MaterialPageRoute(builder: (context) => const ScreenController()),
           );
         },
-      ).catchError((error) => print(error));
+      ).catchError((error) {
+        print(error);
+        errorAllert();
+      });
     }
   }
 
@@ -166,6 +172,18 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                 ],
               ),
             ),
+          );
+        });
+  }
+
+  void errorAllert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('error'),
           );
         });
   }

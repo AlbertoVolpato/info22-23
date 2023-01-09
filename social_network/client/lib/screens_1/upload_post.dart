@@ -81,7 +81,9 @@ class _UploadPost extends State<UploadPost> {
           MaterialPageRoute(builder: (context) => const ScreenController()),
         );
       },
-    ).catchError((error) => print(error));
+    ).catchError((error) {
+      errorAllert();
+    });
   }
 
   //show popup dialog
@@ -141,6 +143,18 @@ class _UploadPost extends State<UploadPost> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Please select an image and inser a text'),
+          );
+        });
+  }
+
+  void errorAllert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('error'),
           );
         });
   }
