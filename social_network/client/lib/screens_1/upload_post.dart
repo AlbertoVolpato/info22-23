@@ -1,12 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:client/components/my_textfield.dart';
 import 'package:client/models/user_api.dart';
 import 'package:client/screens/screen_controller.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:mime_type/mime_type.dart';
+import 'package:path/path.dart' as Path;
+
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+
+import 'dart:html' as html;
+
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
@@ -19,17 +29,25 @@ class UploadPost extends StatefulWidget {
 
 class _UploadPost extends State<UploadPost> {
   XFile? image;
+  File? _file;
+  Uint8List? webImage;
+
   final contentController = TextEditingController();
   final ImagePicker picker = ImagePicker();
   late List<FullOautInfo> VerifyToken = <FullOautInfo>[];
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
-
-    setState(() {
-      image = img;
-    });
+    if (!kIsWeb) {
+      var img = await picker.pickImage(source: media);
+      setState(() {
+        image = img;
+      });
+    } else if (kIsWeb) {
+      print("non");
+      final _image = await ImagePickerWeb.getImageAsBytes();
+      webImage = _image;
+    }
   }
 
   Future<List<FullOautInfo>> fetchByToken(String token) async {
@@ -243,15 +261,22 @@ class _UploadPost extends State<UploadPost> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            //to show image, you type like this.
-                            File(image!.path),
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
-                            height: 250,
-                          ),
-                        ),
+                            borderRadius: BorderRadius.circular(8),
+                            child: //kIsWeb
+                                Image.memory(
+                              webImage!,
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              height: 250,
+                            )
+                            // : Image.file(
+                            //     //to show image, you type like this.
+                            //     File(image!.path),
+                            //     fit: BoxFit.cover,
+                            //     width: MediaQuery.of(context).size.width,
+                            //     height: 250,
+                            //   )),
+                            ),
                       ),
                     ],
                   )
