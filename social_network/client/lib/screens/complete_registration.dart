@@ -14,6 +14,7 @@ import 'package:client/models/user_api.dart';
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CompleteRegistration extends StatefulWidget {
@@ -27,39 +28,21 @@ class _CompleteRegistration extends State<CompleteRegistration> {
   // text editing controllers
   final usernameController = TextEditingController();
   XFile? image;
+  Uint8List? webImage;
   late List<Username> _user;
   final ImagePicker picker = ImagePicker();
 
-  //Future<void> getImage() async {
-  //  if (!kIsWeb) {
-  //    final ImagePicker picker = ImagePicker();
-  //    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-//
-  //    if (pickedFile != null) {
-  //      var selected = File(pickedFile.path);
-  //      setState(() {
-  //        _image = selected;
-  //      });
-  //    }
-  //  } else if (kIsWeb) {
-  //    final ImagePicker picker = ImagePicker();
-  //    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-//
-  //    if (pickedFile != null) {
-  //      var f = await pickedFile.readAsBytes();
-//
-  //      setState(() {
-  //        webImage = f;
-  //      });
-  //    }
-  //  }
-  //}
-
   Future<void> getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
-
     setState(() {
       image = img;
+    });
+  }
+
+  Future getImageWeb() async {
+    final imageweb = await ImagePickerWeb.getImageAsBytes();
+    setState(() {
+      webImage = imageweb!;
     });
   }
 
@@ -128,6 +111,51 @@ class _CompleteRegistration extends State<CompleteRegistration> {
     }
   }
 
+  void _uploadWeb(username) async {
+    Dio dio = new Dio();
+    var google_token = await user.get('user');
+    if (webImage != null) {
+      String fileName = "png";
+      FormData data = FormData.fromMap({
+        "picture": await MultipartFile.fromBytes(
+          webImage!,
+          filename: fileName,
+        ),
+        "username": username,
+        "google_token": google_token,
+      });
+      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+        (response) {
+          print(response);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenController()),
+          );
+        },
+      ).catchError((error) {
+        print(error);
+        errorAllert();
+      });
+    } else {
+      FormData data = FormData.fromMap({
+        "username": username,
+        "google_token": google_token,
+      });
+      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+        (response) {
+          print(response);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenController()),
+          );
+        },
+      ).catchError((error) {
+        print(error);
+        errorAllert();
+      });
+    }
+  }
+
   void myAlert() {
     showDialog(
         context: context,
@@ -138,40 +166,66 @@ class _CompleteRegistration extends State<CompleteRegistration> {
             title: Text('Please choose media to select'),
             content: Container(
               height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button, user can upload image from gallery
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.gallery);
-                    },
-                    child: Row(
+              child: kIsWeb
+                  ? ElevatedButton(
+                      //if user click this button, user can upload image from gallery
+                      onPressed: () {
+                        Navigator.pop(context);
+                        getImageWeb();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.image),
+                          Text('From Gallery'),
+                        ],
+                      ),
+                    )
+                  : Column(
                       children: [
-                        Icon(Icons.image),
-                        Text('From Gallery'),
+                        ElevatedButton(
+                          //if user click this button, user can upload image from gallery
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getImage(ImageSource.gallery);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.image),
+                              Text('From Gallery'),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          //if user click this button. user can upload image from camera
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getImage(ImageSource.camera);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.camera),
+                              Text('From Camera'),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.camera);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
+          );
+        });
+  }
+
+  void myCostumAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please select an image and inser a text'),
           );
         });
   }
@@ -216,10 +270,14 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                   child: CircleAvatar(
                       radius: 100.0 - 5,
                       backgroundColor: Colors.white,
-                      child: image == null
+                      child: image == null && webImage == null
                           ? ClipOval(
                               child: Image.asset('assets/images/profile.png'))
-                          : ClipOval(child: Image.file(File(image!.path)))),
+                          : kIsWeb
+                              ? ClipOval(
+                                  child: Image.memory(webImage!),
+                                )
+                              : ClipOval(child: Image.file(File(image!.path)))),
                 ),
               ),
 
@@ -254,7 +312,14 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                   ),
                 ),
                 onPressed: () {
-                  _upload(usernameController.text.toLowerCase());
+                  if (image != null && usernameController.text != null) {
+                    _upload(usernameController.text.toLowerCase());
+                  } else if (webImage != null &&
+                      usernameController.text != null) {
+                    _uploadWeb(usernameController.text.toLowerCase());
+                  } else {
+                    myCostumAlert();
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

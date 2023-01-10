@@ -38,16 +38,17 @@ class _UploadPost extends State<UploadPost> {
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
-    if (!kIsWeb) {
-      var img = await picker.pickImage(source: media);
-      setState(() {
-        image = img;
-      });
-    } else if (kIsWeb) {
-      print("non");
-      final _image = await ImagePickerWeb.getImageAsBytes();
-      webImage = _image;
-    }
+    var img = await picker.pickImage(source: media);
+    setState(() {
+      image = img;
+    });
+  }
+
+  Future getImageWeb() async {
+    final imageweb = await ImagePickerWeb.getImageAsBytes();
+    setState(() {
+      webImage = imageweb!;
+    });
   }
 
   Future<List<FullOautInfo>> fetchByToken(String token) async {
@@ -104,6 +105,34 @@ class _UploadPost extends State<UploadPost> {
     });
   }
 
+  void _uploadWeb() async {
+    await fetchByToken(user.get('user'));
+    Dio dio = new Dio();
+
+    String fileName = "png";
+
+    FormData data = FormData.fromMap({
+      "images": await MultipartFile.fromBytes(
+        webImage!,
+        filename: fileName,
+      ),
+      "content": contentController.text,
+      "user_id": VerifyToken[0].user_id,
+    });
+
+    await dio.post("http://2.34.202.83:5000/post", data: data).then(
+      (response) {
+        print(response);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ScreenController()),
+        );
+      },
+    ).catchError((error) {
+      errorAllert();
+    });
+  }
+
   //show popup dialog
   void myAlert() {
     showDialog(
@@ -115,39 +144,53 @@ class _UploadPost extends State<UploadPost> {
             title: Text('Please choose media to select'),
             content: Container(
               height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button, user can upload image from gallery
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.gallery);
-                    },
-                    child: Row(
+              child: kIsWeb
+                  ? ElevatedButton(
+                      //if user click this button, user can upload image from gallery
+                      onPressed: () {
+                        Navigator.pop(context);
+                        getImageWeb();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.image),
+                          Text('From Gallery'),
+                        ],
+                      ),
+                    )
+                  : Column(
                       children: [
-                        Icon(Icons.image),
-                        Text('From Gallery'),
+                        ElevatedButton(
+                          //if user click this button, user can upload image from gallery
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getImage(ImageSource.gallery);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.image),
+                              Text('From Gallery'),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          //if user click this button. user can upload image from camera
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getImage(ImageSource.camera);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.camera),
+                              Text('From Camera'),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.camera);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           );
         });
@@ -195,6 +238,8 @@ class _UploadPost extends State<UploadPost> {
                 onPressed: () {
                   if (image != null && contentController != null) {
                     _upload();
+                  } else if (webImage != null && contentController != null) {
+                    _uploadWeb();
                   } else {
                     myCostumAlert();
                   }
@@ -255,28 +300,27 @@ class _UploadPost extends State<UploadPost> {
 
             //if image not null show the image
             //if image null show text
-            image != null
+            image != null || webImage != null
                 ? Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: //kIsWeb
-                                Image.memory(
-                              webImage!,
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
-                              height: 250,
-                            )
-                            // : Image.file(
-                            //     //to show image, you type like this.
-                            //     File(image!.path),
-                            //     fit: BoxFit.cover,
-                            //     width: MediaQuery.of(context).size.width,
-                            //     height: 250,
-                            //   )),
-                            ),
+                            child: kIsWeb
+                                ? Image.memory(
+                                    webImage!,
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 400,
+                                  )
+                                : Image.file(
+                                    //to show image, you type like this.
+                                    File(image!.path),
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 400,
+                                  )),
                       ),
                     ],
                   )
