@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui' as ui;
 
 import 'package:client/components/my_textfield.dart';
 import 'package:client/models/user_api.dart';
@@ -9,10 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:mime_type/mime_type.dart';
-
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -41,10 +37,12 @@ class _UploadPost extends State<UploadPost> {
     });
   }
 
-  Future getImageWeb() async {
-    final imageweb = await ImagePickerWeb.getImageAsBytes();
+  Future getImageWeb(ImageSource media) async {
+    //final imageweb = await ImagePickerWeb.getImageAsBytes();
+    final imageweb = await picker.pickImage(source: ImageSource.gallery);
+    var f = await imageweb!.readAsBytes();
     setState(() {
-      webImage = imageweb!;
+      webImage = f;
     });
   }
 
@@ -146,7 +144,7 @@ class _UploadPost extends State<UploadPost> {
                       //if user click this button, user can upload image from gallery
                       onPressed: () {
                         Navigator.pop(context);
-                        getImageWeb();
+                        getImageWeb(ImageSource.gallery);
                       },
                       child: Row(
                         children: [

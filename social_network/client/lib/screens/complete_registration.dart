@@ -1,21 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:client/models/local_user.dart';
 import 'package:client/screens/screen_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
-import 'package:client/components/square_tile.dart';
 import 'package:client/models/user_api.dart';
 
 import 'package:client/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_web/image_picker_web.dart';
-import 'package:path_provider/path_provider.dart';
 
 class CompleteRegistration extends StatefulWidget {
   const CompleteRegistration({super.key});
@@ -39,10 +34,12 @@ class _CompleteRegistration extends State<CompleteRegistration> {
     });
   }
 
-  Future getImageWeb() async {
-    final imageweb = await ImagePickerWeb.getImageAsBytes();
+  Future getImageWeb(ImageSource media) async {
+    //final imageweb = await ImagePickerWeb.getImageAsBytes();
+    final imageweb = await picker.pickImage(source: ImageSource.gallery);
+    var f = await imageweb!.readAsBytes();
     setState(() {
-      webImage = imageweb!;
+      webImage = f;
     });
   }
 
@@ -171,7 +168,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                       //if user click this button, user can upload image from gallery
                       onPressed: () {
                         Navigator.pop(context);
-                        getImageWeb();
+                        getImageWeb(ImageSource.gallery);
                       },
                       child: Row(
                         children: [
