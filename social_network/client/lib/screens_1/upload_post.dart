@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:client/components/my_textfield.dart';
 import 'package:client/models/user_api.dart';
 import 'package:client/screens/screen_controller.dart';
+import 'package:client/utils/server_url.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _UploadPost extends State<UploadPost> {
 
   Future<List<FullOautInfo>> fetchByToken(String token) async {
     final response = await http.post(
-      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      Uri.parse(ServerUrl + '/userbytoken'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -87,7 +88,7 @@ class _UploadPost extends State<UploadPost> {
       "user_id": VerifyToken[0].user_id,
     });
 
-    await dio.post("http://2.34.202.83:5000/post", data: data).then(
+    await dio.post(ServerUrl + "/post", data: data).then(
       (response) {
         print(response);
         Navigator.push(
@@ -115,7 +116,7 @@ class _UploadPost extends State<UploadPost> {
       "user_id": VerifyToken[0].user_id,
     });
 
-    await dio.post("http://2.34.202.83:5000/post", data: data).then(
+    await dio.post(ServerUrl + "/post", data: data).then(
       (response) {
         print(response);
         Navigator.push(

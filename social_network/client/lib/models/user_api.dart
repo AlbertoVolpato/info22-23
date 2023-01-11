@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<UserContent> fetchUser() async {
-  final response = await http.get(Uri.parse('http://2.34.202.83:5000/user'));
+  final response = await http.get(Uri.parse(ServerUrl + '/user'));
 
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,
@@ -23,7 +24,7 @@ Future<UserContent> fetchUser() async {
 
 Future<UserContent> fetchUserfromId(token) async {
   final response =
-      await http.get(Uri.parse('http://2.34.202.83:5000/userbytoken/' + token));
+      await http.get(Uri.parse(ServerUrl + '/userbytoken/' + token));
 
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,

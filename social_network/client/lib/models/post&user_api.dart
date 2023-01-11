@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../utils/server_url.dart';
 
 Future<List<PostsUsersContent>> fetchPostUser() async {
-  final response =
-      await http.get(Uri.parse('http://2.34.202.83:5000/post&user'));
+  final response = await http.get(Uri.parse(ServerUrl + '/post&user'));
 
   if (response.statusCode == 200) {
     var parsedPostList = json.decode(response.body);

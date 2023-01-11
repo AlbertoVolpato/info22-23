@@ -1,4 +1,5 @@
 import 'package:client/models/post&user_api.dart';
+import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
 
@@ -30,8 +31,8 @@ class _PostScreen extends State<PostScreen> {
       isLoading = true;
     });
 
-    final response = await http.get(
-        Uri.parse('http://2.34.202.83:5000/post&user?page=$page&size=$size'));
+    final response = await http
+        .get(Uri.parse(ServerUrl + '/post&user?page=$page&size=$size'));
 
     if (response.statusCode == 200) {
       //print('getting data');
@@ -209,8 +210,8 @@ class _PostScreen extends State<PostScreen> {
                                   child: Image(
                                     height: 50.0,
                                     width: 50.0,
-                                    image: NetworkImage(
-                                        'http://2.34.202.83:5000/uploads/picture/${Posts[index].picture}'),
+                                    image: NetworkImage(ServerUrl +
+                                        '/uploads/picture/${Posts[index].picture}'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -256,8 +257,8 @@ class _PostScreen extends State<PostScreen> {
                                   ),
                                 ],
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                      'http://2.34.202.83:5000/uploads/${Posts[index].image[0]}'),
+                                  image: NetworkImage(ServerUrl +
+                                      '/uploads/${Posts[index].image[0]}'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
