@@ -56,3 +56,7 @@ profile-*
 profile*
 *clinic*
 *flamegraph*
+
+#addbyme
+uploads/
+uploads/picture/

@@ -84,7 +84,7 @@ module.exports = async function (fastify, opts) {
         async (req, reply) => {
             const client = await fastify.pg.connect()
             try {
-                const { username, email, password, google_token } = req.body;
+                const { username, email, password, google_token,picture } = req.body;
                 if (req.file != undefined) {
                     let image = req.file.filename;
                     const { rows } = await client.query(
@@ -94,7 +94,7 @@ module.exports = async function (fastify, opts) {
                     return rows
                 } else {
                     const { rows } = await client.query(
-                        'INSERT INTO users (username,email,password,google_token) VALUES ($1,$2,$3,$4) RETURNING user_id',
+                        "INSERT INTO users (username,email,password,google_token, picture) VALUES ($1,$2,$3,$4,'profile.png') RETURNING user_id",
                         [username, email, password, google_token]
                     )
                     return rows
