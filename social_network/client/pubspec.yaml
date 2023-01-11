@@ -59,6 +59,8 @@ dependencies:
   side_navigation: ^1.0.4
   camera_avfoundation: ^0.9.10
   mime_type: ^1.0.0
+  url_strategy: ^0.2.0
+  
 
 
 
@@ -100,6 +102,9 @@ flutter:
     - assets/images/apple.png
     - assets/images/profile.png
 
+#aggiunta
+flutter_web_plugins:
+      sdk: flutter
 
 
   # To add assets to your application, add an assets section, like this:

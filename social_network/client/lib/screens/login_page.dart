@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:client/models/local_user.dart';
 import 'package:client/screens/complete_registration.dart';
 import 'package:client/screens/screen_controller.dart';
+import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
 import 'package:client/components/my_button.dart';
 import 'package:client/components/my_textfield.dart';
@@ -31,12 +32,17 @@ class _LoginPage extends State<LoginPage> {
   late List<FullOautInfo> VerifyToken = <FullOautInfo>[];
   FullOautInfo? FullUserInfo;
 
+  bool showProgress = false;
+
   // sign user in method
   void signUserIn() {}
 
   Future<List<FullOautInfo>> fetchByToken(String token) async {
+    setState(() {
+      showProgress = true;
+    });
     final response = await http.post(
-      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      Uri.parse(ServerUrl + '/userbytoken'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -44,6 +50,9 @@ class _LoginPage extends State<LoginPage> {
         'google_token': token,
       }),
     );
+    setState(() {
+      showProgress = false;
+    });
 
     if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
@@ -76,11 +85,17 @@ class _LoginPage extends State<LoginPage> {
       final googleAuth = await result!.authentication;
       String g_token = googleAuth.accessToken.toString();
       google_token = g_token;
+      setState(() {
+        showProgress = true;
+      });
       await _handleGetFullOautInfo(g_token);
       //print(FullUserInfo!.user_id);
       var user_id_google = FullUserInfo!.user_id;
       user.put('user', user_id_google);
       await fetchByToken(user_id_google);
+      setState(() {
+        showProgress = false;
+      });
       try {
         if (VerifyToken[0].user_id != null) {
           Navigator.push(
@@ -102,9 +117,15 @@ class _LoginPage extends State<LoginPage> {
   }
 
   Future<FullOautInfo> _handleGetFullOautInfo(String token) async {
+    setState(() {
+      showProgress = true;
+    });
     var parsedOuatFull;
     final response = await http.get(Uri.parse(
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=$token'));
+    setState(() {
+      showProgress = false;
+    });
     if (response.statusCode == 200) {
       parsedOuatFull = jsonDecode(response.body);
       FullUserInfo = FullOautInfo.fromJson(parsedOuatFull);
@@ -210,43 +231,46 @@ class _LoginPage extends State<LoginPage> {
               const SizedBox(height: 30),
 
               // google + apple sign in buttons
-              OutlinedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  _handleSignIn();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Image(
-                        image: AssetImage("assets/images/google.png"),
-                        height: 35.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Sign in with Google',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w600,
+              showProgress
+                  ? CircularProgressIndicator()
+                  : OutlinedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                      ),
+                      onPressed: () {
+                        _handleSignIn();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Image(
+                              image: AssetImage("assets/images/google.png"),
+                              height: 35.0,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
 
               const SizedBox(height: 30),
 

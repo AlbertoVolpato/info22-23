@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:client/utils/server_url.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<PostsContent>> fetchPost() async {
-  final response = await http.get(Uri.parse('http://2.34.202.83:5000/post'));
+  final response = await http.get(Uri.parse(ServerUrl + '/post'));
 
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,

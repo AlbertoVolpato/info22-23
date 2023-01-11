@@ -12,9 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:url_strategy/url_strategy.dart';
+
 late Box user;
 
 Future<void> main() async {
+  setPathUrlStrategy();
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
   user = await Hive.openBox('user');

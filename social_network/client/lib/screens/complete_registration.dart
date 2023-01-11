@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:client/screens/screen_controller.dart';
+import 'package:client/utils/server_url.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
   Uint8List? webImage;
   late List<Username> _user;
   final ImagePicker picker = ImagePicker();
+  bool ShowProgress = false;
 
   Future<void> getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
@@ -35,18 +37,27 @@ class _CompleteRegistration extends State<CompleteRegistration> {
   }
 
   Future getImageWeb(ImageSource media) async {
+    setState(() {
+      ShowProgress = true;
+    });
     //final imageweb = await ImagePickerWeb.getImageAsBytes();
     final imageweb = await picker.pickImage(source: ImageSource.gallery);
     var f = await imageweb!.readAsBytes();
     setState(() {
       webImage = f;
+      ShowProgress = false;
     });
   }
 
   Future<void> fetchUsername(username) async {
-    final response = await http
-        .get(Uri.parse('http://2.34.202.83:5000/username/' + username));
-
+    setState(() {
+      ShowProgress = true;
+    });
+    final response =
+        await http.get(Uri.parse(ServerUrl + '/username/' + username));
+    setState(() {
+      ShowProgress = false;
+    });
     if (response.statusCode == 200) {
       // If the server did rturn a 200 OK response,
       // then parse the JSON.
@@ -64,6 +75,9 @@ class _CompleteRegistration extends State<CompleteRegistration> {
   }
 
   void _upload(username) async {
+    setState(() {
+      ShowProgress = true;
+    });
     Dio dio = new Dio();
     var google_token = await user.get('user');
     if (image != null) {
@@ -76,7 +90,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
         "username": username,
         "google_token": google_token,
       });
-      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+      await dio.post(ServerUrl + "/user", data: data).then(
         (response) {
           print(response);
           Navigator.push(
@@ -88,12 +102,15 @@ class _CompleteRegistration extends State<CompleteRegistration> {
         print(error);
         errorAllert();
       });
+      setState(() {
+        ShowProgress = false;
+      });
     } else {
       FormData data = FormData.fromMap({
         "username": username,
         "google_token": google_token,
       });
-      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+      await dio.post(ServerUrl + "/user", data: data).then(
         (response) {
           print(response);
           Navigator.push(
@@ -109,6 +126,9 @@ class _CompleteRegistration extends State<CompleteRegistration> {
   }
 
   void _uploadWeb(username) async {
+    setState(() {
+      ShowProgress = true;
+    });
     Dio dio = new Dio();
     var google_token = await user.get('user');
     if (webImage != null) {
@@ -121,7 +141,7 @@ class _CompleteRegistration extends State<CompleteRegistration> {
         "username": username,
         "google_token": google_token,
       });
-      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+      await dio.post(ServerUrl + "/user", data: data).then(
         (response) {
           print(response);
           Navigator.push(
@@ -133,12 +153,18 @@ class _CompleteRegistration extends State<CompleteRegistration> {
         print(error);
         errorAllert();
       });
+      setState(() {
+        ShowProgress = false;
+      });
     } else {
+      setState(() {
+        ShowProgress = true;
+      });
       FormData data = FormData.fromMap({
         "username": username,
         "google_token": google_token,
       });
-      await dio.post("http://2.34.202.83:5000/user", data: data).then(
+      await dio.post(ServerUrl + "/user", data: data).then(
         (response) {
           print(response);
           Navigator.push(
@@ -149,6 +175,9 @@ class _CompleteRegistration extends State<CompleteRegistration> {
       ).catchError((error) {
         print(error);
         errorAllert();
+      });
+      setState(() {
+        ShowProgress = false;
       });
     }
   }
@@ -318,23 +347,25 @@ class _CompleteRegistration extends State<CompleteRegistration> {
                     myCostumAlert();
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Text(
-                        'Continue',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                child: ShowProgress
+                    ? CircularProgressIndicator()
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Text(
+                              'Continue',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
               ),
             ],
           ),

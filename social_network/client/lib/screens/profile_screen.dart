@@ -1,4 +1,5 @@
 import 'package:client/models/post_model.dart';
+import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
 import 'package:client/main.dart';
 import 'package:client/models/post&user_api.dart';
@@ -22,8 +23,7 @@ class _Profile extends State<Profile> {
   List<UserContent> User = <UserContent>[];
 
   Future<List<UserForPost>> getPostsofUser(token) async {
-    final response =
-        await http.get(Uri.parse('http://2.34.202.83:5000/post&user/$token'));
+    final response = await http.get(Uri.parse(ServerUrl + '/post&user/$token'));
 
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
@@ -47,7 +47,7 @@ class _Profile extends State<Profile> {
 
   Future<List<UserContent>> fetchByToken(String token) async {
     final response = await http.post(
-      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      Uri.parse(ServerUrl + '/userbytoken'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -90,7 +90,7 @@ class _Profile extends State<Profile> {
         return Container(
           color: Colors.black,
           child: Image.network(
-            'http:2.34.202.83:5000/uploads/${post.image}',
+            ServerUrl + '/uploads/${post.image}',
             fit: BoxFit.cover,
           ),
         );

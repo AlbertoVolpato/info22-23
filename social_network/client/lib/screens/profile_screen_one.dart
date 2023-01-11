@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:client/main.dart';
 import 'package:client/screens/screen_controller.dart';
+import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/user_api.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,8 +24,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
   Future<List<UserForPost>> getPostsofUser() async {
     var token = await user.get('user');
     print(await user.get('user'));
-    final response =
-        await http.get(Uri.parse('http://2.34.202.83:5000/post&user/$token'));
+    final response = await http.get(Uri.parse(ServerUrl + '/post&user/$token'));
 
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
@@ -49,7 +49,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
     var token = await user.get('user');
     print(token);
     final response = await http.post(
-      Uri.parse('http://2.34.202.83:5000/userbytoken'),
+      Uri.parse(ServerUrl + '/userbytoken'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -103,7 +103,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
               return Container(
                   color: Colors.black,
                   child: Image.network(
-                    'http://2.34.202.83:5000/uploads/' + Posts[index].image[0],
+                    ServerUrl + '/uploads/' + Posts[index].image[0],
                     fit: BoxFit.cover,
                   ));
             },
@@ -183,7 +183,8 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                             fit: BoxFit.cover,
                                           )
                                         : Image.network(
-                                            'http://2.34.202.83:5000/uploads/picture/${snapshot.data![0].picture}',
+                                            ServerUrl +
+                                                '/uploads/picture/${snapshot.data![0].picture}',
                                             height: 100,
                                             width: 100,
                                             fit: BoxFit.cover,
@@ -299,7 +300,8 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            'http://2.34.202.83:5000/uploads/picture/${User[0].picture}',
+                                            ServerUrl +
+                                                '/uploads/picture/${User[0].picture}',
                                             height: 70,
                                             width: 70,
                                           ),
