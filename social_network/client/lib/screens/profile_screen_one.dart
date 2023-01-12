@@ -23,8 +23,11 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
 
   Future<List<UserForPost>> getPostsofUser() async {
     var token = await user.get('user');
-    print(await user.get('user'));
-    final response = await http.get(Uri.parse(ServerUrl + '/post&user/$token'));
+    print(
+      await user.get('user'),
+    );
+    final response = await http.get(Uri.parse(ServerUrl + '/post&user/$token'),
+        headers: {"Bypass-Tunnel-Reminder": "i"});
 
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
@@ -52,6 +55,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
       Uri.parse(ServerUrl + '/userbytoken'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        "Bypass-Tunnel-Reminder": "i"
       },
       body: jsonEncode(<String, String>{
         'google_token': token,
@@ -104,6 +108,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                   color: Colors.black,
                   child: Image.network(
                     ServerUrl + '/uploads/' + Posts[index].image[0],
+                    headers: {"Bypass-Tunnel-Reminder": "i"},
                     fit: BoxFit.cover,
                   ));
             },
@@ -183,6 +188,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                             fit: BoxFit.cover,
                                           )
                                         : Image.network(
+                                            headers: {
+                                              "Bypass-Tunnel-Reminder": "i"
+                                            },
                                             ServerUrl +
                                                 '/uploads/picture/${snapshot.data![0].picture}',
                                             height: 100,
@@ -300,6 +308,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
+                                            headers: {
+                                              "Bypass-Tunnel-Reminder": "i"
+                                            },
                                             ServerUrl +
                                                 '/uploads/picture/${User[0].picture}',
                                             height: 70,

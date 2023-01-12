@@ -12,6 +12,7 @@ class Utils {
         Radius.circular(height / 2),
       ),
       child: Image.network(
+        headers: {"Bypass-Tunnel-Reminder": "i"},
         image(forProfile: true),
         height: height,
         width: height,

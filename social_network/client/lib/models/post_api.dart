@@ -4,7 +4,8 @@ import 'package:client/utils/server_url.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<PostsContent>> fetchPost() async {
-  final response = await http.get(Uri.parse(ServerUrl + '/post'));
+  final response = await http.get(Uri.parse(ServerUrl + '/post'),
+      headers: {"Bypass-Tunnel-Reminder": "i"});
 
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,

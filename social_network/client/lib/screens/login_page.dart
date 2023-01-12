@@ -121,8 +121,10 @@ class _LoginPage extends State<LoginPage> {
       showProgress = true;
     });
     var parsedOuatFull;
-    final response = await http.get(Uri.parse(
-        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=$token'));
+    final response = await http.get(
+        Uri.parse(
+            'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=$token'),
+        headers: {"Bypass-Tunnel-Reminder": "i"});
     setState(() {
       showProgress = false;
     });

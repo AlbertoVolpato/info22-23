@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import '../utils/server_url.dart';
 
 Future<List<PostsUsersContent>> fetchPostUser() async {
-  final response = await http.get(Uri.parse(ServerUrl + '/post&user'));
+  final response = await http.get(Uri.parse(ServerUrl + '/post&user'),
+      headers: {"Bypass-Tunnel-Reminder": "i"});
 
   if (response.statusCode == 200) {
     var parsedPostList = json.decode(response.body);

@@ -1,5 +1,3 @@
-
-
 class Post {
   String authorName;
   String authorImageUrl;

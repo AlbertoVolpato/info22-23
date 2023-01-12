@@ -236,7 +236,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                         // either with Image.network or Image.memory after loading the image
                         // bytes to memory.
                         kIsWeb
-                            ? Image.network(imageFile!.path)
+                            ? Image.network(imageFile!.path,
+                                headers: {"Bypass-Tunnel-Reminder": "i"})
                             : Image.file(File(imageFile!.path)))
                     : Container(
                         decoration: BoxDecoration(
