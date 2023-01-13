@@ -191,7 +191,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                             headers: {
                                               "Bypass-Tunnel-Reminder": "i"
                                             },
-                                            ServerUrl +
+                                            "http://2.34.202.83:5000" +
                                                 '/uploads/picture/${snapshot.data![0].picture}',
                                             height: 100,
                                             width: 100,
@@ -464,7 +464,53 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
               ),
             );
           } // else {
-          return const Text('Failed to load data');
+          return Column(
+            children: [
+              const Text('Failed to load data'),
+              SizedBox(
+                height: 10,
+              ),
+              OutlinedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                ),
+                onPressed: () async {
+                  await _handleSignOut();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ScreenController()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(Icons.exit_to_app, size: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'LogOut',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
         });
   }
 }
