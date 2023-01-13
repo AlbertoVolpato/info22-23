@@ -54,8 +54,8 @@ class _CompleteRegistration extends State<CompleteRegistration> {
       ShowProgress = true;
     });
     final response = await http.get(
-        Uri.parse(ServerUrl + '/username/' + username),
-        headers: {"Bypass-Tunnel-Reminder": "i"});
+      Uri.parse(ServerUrl + '/username/' + username),
+    );
     setState(() {
       ShowProgress = false;
     });

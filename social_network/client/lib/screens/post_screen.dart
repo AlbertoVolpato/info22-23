@@ -31,8 +31,8 @@ class _PostScreen extends State<PostScreen> {
     });
 
     final response = await http.get(
-        Uri.parse('$ServerUrl/post&user?page=$page&size=$size'),
-        headers: {"Bypass-Tunnel-Reminder": "i"});
+      Uri.parse('$ServerUrl/post&user?page=$page&size=$size'),
+    );
 
     if (response.statusCode == 200) {
       //print('getting data');

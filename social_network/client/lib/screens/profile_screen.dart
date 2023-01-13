@@ -23,8 +23,9 @@ class _Profile extends State<Profile> {
   List<UserContent> User = <UserContent>[];
 
   Future<List<UserForPost>> getPostsofUser(token) async {
-    final response = await http.get(Uri.parse('$ServerUrl/post&user/$token'),
-        headers: {"Bypass-Tunnel-Reminder": "i"});
+    final response = await http.get(
+      Uri.parse('$ServerUrl/post&user/$token'),
+    );
 
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
@@ -88,7 +89,6 @@ class _Profile extends State<Profile> {
         return Container(
           color: Colors.black,
           child: Image.network(
-            headers: {"Bypass-Tunnel-Reminder": "i"},
             '$ServerUrl/uploads/${post.image}',
             fit: BoxFit.cover,
           ),

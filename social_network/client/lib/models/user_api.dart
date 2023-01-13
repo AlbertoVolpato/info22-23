@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<UserContent> fetchUser() async {
-  final response = await http.get(Uri.parse(ServerUrl + '/user'),
-      headers: {"Bypass-Tunnel-Reminder": "i"});
+  final response = await http.get(
+    Uri.parse(ServerUrl + '/user'),
+  );
 
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,
@@ -25,8 +26,8 @@ Future<UserContent> fetchUser() async {
 
 Future<UserContent> fetchUserfromId(token) async {
   final response = await http.get(
-      Uri.parse(ServerUrl + '/userbytoken/' + token),
-      headers: {"Bypass-Tunnel-Reminder": "i"});
+    Uri.parse(ServerUrl + '/userbytoken/' + token),
+  );
 
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,

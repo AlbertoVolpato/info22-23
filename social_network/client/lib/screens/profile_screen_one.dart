@@ -24,8 +24,9 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
   Future<List<UserForPost>> getPostsofUser() async {
     var token = await user.get('user');
     await user.get('user');
-    final response = await http.get(Uri.parse('$ServerUrl/post&user/$token'),
-        headers: {"Bypass-Tunnel-Reminder": "i"});
+    final response = await http.get(
+      Uri.parse('$ServerUrl/post&user/$token'),
+    );
 
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
@@ -103,7 +104,6 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                   color: Colors.black,
                   child: Image.network(
                     '$ServerUrl/uploads/' + Posts[index].image[0],
-                    headers: {"Bypass-Tunnel-Reminder": "i"},
                     fit: BoxFit.cover,
                   ));
             },
