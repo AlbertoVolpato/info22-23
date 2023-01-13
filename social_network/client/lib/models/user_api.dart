@@ -31,8 +31,6 @@ Future<UserContent> fetchUserfromId(token) async {
   if (response.statusCode == 200) {
     // If the server did rturn a 200 OK response,
     // then parse the JSON.
-    print(response.body);
-
     return UserContent.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,

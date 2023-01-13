@@ -2,14 +2,14 @@ import 'package:client/main.dart';
 import 'package:client/screens/login_page.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/profile_screen_one.dart';
-import 'package:client/screens_1/add_post_camera.dart';
-import 'package:client/screens_1/add_post_screen.dart';
-import 'package:client/screens_1/camera_screen.dart';
+import 'package:client/screen/add_post_camera.dart';
+import 'package:client/screen/add_post_screen.dart';
+import 'package:client/screen/camera_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
 
-import 'package:client/screens_1/upload_post.dart';
+import 'package:client/screen/upload_post.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

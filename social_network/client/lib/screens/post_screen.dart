@@ -15,7 +15,6 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreen extends State<PostScreen> {
   List<PostsUsersContent> Posts = <PostsUsersContent>[];
-  List<PostsUsersContent> PostLenght = <PostsUsersContent>[];
 
   final controller = ScrollController();
   int page = 1;

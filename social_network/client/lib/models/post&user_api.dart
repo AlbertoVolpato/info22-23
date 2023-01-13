@@ -29,7 +29,6 @@ class PostsUsersContent {
   final String user_id;
   final List image;
   final String username;
-  final String email;
   final String picture;
   final String created_at;
 
@@ -39,7 +38,6 @@ class PostsUsersContent {
     required this.user_id,
     required this.image,
     required this.username,
-    required this.email,
     required this.picture,
     required this.created_at,
   });
@@ -51,7 +49,6 @@ class PostsUsersContent {
       user_id: json['user_id'],
       image: json['image'],
       username: json['username'],
-      email: json['email'],
       picture: json['picture'],
       created_at: json['created_at'],
     );

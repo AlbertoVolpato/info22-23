@@ -62,8 +62,6 @@ class _CompleteRegistration extends State<CompleteRegistration> {
     if (response.statusCode == 200) {
       // If the server did rturn a 200 OK response,
       // then parse the JSON.
-      print(response.body);
-
       var usernameList = json.decode(response.body);
       usernameList.forEach((index) {
         _user.add(Username.fromJson(index));

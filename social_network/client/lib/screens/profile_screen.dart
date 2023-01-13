@@ -29,7 +29,6 @@ class _Profile extends State<Profile> {
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
         var parsedPostList = json.decode(response.body);
-        print(response.body);
         parsedPostList.forEach((index) {
           Posts.add(UserForPost.fromJson(index));
         });
@@ -58,7 +57,6 @@ class _Profile extends State<Profile> {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
       var parsedList = json.decode(response.body);
       parsedList.forEach((index) {
         User.add(UserContent.fromJson(index));
@@ -73,7 +71,6 @@ class _Profile extends State<Profile> {
   void initState() {
     super.initState();
     fetchByToken(user.get('user'));
-    print(User[0].picture);
   }
 
   Widget _post() {

@@ -1,8 +1,8 @@
 import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/screen_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:client/screens_1/add_post_camera.dart';
-import 'package:client/screens_1/add_post_gallery.dart';
+import 'package:client/screen/add_post_camera.dart';
+import 'package:client/screen/add_post_gallery.dart';
 
 import 'camera_screen.dart';
 

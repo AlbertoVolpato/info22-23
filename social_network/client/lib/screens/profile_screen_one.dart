@@ -23,16 +23,13 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
 
   Future<List<UserForPost>> getPostsofUser() async {
     var token = await user.get('user');
-    print(
-      await user.get('user'),
-    );
+    await user.get('user');
     final response = await http.get(Uri.parse('$ServerUrl/post&user/$token'),
         headers: {"Bypass-Tunnel-Reminder": "i"});
 
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
         var parsedPostList = json.decode(response.body);
-        print(response.body);
         parsedPostList.forEach((index) {
           Posts.add(UserForPost.fromJson(index));
         });
@@ -50,7 +47,6 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
 
   Future<List<UserContent>> fetchByToken() async {
     var token = await user.get('user');
-    print(token);
     final response = await http.post(
       Uri.parse(ServerUrl + '/userbytoken'),
       headers: <String, String>{
@@ -64,7 +60,6 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
 
     if (response.statusCode == 200) {
       var parsedList = json.decode(response.body);
-      print(parsedList);
       parsedList.forEach((index) {
         User.add(UserContent.fromJson(index));
       });
