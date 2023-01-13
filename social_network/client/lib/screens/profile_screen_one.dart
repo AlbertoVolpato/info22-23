@@ -26,7 +26,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
     print(
       await user.get('user'),
     );
-    final response = await http.get(Uri.parse(ServerUrl + '/post&user/$token'),
+    final response = await http.get(Uri.parse('$ServerUrl/post&user/$token'),
         headers: {"Bypass-Tunnel-Reminder": "i"});
 
     if (response.statusCode == 200) {
@@ -107,7 +107,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
               return Container(
                   color: Colors.black,
                   child: Image.network(
-                    ServerUrl + '/uploads/' + Posts[index].image[0],
+                    '$ServerUrl/uploads/' + Posts[index].image[0],
                     headers: {"Bypass-Tunnel-Reminder": "i"},
                     fit: BoxFit.cover,
                   ));
@@ -188,11 +188,10 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                             fit: BoxFit.cover,
                                           )
                                         : Image.network(
-                                            headers: {
+                                            headers: const {
                                               "Bypass-Tunnel-Reminder": "i"
                                             },
-                                            "http://2.34.202.83:5000" +
-                                                '/uploads/picture/${snapshot.data![0].picture}',
+                                            '$ServerUrl/uploads/picture/${snapshot.data![0].picture}',
                                             height: 100,
                                             width: 100,
                                             fit: BoxFit.cover,
@@ -311,8 +310,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                             headers: {
                                               "Bypass-Tunnel-Reminder": "i"
                                             },
-                                            ServerUrl +
-                                                '/uploads/picture/${User[0].picture}',
+                                            '$ServerUrl/uploads/picture/${User[0].picture}',
                                             height: 70,
                                             width: 70,
                                           ),

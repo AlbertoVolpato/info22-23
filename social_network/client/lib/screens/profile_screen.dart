@@ -23,7 +23,7 @@ class _Profile extends State<Profile> {
   List<UserContent> User = <UserContent>[];
 
   Future<List<UserForPost>> getPostsofUser(token) async {
-    final response = await http.get(Uri.parse(ServerUrl + '/post&user/$token'),
+    final response = await http.get(Uri.parse('$ServerUrl/post&user/$token'),
         headers: {"Bypass-Tunnel-Reminder": "i"});
 
     if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class _Profile extends State<Profile> {
 
   Future<List<UserContent>> fetchByToken(String token) async {
     final response = await http.post(
-      Uri.parse(ServerUrl + '/userbytoken'),
+      Uri.parse('$ServerUrl/userbytoken'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -92,7 +92,7 @@ class _Profile extends State<Profile> {
           color: Colors.black,
           child: Image.network(
             headers: {"Bypass-Tunnel-Reminder": "i"},
-            ServerUrl + '/uploads/${post.image}',
+            '$ServerUrl/uploads/${post.image}',
             fit: BoxFit.cover,
           ),
         );

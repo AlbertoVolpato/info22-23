@@ -32,7 +32,7 @@ class _PostScreen extends State<PostScreen> {
     });
 
     final response = await http.get(
-        Uri.parse(ServerUrl + '/post&user?page=$page&size=$size'),
+        Uri.parse('$ServerUrl/post&user?page=$page&size=$size'),
         headers: {"Bypass-Tunnel-Reminder": "i"});
 
     if (response.statusCode == 200) {
@@ -211,8 +211,8 @@ class _PostScreen extends State<PostScreen> {
                                   child: Image(
                                     height: 50.0,
                                     width: 50.0,
-                                    image: NetworkImage(ServerUrl +
-                                        '/uploads/picture/${Posts[index].picture}'),
+                                    image: NetworkImage(
+                                        '$ServerUrl/uploads/picture/${Posts[index].picture}'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -258,8 +258,8 @@ class _PostScreen extends State<PostScreen> {
                                   ),
                                 ],
                                 image: DecorationImage(
-                                  image: NetworkImage(ServerUrl +
-                                      '/uploads/${Posts[index].image[0]}'),
+                                  image: NetworkImage(
+                                      '$ServerUrl/uploads/${Posts[index].image[0]}'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
