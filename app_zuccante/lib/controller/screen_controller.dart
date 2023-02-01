@@ -47,7 +47,7 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -61,15 +61,15 @@ class _HomeScreen extends State<HomeScreen> {
         ),
         body: router(),
         drawer: Drawer(
-            backgroundColor: Colors.black,
+            backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
             // Add a ListView to the drawer. This ensures the user can scroll
             // through the options in the drawer if there isn't enough vertical
             // space to fit everything.
             child: ListView(
               // Important: Remove any padding from the ListView.
               padding: EdgeInsets.zero,
-
               children: [
+                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/12)),
                 ListTile(
                   title:
                       const Text('Home', style: TextStyle(color: Colors.white)),
