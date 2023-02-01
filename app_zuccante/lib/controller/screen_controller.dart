@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:app_zuccante/screens/circolari.dart';
+import 'package:app_zuccante/screens/home_page.dart';
+import 'package:app_zuccante/screens/la_scuola.dart';
+import 'package:app_zuccante/screens/news_page.dart';
+import 'package:app_zuccante/screens/offerta_formativa.dart';
+import 'package:app_zuccante/screens/segreteria.dart';
+import 'package:app_zuccante/screens/contatti.dart';
+
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -8,6 +17,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+  var _selectedroute = 0;
+
+  void route(int index) {
+    setState(() {
+      _selectedroute = index;
+    });
+  }
+
+  router() {
+    if (_selectedroute == 0) {
+      return HomePage();
+    } else if (_selectedroute == 1) {
+      return NewsPage();
+    } else if (_selectedroute == 2) {
+      return Circolari();
+    } else if (_selectedroute == 3) {
+      return LaScuola();
+    } else if (_selectedroute == 4) {
+      return OffertaFormativa();
+    } else if (_selectedroute == 5) {
+      return Segreteria();
+    } else if (_selectedroute == 6) {
+      return Contatti();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,16 +52,14 @@ class _HomeScreen extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Text(
-                  'C.ZUCCANTE',
-                  style: TextStyle(color: Colors.blue),
-                ),
-                padding: const EdgeInsets.only(right: 50.0),
+                child: Image.asset('logo.png'),
+                height: 90,
+                padding: const EdgeInsets.only(right: 45.0),
               )
             ],
           ),
         ),
-        body: Text("zuccante"),
+        body: router(),
         drawer: Drawer(
             backgroundColor: Colors.black,
             // Add a ListView to the drawer. This ensures the user can scroll
@@ -38,56 +71,90 @@ class _HomeScreen extends State<HomeScreen> {
 
               children: [
                 ListTile(
-                  title: const Text('Home'),
+                  title:
+                      const Text('Home', style: TextStyle(color: Colors.white)),
+                  leading: const Icon(
+                    Icons.home,
+                    color: Colors.white,
+                  ),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+                    route(0);
                     Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: const Text('News'),
+                  title:
+                      const Text('News', style: TextStyle(color: Colors.white)),
+                  leading: const Icon(
+                    Icons.newspaper,
+                    color: Colors.white,
+                  ),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+                    route(1);
                     Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: const Text('Circolari'),
+                  title: const Text('Circolari',
+                      style: TextStyle(color: Colors.white)),
+                  leading: const Icon(
+                    Icons.mail,
+                    color: Colors.white,
+                  ),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+                    route(2);
                     Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: const Text('La Scuola'),
+                  title: const Text('La Scuola',
+                      style: TextStyle(color: Colors.white)),
+                  leading: const Icon(
+                    Icons.account_balance,
+                    color: Colors.white,
+                  ),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+                    route(3);
                     Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: const Text('Offerta Formativa'),
+                  title: const Text('Offerta Formativa',
+                      style: TextStyle(color: Colors.white)),
+                  leading: const Icon(
+                    Icons.auto_stories,
+                    color: Colors.white,
+                  ),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+                    route(4);
                     Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: const Text('Segreteria'),
+                  title: const Text(
+                    'Segreteria',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  leading: const Icon(
+                    Icons.contact_phone,
+                    color: Colors.white,
+                  ),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+                    route(5);
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: const Text(
+                    'Contatti',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  leading: const Icon(
+                    Icons.phone,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    route(6);
                     Navigator.pop(context);
                   },
                 ),
