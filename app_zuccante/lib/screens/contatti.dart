@@ -22,7 +22,7 @@ class _Contatti extends State<Contatti> {
               Flexible(
                 child: Text(
                   'CONTATTI',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -32,8 +32,11 @@ class _Contatti extends State<Contatti> {
           height: 15,
         ),
         Container(
-          height: MediaQuery.of(context).size.height/20,
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0,),
+          height: MediaQuery.of(context).size.height / 15,
+          margin: const EdgeInsets.only(
+            left: 10.0,
+            right: 10.0,
+          ),
           decoration: BoxDecoration(
               color: Color.fromARGB(255, 228, 230, 236),
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -62,7 +65,7 @@ class _Contatti extends State<Contatti> {
           height: 15,
         ),
         Container(
-          height: MediaQuery.of(context).size.height/20,
+          height: MediaQuery.of(context).size.height / 15,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
               color: Color.fromARGB(255, 228, 230, 236),
@@ -92,8 +95,7 @@ class _Contatti extends State<Contatti> {
           height: 15,
         ),
         Container(
-                    height: MediaQuery.of(context).size.height/13,
-
+          height: MediaQuery.of(context).size.height / 13,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
               color: Color.fromARGB(255, 228, 230, 236),
@@ -123,8 +125,7 @@ class _Contatti extends State<Contatti> {
           height: 15,
         ),
         Container(
-                    height: MediaQuery.of(context).size.height/13,
-
+          height: MediaQuery.of(context).size.height / 10,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
               color: Color.fromARGB(255, 228, 230, 236),
@@ -154,8 +155,7 @@ class _Contatti extends State<Contatti> {
           height: 15,
         ),
         Container(
-                    height: MediaQuery.of(context).size.height/6,
-
+          height: MediaQuery.of(context).size.height / 4,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
               color: Color.fromARGB(255, 228, 230, 236),
