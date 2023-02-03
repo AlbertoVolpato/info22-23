@@ -33,7 +33,8 @@ class _NewsPage extends State<NewsPage> {
       });
 
       /// ora si converte da html ad oggetto Flutter
-      DataList.add(data.getElementsByClassName("field-content")[0].innerHtml);
+      var datas = data.getElementsByClassName("field-content")[0];
+      DataList.add(datas.getElementsByTagName("a")[0].innerHtml);
     } catch (e) {
       print(e);
     }
