@@ -8,7 +8,6 @@ import 'package:app_zuccante/screens/offerta_formativa.dart';
 import 'package:app_zuccante/screens/segreteria.dart';
 import 'package:app_zuccante/screens/contatti.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -52,8 +51,8 @@ class _HomeScreen extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Image.asset('logo.png'),
-                height: 90,
+                // child: Image.asset('logo.png'),
+                child: Text("C. Zuccante"),
                 padding: const EdgeInsets.only(right: 45.0),
               )
             ],
@@ -69,7 +68,9 @@ class _HomeScreen extends State<HomeScreen> {
               // Important: Remove any padding from the ListView.
               padding: EdgeInsets.zero,
               children: [
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/12)),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 12)),
                 ListTile(
                   title:
                       const Text('Home', style: TextStyle(color: Colors.white)),

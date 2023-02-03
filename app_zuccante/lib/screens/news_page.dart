@@ -1,8 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:app_zuccante/services/news.dart';
-import 'package:webfeed/webfeed.dart';
+import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 
 class NewsPage extends StatefulWidget {
@@ -13,23 +11,33 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPage extends State<NewsPage> {
+  String? Response = null;
+  List DataList = [];
+
   @override
   void initState() {
     super.initState();
     getMediumRSSFeedData();
   }
 
-   Future getMediumRSSFeedData() async {
+  Future getMediumRSSFeedData() async {
+    var temporaryList = [];
     try {
+      //iniziamo a fare il get degli elementi
+      String url = "https://www.itiszuccante.edu.it/categoria/news";
       final client = http.Client();
-      final response = await client.get(Uri.parse('https://www.itiszuccante.edu.it/rss.xml?js=true'));
-      print(response);
-      return response;
+      final response = await client.get(Uri.parse(url));
+      var data = parse(response.body);
+      setState(() {
+        Response = response.body;
+      });
+
+      /// ora si converte da html ad oggetto Flutter
+      DataList.add(data.getElementsByClassName("field-content")[0].innerHtml);
     } catch (e) {
       print(e);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +59,7 @@ class _NewsPage extends State<NewsPage> {
           ],
         ),
       ),
+      Text(DataList[0]),
       const SizedBox(
         height: 15,
       ),

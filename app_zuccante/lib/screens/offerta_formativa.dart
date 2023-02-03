@@ -10,6 +10,8 @@ class OffertaFormativa extends StatefulWidget {
 class _OffertaFormativa extends State<OffertaFormativa> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("offerta_formativa"),);
-    }
+    return Scaffold(
+      body: Text("offerta_formativa"),
+    );
+  }
 }
