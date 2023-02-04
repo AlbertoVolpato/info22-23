@@ -38,6 +38,11 @@ class _Contatti extends State<Contatti> {
             right: 10.0,
           ),
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10.0,
+                ),
+              ],
               color: Color.fromARGB(255, 228, 230, 236),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
@@ -68,6 +73,11 @@ class _Contatti extends State<Contatti> {
           height: MediaQuery.of(context).size.height / 15,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10.0,
+                ),
+              ],
               color: Color.fromARGB(255, 228, 230, 236),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
@@ -98,6 +108,11 @@ class _Contatti extends State<Contatti> {
           height: MediaQuery.of(context).size.height / 13,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10.0,
+                ),
+              ],
               color: Color.fromARGB(255, 228, 230, 236),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
@@ -128,6 +143,11 @@ class _Contatti extends State<Contatti> {
           height: MediaQuery.of(context).size.height / 10,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10.0,
+                ),
+              ],
               color: Color.fromARGB(255, 228, 230, 236),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
@@ -158,6 +178,11 @@ class _Contatti extends State<Contatti> {
           height: MediaQuery.of(context).size.height / 4,
           margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10.0,
+                ),
+              ],
               color: Color.fromARGB(255, 228, 230, 236),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
