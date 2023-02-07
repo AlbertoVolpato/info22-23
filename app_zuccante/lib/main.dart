@@ -1,3 +1,4 @@
+import 'package:app_zuccante/screens/news_single.dart';
 import 'package:flutter/material.dart';
 import 'package:app_zuccante/controller/screen_controller.dart';
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       title: 'Flutter Demo',
       home: MyHomePage(),
     );
@@ -28,6 +29,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: HomeScreen());
+    return const Scaffold(body: HomeScreen(),);
   }
 }

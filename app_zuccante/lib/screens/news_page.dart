@@ -1,3 +1,4 @@
+import 'package:app_zuccante/screens/news_single.dart';
 import 'package:flutter/material.dart';
 import 'package:app_zuccante/services/news.dart';
 import 'package:html/parser.dart' show parse;
@@ -14,12 +15,9 @@ class NewsList {
   final String title;
   final String data;
   final String text;
+  final String link;
 
-  NewsList(
-    this.title,
-    this.data,
-    this.text,
-  );
+  NewsList(this.title, this.data, this.text, this.link);
 }
 
 class _NewsPage extends State<NewsPage> {
@@ -73,7 +71,16 @@ class _NewsPage extends State<NewsPage> {
             .replaceAll("</strong>", "")
             .replaceAll('<p class="rtejustify">', "")
             .replaceAll('&nbsp;', "");
-        TemporaryList.add(NewsList(title, obj_data, content));
+
+        var link = data
+            .getElementsByClassName("views-row")[i]
+            .getElementsByClassName("views-field")[0]
+            .getElementsByClassName("field-content")[0]
+            .innerHtml;
+        var links = link.split('"');
+        var news_link = links[1];
+
+        TemporaryList.add(NewsList(title, obj_data, content, news_link));
         setState(() {
           ObjDataLists = TemporaryList;
         });
@@ -92,89 +99,99 @@ class _NewsPage extends State<NewsPage> {
       itemBuilder: (context, index) {
         return Column(
           children: [
-            Container(
-                margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10.0,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          NewsSingle(url: ObjDataLists[index].link)),
+                );
+              },
+              child: Container(
+                  margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 10.0,
+                        ),
+                      ],
+                      color: Color.fromARGB(255, 228, 230, 236),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                          Flexible(
+                              child: Text(
+                            ObjDataLists[index].title,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w800),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            softWrap: false,
+                          )),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                          Flexible(
+                              child: new Text(
+                            ObjDataLists[index].text,
+                            style: TextStyle(fontSize: 20),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                            softWrap: false,
+                          )),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                          Flexible(
+                              child: new Text(
+                            ObjDataLists[index].data,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            softWrap: false,
+                          )),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
                       ),
                     ],
-                    color: Color.fromARGB(255, 228, 230, 236),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: Text(
-                          ObjDataLists[index].title,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w800),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: new Text(
-                          ObjDataLists[index].text,
-                          style: TextStyle(fontSize: 20),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: new Text(
-                          ObjDataLists[index].data,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                )),
+                  )),
+            ),
             SizedBox(
               height: 15,
             ),
@@ -187,6 +204,7 @@ class _NewsPage extends State<NewsPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      
         body: ListView(
       children: <Widget>[
         const SizedBox(
