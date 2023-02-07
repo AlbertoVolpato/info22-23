@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_zuccante/services/news.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Circolari extends StatefulWidget {
   const Circolari({super.key});
@@ -56,6 +57,7 @@ class _Circolari extends State<Circolari> {
         var categoria = "";
         var pubblicato = "";
         var validityuntil = "";
+        var documento = "";
 
         if (element.length == 4) {
           title = element[0].innerHtml;
@@ -73,10 +75,9 @@ class _Circolari extends State<Circolari> {
         var doc_elements = data
             .getElementsByClassName("row-result ")[i]
             .getElementsByClassName("cell-border")[2]
-            .attributes["link-to-file"];
-
-        var documento = "";
-        documento = doc_elements;
+            .innerHtml;
+        var doc_element = doc_elements.split('"');
+        documento = doc_element[5];
 
         TemporaryList.add(CircularList(
             title, protocol, categoria, pubblicato, validityuntil, documento));
@@ -88,6 +89,12 @@ class _Circolari extends State<Circolari> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future gotoCircolare(id) async {
+    final url =
+        'https://web.spaggiari.eu/sdg/app/default/view_documento.php?a=akVIEW_FROM_ID&id_documento=$id&sede_codice=VEIT0007';
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -144,7 +151,7 @@ class _Circolari extends State<Circolari> {
                         ),
                         Flexible(
                             child: new Text(
-                          "Protocollo: " + ObjDataLists[index].protocol,
+                          "Protocollo: ${ObjDataLists[index].protocol}",
                           style: TextStyle(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
@@ -165,7 +172,7 @@ class _Circolari extends State<Circolari> {
                         ),
                         Flexible(
                             child: new Text(
-                          "Categoria: " + ObjDataLists[index].categoria,
+                          "Categoria: ${ObjDataLists[index].categoria}",
                           style: TextStyle(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
@@ -186,7 +193,7 @@ class _Circolari extends State<Circolari> {
                         ),
                         Flexible(
                             child: new Text(
-                          "Pubblicato il: " + ObjDataLists[index].pubblicato,
+                          "Pubblicato il: ${ObjDataLists[index].pubblicato}",
                           style: TextStyle(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
@@ -207,7 +214,7 @@ class _Circolari extends State<Circolari> {
                         ),
                         Flexible(
                             child: new Text(
-                          "Valido fino: " + ObjDataLists[index].validityuntil,
+                          "Valido fino: ${ObjDataLists[index].validityuntil}",
                           style: TextStyle(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
@@ -222,23 +229,31 @@ class _Circolari extends State<Circolari> {
                       height: 15,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 20,
                         ),
-                        Flexible(
-                          child: Text(
-                            "Documento" + ObjDataLists[index].documento,
-                            style: TextStyle(fontSize: 20),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 100,
-                            softWrap: false,
-                          ),
-                        ),
+                        InkWell(
+                            onTap: () {
+                              gotoCircolare(ObjDataLists[index].documento);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.green),
+                                width: MediaQuery.of(context).size.width / 2,
+                                height: 30,
+                                child: Center(
+                                    child: Text(
+                                  "Documento",
+                                  style: TextStyle(fontSize: 20),
+                                )))),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 20,
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 15,
                     ),
                   ],
                 )),
