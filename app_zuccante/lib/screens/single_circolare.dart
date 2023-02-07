@@ -3,11 +3,11 @@ import 'package:app_zuccante/services/news.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 
-class Circolari extends StatefulWidget {
-  const Circolari({super.key});
+class SingleCircolare extends StatefulWidget {
+  const SingleCircolare({super.key});
 
   @override
-  State<Circolari> createState() => _Circolari();
+  State<SingleCircolare> createState() => _SingleCircolare();
 }
 
 class CircularList {
@@ -22,7 +22,7 @@ class CircularList {
       this.validityuntil, this.documento);
 }
 
-class _Circolari extends State<Circolari> {
+class _SingleCircolare extends State<SingleCircolare> {
   List<CircularList> ObjDataLists = <CircularList>[];
 
   @override
@@ -70,17 +70,21 @@ class _Circolari extends State<Circolari> {
           pubblicato = element[2].innerHtml;
           validityuntil = element[4].innerHtml;
         }
-        var doc_elements = data
-            .getElementsByClassName("row-result ")[i]
-            .getElementsByClassName("cell-border")[2]
-            .attributes["link-to-file"];
+        var doc_element = data.getElementsByClassName("link-to-file ")[i];
 
         var documento = "";
-        documento = doc_elements;
+        if (doc_element != null) {
+          documento = doc_element.innerHtml;
+        }
 
         TemporaryList.add(CircularList(
-            title, protocol, categoria, pubblicato, validityuntil, documento));
-
+          title,
+          protocol,
+          categoria,
+          pubblicato,
+          validityuntil,
+          documento,
+        ));
         setState(() {
           ObjDataLists = TemporaryList;
         });
@@ -226,15 +230,16 @@ class _Circolari extends State<Circolari> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 20,
                         ),
-                        Flexible(
-                          child: Text(
-                            "Documento" + ObjDataLists[index].documento,
-                            style: TextStyle(fontSize: 20),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 100,
-                            softWrap: false,
-                          ),
-                        ),
+                        Container(
+                            color: Colors.green,
+                            child: new Text(
+                              "Valido fino: " +
+                                  ObjDataLists[index].validityuntil,
+                              style: TextStyle(fontSize: 20),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              softWrap: false,
+                            )),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 20,
                         ),
