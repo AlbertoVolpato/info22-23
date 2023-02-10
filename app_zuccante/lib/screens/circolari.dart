@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_zuccante/services/news.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +23,7 @@ class CircularList {
 }
 
 class _Circolari extends State<Circolari> {
+  bool isCharging = false;
   List<CircularList> ObjDataLists = <CircularList>[];
 
   @override
@@ -36,6 +36,9 @@ class _Circolari extends State<Circolari> {
     List<CircularList> TemporaryList = <CircularList>[];
 
     try {
+      setState(() {
+        isCharging = true;
+      });
       //iniziamo a fare il get degli elementi
       String url =
           "https://web.spaggiari.eu/sdg/app/default/comunicati.php?sede_codice=VEIT0007&referer=https://www.itiszuccante.edu.it";
@@ -84,6 +87,7 @@ class _Circolari extends State<Circolari> {
 
         setState(() {
           ObjDataLists = TemporaryList;
+          isCharging = false;
         });
       }
     } catch (e) {
@@ -99,199 +103,237 @@ class _Circolari extends State<Circolari> {
 
   @override
   Widget _circular() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      itemCount: ObjDataLists.length,
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            Container(
-                margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10.0,
-                      ),
-                    ],
-                    color: Color.fromARGB(255, 228, 230, 236),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: Text(
-                          ObjDataLists[index].title,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w800),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: new Text(
-                          "Protocollo: ${ObjDataLists[index].protocol}",
-                          style: TextStyle(fontSize: 20),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: new Text(
-                          "Categoria: ${ObjDataLists[index].categoria}",
-                          style: TextStyle(fontSize: 20),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: new Text(
-                          "Pubblicato il: ${ObjDataLists[index].pubblicato}",
-                          style: TextStyle(fontSize: 20),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Flexible(
-                            child: new Text(
-                          "Valido fino: ${ObjDataLists[index].validityuntil}",
-                          style: TextStyle(fontSize: 20),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: false,
-                        )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        InkWell(
-                            onTap: () {
-                              gotoCircolare(ObjDataLists[index].documento);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.green),
-                                width: MediaQuery.of(context).size.width / 2,
-                                height: 30,
-                                child: Center(
-                                    child: Text(
-                                  "Documento",
-                                  style: TextStyle(fontSize: 20),
-                                )))),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                )),
-            SizedBox(
-              height: 15,
+    return isCharging == true
+        ? Container(
+            child: CircularProgressIndicator(),
+            padding: EdgeInsets.only(
+              right: MediaQuery.of(context).size.width / 3,
+              left: MediaQuery.of(context).size.width / 3,
             ),
-          ],
-        );
-      },
-    );
+            height: MediaQuery.of(context).size.height / 7,
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            itemCount: ObjDataLists.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Container(
+                      //margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 3.0,
+                          ),
+                        ],
+                        color: Colors.white,
+                        //   borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                              Flexible(
+                                  child: Text(
+                                ObjDataLists[index].title,
+                                style: TextStyle(
+                                    //color: Color.fromARGB(255, 203, 14, 0),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                softWrap: false,
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                              Flexible(
+                                  child: new Text(
+                                "Protocollo: ${ObjDataLists[index].protocol}",
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 4,
+                                softWrap: false,
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                              Flexible(
+                                  child: new Text(
+                                "Categoria: ${ObjDataLists[index].categoria}",
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 4,
+                                softWrap: false,
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                              Flexible(
+                                  child: new Text(
+                                "Pubblicato il: ${ObjDataLists[index].pubblicato}",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 52, 155),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                softWrap: false,
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                              Flexible(
+                                  child: new Text(
+                                "Valido fino: ${ObjDataLists[index].validityuntil}",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 52, 155),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                softWrap: false,
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    gotoCircolare(
+                                        ObjDataLists[index].documento);
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)),
+                                          color: Colors.green),
+                                      width: MediaQuery.of(context).size.width /
+                                          2.4,
+                                      height: 30,
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Documento",
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              width: 3,
+                                            ),
+                                            Icon(
+                                              Icons.link,
+                                              size: 32.0,
+                                            )
+                                          ]))),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      )),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              );
+            },
+          );
     ;
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromRGBO(246, 246, 246, 1),
         body: ListView(
-      children: <Widget>[
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Flexible(
-                child: Text(
-                  'CIRCOLARI',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+          children: <Widget>[
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Flexible(
+                    child: Text(
+                      'CIRCOLARI',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        _circular()
-      ],
-    ));
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            _circular()
+          ],
+        ));
   }
 }

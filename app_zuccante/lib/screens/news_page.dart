@@ -1,8 +1,8 @@
 import 'package:app_zuccante/screens/news_single.dart';
 import 'package:flutter/material.dart';
-import 'package:app_zuccante/services/news.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -21,6 +21,7 @@ class NewsList {
 }
 
 class _NewsPage extends State<NewsPage> {
+  bool isCharging = false;
   List<NewsList> ObjDataLists = <NewsList>[];
 
   @override
@@ -29,11 +30,19 @@ class _NewsPage extends State<NewsPage> {
     getMediumRSSFeedData();
   }
 
+  Future gotoNews(id) async {
+    final url = 'https://www.itiszuccante.edu.it/$id';
+    await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView);
+  }
+
   Future getMediumRSSFeedData() async {
     List<NewsList> TemporaryList = <NewsList>[];
 
     try {
       //iniziamo a fare il get degli elementi
+      setState(() {
+        isCharging = true;
+      });
       String url = "https://www.itiszuccante.edu.it/categoria/news";
       final client = http.Client();
       final response = await client.get(Uri.parse(url));
@@ -69,6 +78,8 @@ class _NewsPage extends State<NewsPage> {
             .replaceAll("</p>", "")
             .replaceAll("<strong>", "")
             .replaceAll("</strong>", "")
+            .replaceAll("<br>", "")
+            .replaceAll("</br>", "")
             .replaceAll('<p class="rtejustify">', "")
             .replaceAll('&nbsp;', "");
 
@@ -83,6 +94,7 @@ class _NewsPage extends State<NewsPage> {
         TemporaryList.add(NewsList(title, obj_data, content, news_link));
         setState(() {
           ObjDataLists = TemporaryList;
+          isCharging = false;
         });
       }
     } catch (e) {
@@ -92,142 +104,157 @@ class _NewsPage extends State<NewsPage> {
 
   @override
   Widget _news() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      itemCount: ObjDataLists.length,
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          NewsSingle(url: ObjDataLists[index].link)),
-                );
-              },
-              child: Container(
-                  margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 10.0,
+    return isCharging == true
+        ? Container(
+            child: CircularProgressIndicator(),
+            padding: EdgeInsets.only(
+              right: MediaQuery.of(context).size.width / 3,
+              left: MediaQuery.of(context).size.width / 3,
+            ),
+            height: MediaQuery.of(context).size.height / 7,
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            itemCount: ObjDataLists.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      gotoNews(ObjDataLists[index].link);
+                    },
+                    child: Container(
+                        // margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 3.0,
+                            ),
+                          ],
+                          color: Colors.white,
+                          //borderRadius:
+                          //BorderRadius.all(Radius.circular(20))
+                          //
                         ),
-                      ],
-                      color: Color.fromARGB(255, 228, 230, 236),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                          Flexible(
-                              child: Text(
-                            ObjDataLists[index].title,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w800),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: false,
-                          )),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                          Flexible(
-                              child: new Text(
-                            ObjDataLists[index].text,
-                            style: TextStyle(fontSize: 20),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
-                            softWrap: false,
-                          )),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                          Flexible(
-                              child: new Text(
-                            ObjDataLists[index].data,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            softWrap: false,
-                          )),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  )),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-          ],
-        );
-      },
-    );
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                                Flexible(
+                                    child: Text(
+                                  ObjDataLists[index].title,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 203, 14, 0),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                )),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                                Flexible(
+                                    child: new Text(
+                                  ObjDataLists[index].text,
+                                  style: TextStyle(fontSize: 20),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 4,
+                                  softWrap: false,
+                                )),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                                Flexible(
+                                    child: new Text(
+                                  ObjDataLists[index].data,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 52, 155),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  softWrap: false,
+                                )),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                          ],
+                        )),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              );
+            },
+          );
     ;
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      
+        backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+        drawer: Drawer(
+          backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
+        ),
         body: ListView(
-      children: <Widget>[
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Flexible(
-                child: Text(
-                  'NEWS',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+          children: <Widget>[
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Flexible(
+                    child: Text(
+                      'NEWS',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        _news()
-      ],
-    ));
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            _news()
+          ],
+        ));
   }
 }

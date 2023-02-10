@@ -11,6 +11,7 @@ class _Contatti extends State<Contatti> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(246, 246, 246, 1),
       body: ListView(children: <Widget>[
         const SizedBox(
           height: 10,
@@ -40,10 +41,10 @@ class _Contatti extends State<Contatti> {
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 10.0,
+                  blurRadius: 3.0,
                 ),
               ],
-              color: Color.fromARGB(255, 228, 230, 236),
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
             children: [
@@ -75,10 +76,10 @@ class _Contatti extends State<Contatti> {
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 10.0,
+                  blurRadius: 3.0,
                 ),
               ],
-              color: Color.fromARGB(255, 228, 230, 236),
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
             children: [
@@ -110,10 +111,10 @@ class _Contatti extends State<Contatti> {
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 10.0,
+                  blurRadius: 3.0,
                 ),
               ],
-              color: Color.fromARGB(255, 228, 230, 236),
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
             children: [
@@ -145,10 +146,10 @@ class _Contatti extends State<Contatti> {
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 10.0,
+                  blurRadius: 3.0,
                 ),
               ],
-              color: Color.fromARGB(255, 228, 230, 236),
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
             children: [
@@ -180,10 +181,10 @@ class _Contatti extends State<Contatti> {
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 10.0,
+                  blurRadius: 3.0,
                 ),
               ],
-              color: Color.fromARGB(255, 228, 230, 236),
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Row(
             children: [

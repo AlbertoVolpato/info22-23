@@ -62,13 +62,21 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/logo_zuccante.png
-    - assets/logo_full.png
-    - assets/logo.png
-    - assets/automazione.webp
-    - assets/elettronica.jpeg
-    - assets/informatica.jpeg
-    - assets/telecomunicazioni.png
+    - logo_zuccante.png
+    - logo_full.png
+    - logo.png
+    - automazione.webp
+    - elettronica.jpeg
+    - informatica.jpeg
+    - telecomunicazioni.png
+    - zuccante.png
+    - news.png
+    - contatti.png
+    - circolari.png
+
+
+
+
 
 
 

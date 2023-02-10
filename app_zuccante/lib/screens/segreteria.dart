@@ -10,6 +10,8 @@ class Segreteria extends StatefulWidget {
 class _Segreteria extends State<Segreteria> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("segreteria"),);
-    }
+    return Scaffold(
+      body: Text("segreteria"),
+    );
+  }
 }

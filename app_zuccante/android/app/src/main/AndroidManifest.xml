@@ -6,7 +6,7 @@
             <data android:scheme="https" />
         </intent>
         <!-- If your app checks for call support -->
-       
+
     </queries>
     <application android:label="app_zuccante" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
         <!-- Provide required visibility configuration for API level 30 and above -->

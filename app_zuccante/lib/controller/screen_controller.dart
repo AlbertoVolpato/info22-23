@@ -9,8 +9,7 @@ import 'package:app_zuccante/screens/segreteria.dart';
 import 'package:app_zuccante/screens/contatti.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   State<HomeScreen> createState() => _HomeScreen();
 }
@@ -26,7 +25,236 @@ class _HomeScreen extends State<HomeScreen> {
 
   router() {
     if (_selectedroute == 0) {
-      return HomePage();
+      return Scaffold(
+        drawer: Drawer(
+          backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
+        ),
+        body: ListView(children: <Widget>[
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Flexible(
+                  child: Text(
+                    'Home Page',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          InkWell(
+            onTap: () {
+              route(1);
+            },
+            child: Container(
+              // margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 3.0,
+                  ),
+                ],
+                color: Colors.white,
+                // borderRadius: BorderRadius.all(Radius.circular(20))
+              ),
+              child: Column(children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "News",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image: const AssetImage('news.png'),
+                    width: MediaQuery.of(context).size.width / 1.1,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "Guarda ora le news più recenti...",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ]),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          InkWell(
+            onTap: () {
+              route(2);
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 3.0,
+                  ),
+                ],
+                color: Colors.white,
+                //borderRadius: BorderRadius.all(Radius.circular(20))
+              ),
+              child: Column(children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "Circolari",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image: const AssetImage('circolari.png'),
+                    width: MediaQuery.of(context).size.width / 1.1,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "Leggi ora le circolari più ricenti...",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ]),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          InkWell(
+            onTap: () {
+              route(3);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+              decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3.0,
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const Text(
+                      "La Scuola",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image(
+                        image: const AssetImage("zuccante.png"),
+                        width: MediaQuery.of(context).size.width / 1.1,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const Text(
+                      "Scopri la nostra scuola",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    const Text(
+                      "E tutti i percorsi a te dedicati",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ]),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          InkWell(
+            onTap: () {
+              route(6);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+              decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3.0,
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Column(children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "Contatti",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image: const AssetImage("contatti.png"),
+                    width: MediaQuery.of(context).size.width / 1.1,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "se hai bisongo di aiuto ",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const Text(
+                  "Contatta la scuola",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ]),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ]),
+      );
     } else if (_selectedroute == 1) {
       return NewsPage();
     } else if (_selectedroute == 2) {
@@ -45,6 +273,7 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromRGBO(231, 230, 233, 1),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
           title: Row(
