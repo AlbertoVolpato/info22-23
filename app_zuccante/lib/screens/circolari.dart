@@ -120,16 +120,27 @@ class _Circolari extends State<Circolari> {
               return Column(
                 children: [
                   Container(
-                      //margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                      margin: EdgeInsets.only(left: 15.0, right: 15.0),
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 3.0,
-                          ),
-                        ],
-                        color: Colors.white,
-                        //   borderRadius: BorderRadius.all(Radius.circular(20))
-                      ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              spreadRadius: 1,
+                              blurRadius: 7,
+                              blurStyle: BlurStyle.normal,
+                              offset: const Offset(
+                                0,
+                                5,
+                              ),
+                            ),
+                            BoxShadow(
+                              color: Colors.grey.shade300,
+                              blurRadius: 5,
+                              offset: const Offset(5, 0),
+                            )
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Column(
                         children: [
                           SizedBox(
@@ -213,7 +224,7 @@ class _Circolari extends State<Circolari> {
                                   child: new Text(
                                 "Pubblicato il: ${ObjDataLists[index].pubblicato}",
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 52, 155),
+                                    color: Color.fromRGBO(0, 35, 71, 1.0),
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600),
                                 overflow: TextOverflow.ellipsis,
@@ -237,7 +248,7 @@ class _Circolari extends State<Circolari> {
                                   child: new Text(
                                 "Valido fino: ${ObjDataLists[index].validityuntil}",
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 52, 155),
+                                    color: Color.fromRGBO(0, 35, 71, 1.0),
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600),
                                 overflow: TextOverflow.ellipsis,
@@ -265,8 +276,25 @@ class _Circolari extends State<Circolari> {
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade300,
+                                              spreadRadius: 3,
+                                              blurRadius: 6,
+                                              blurStyle: BlurStyle.normal,
+                                              offset: const Offset(
+                                                0,
+                                                3,
+                                              ),
+                                            ),
+                                            BoxShadow(
+                                              color: Colors.grey.shade300,
+                                              blurRadius: 3,
+                                              offset: const Offset(2, 0),
+                                            )
+                                          ],
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(6)),
+                                              Radius.circular(12)),
                                           color: Colors.green),
                                       width: MediaQuery.of(context).size.width /
                                           2.4,
@@ -277,14 +305,17 @@ class _Circolari extends State<Circolari> {
                                           children: [
                                             Text(
                                               "Documento",
-                                              style: TextStyle(fontSize: 20),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white),
                                             ),
                                             const SizedBox(
                                               width: 3,
                                             ),
                                             Icon(
                                               Icons.link,
-                                              size: 32.0,
+                                              size: 31.0,
+                                              color: Colors.white,
                                             )
                                           ]))),
                               SizedBox(
@@ -309,7 +340,7 @@ class _Circolari extends State<Circolari> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+        backgroundColor: Colors.white,
         body: ListView(
           children: <Widget>[
             const SizedBox(

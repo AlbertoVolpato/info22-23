@@ -125,25 +125,35 @@ class _NewsPage extends State<NewsPage> {
                       gotoNews(ObjDataLists[index].link);
                     },
                     child: Container(
-                        // margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                        margin: const EdgeInsets.only(left: 15.0, right: 15.0),
                         decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 3.0,
-                            ),
-                          ],
-                          color: Colors.white,
-                          //borderRadius:
-                          //BorderRadius.all(Radius.circular(20))
-                          //
-                        ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade400,
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                blurStyle: BlurStyle.normal,
+                                offset: const Offset(
+                                  0,
+                                  5,
+                                ),
+                              ),
+                              BoxShadow(
+                                color: Colors.grey.shade300,
+                                blurRadius: 5,
+                                offset: const Offset(5, 0),
+                              )
+                            ],
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                         child: Column(
                           children: [
                             SizedBox(
                               height: 15,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 20,
@@ -152,7 +162,7 @@ class _NewsPage extends State<NewsPage> {
                                     child: Text(
                                   ObjDataLists[index].title,
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 203, 14, 0),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w800),
                                   overflow: TextOverflow.ellipsis,
@@ -165,7 +175,7 @@ class _NewsPage extends State<NewsPage> {
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Row(
                               children: [
@@ -189,6 +199,7 @@ class _NewsPage extends State<NewsPage> {
                               height: 15,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 20,
@@ -197,7 +208,7 @@ class _NewsPage extends State<NewsPage> {
                                     child: new Text(
                                   ObjDataLists[index].data,
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 0, 52, 155),
+                                      color: Color.fromRGBO(0, 35, 71, 1.0),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600),
                                   overflow: TextOverflow.ellipsis,
@@ -215,7 +226,7 @@ class _NewsPage extends State<NewsPage> {
                           ],
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                 ],
@@ -227,7 +238,7 @@ class _NewsPage extends State<NewsPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+        backgroundColor: Colors.white,
         drawer: Drawer(
           backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
         ),

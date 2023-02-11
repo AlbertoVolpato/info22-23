@@ -11,7 +11,7 @@ class _Contatti extends State<Contatti> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+      backgroundColor: Colors.white,
       body: ListView(children: <Widget>[
         const SizedBox(
           height: 10,
@@ -35,14 +35,26 @@ class _Contatti extends State<Contatti> {
         Container(
           height: MediaQuery.of(context).size.height / 15,
           margin: const EdgeInsets.only(
-            left: 10.0,
-            right: 10.0,
+            left: 15.0,
+            right: 15.0,
           ),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 3.0,
+                  color: Colors.grey.shade400,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.normal,
+                  offset: const Offset(
+                    0,
+                    5,
+                  ),
                 ),
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  offset: const Offset(5, 0),
+                )
               ],
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -72,12 +84,24 @@ class _Contatti extends State<Contatti> {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 15,
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          margin: const EdgeInsets.only(left: 15.0, right: 15.0),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 3.0,
+                  color: Colors.grey.shade400,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.normal,
+                  offset: const Offset(
+                    0,
+                    5,
+                  ),
                 ),
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  offset: const Offset(5, 0),
+                )
               ],
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -107,12 +131,24 @@ class _Contatti extends State<Contatti> {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 13,
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          margin: const EdgeInsets.only(left: 15.0, right: 15.0),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 3.0,
+                  color: Colors.grey.shade400,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.normal,
+                  offset: const Offset(
+                    0,
+                    5,
+                  ),
                 ),
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  offset: const Offset(5, 0),
+                )
               ],
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -142,12 +178,24 @@ class _Contatti extends State<Contatti> {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 10,
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          margin: const EdgeInsets.only(left: 15.0, right: 15.0),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 3.0,
+                  color: Colors.grey.shade400,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.normal,
+                  offset: const Offset(
+                    0,
+                    5,
+                  ),
                 ),
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  offset: const Offset(5, 0),
+                )
               ],
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -177,12 +225,24 @@ class _Contatti extends State<Contatti> {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 4,
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          margin: const EdgeInsets.only(left: 15.0, right: 15.0),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 3.0,
+                  color: Colors.grey.shade400,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.normal,
+                  offset: const Offset(
+                    0,
+                    5,
+                  ),
                 ),
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  offset: const Offset(5, 0),
+                )
               ],
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),

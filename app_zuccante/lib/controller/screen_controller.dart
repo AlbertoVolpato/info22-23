@@ -54,16 +54,27 @@ class _HomeScreen extends State<HomeScreen> {
               route(1);
             },
             child: Container(
-              // margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 3.0,
-                  ),
-                ],
-                color: Colors.white,
-                // borderRadius: BorderRadius.all(Radius.circular(20))
-              ),
+              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(
+                        0,
+                        5,
+                      ),
+                    ),
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 5,
+                      offset: const Offset(5, 0),
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Column(children: [
                 const SizedBox(
                   height: 15,
@@ -79,6 +90,7 @@ class _HomeScreen extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
                     image: const AssetImage('news.png'),
+                    height: 110,
                     width: MediaQuery.of(context).size.width / 1.1,
                   ),
                 ),
@@ -103,15 +115,27 @@ class _HomeScreen extends State<HomeScreen> {
               route(2);
             },
             child: Container(
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 3.0,
-                  ),
-                ],
-                color: Colors.white,
-                //borderRadius: BorderRadius.all(Radius.circular(20))
-              ),
+              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(
+                        0,
+                        5,
+                      ),
+                    ),
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 5,
+                      offset: const Offset(5, 0),
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Column(children: [
                 const SizedBox(
                   height: 15,
@@ -127,6 +151,7 @@ class _HomeScreen extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
                     image: const AssetImage('circolari.png'),
+                    height: 140,
                     width: MediaQuery.of(context).size.width / 1.1,
                   ),
                 ),
@@ -151,12 +176,24 @@ class _HomeScreen extends State<HomeScreen> {
               route(3);
             },
             child: Container(
-              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-              decoration: const BoxDecoration(
+              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      blurRadius: 3.0,
+                      color: Colors.grey.shade400,
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(
+                        0,
+                        5,
+                      ),
                     ),
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 5,
+                      offset: const Offset(5, 0),
+                    )
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -206,12 +243,24 @@ class _HomeScreen extends State<HomeScreen> {
               route(6);
             },
             child: Container(
-              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-              decoration: const BoxDecoration(
+              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      blurRadius: 3.0,
+                      color: Colors.grey.shade400,
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(
+                        0,
+                        5,
+                      ),
                     ),
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 5,
+                      offset: const Offset(5, 0),
+                    )
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -230,6 +279,7 @@ class _HomeScreen extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
                     image: const AssetImage("contatti.png"),
+                    height: 90,
                     width: MediaQuery.of(context).size.width / 1.1,
                   ),
                 ),
@@ -273,7 +323,7 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(231, 230, 233, 1),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
           title: Row(

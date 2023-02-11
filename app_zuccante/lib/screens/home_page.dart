@@ -48,15 +48,26 @@ class _HomePage extends State<HomePage> {
           },
           child: Container(
             //margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 3.0,
-                ),
-              ],
-              color: Colors.white,
-              //borderRadius: BorderRadius.all(Radius.circular(20))
-            ),
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade400,
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    blurStyle: BlurStyle.normal,
+                    offset: const Offset(
+                      0,
+                      5,
+                    ),
+                  ),
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: const Offset(5, 0),
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(children: [
               const SizedBox(
                 height: 15,
@@ -100,11 +111,23 @@ class _HomePage extends State<HomePage> {
           },
           child: Container(
             margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 3.0,
+                    color: Colors.grey.shade400,
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    blurStyle: BlurStyle.normal,
+                    offset: const Offset(
+                      0,
+                      5,
+                    ),
                   ),
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: const Offset(5, 0),
+                  )
                 ],
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -151,11 +174,23 @@ class _HomePage extends State<HomePage> {
           },
           child: Container(
             margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 3.0,
+                    color: Colors.grey.shade400,
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    blurStyle: BlurStyle.normal,
+                    offset: const Offset(
+                      0,
+                      5,
+                    ),
                   ),
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: const Offset(5, 0),
+                  )
                 ],
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -207,11 +242,23 @@ class _HomePage extends State<HomePage> {
           },
           child: Container(
             margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 3.0,
+                    color: Colors.grey.shade400,
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    blurStyle: BlurStyle.normal,
+                    offset: const Offset(
+                      0,
+                      5,
+                    ),
                   ),
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: const Offset(5, 0),
+                  )
                 ],
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
