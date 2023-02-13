@@ -261,10 +261,10 @@ class _Circolari extends State<Circolari> {
                             ],
                           ),
                           const SizedBox(
-                            height: 15,
+                            height: 0,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 20,
@@ -274,52 +274,12 @@ class _Circolari extends State<Circolari> {
                                     gotoCircolare(
                                         ObjDataLists[index].documento);
                                   },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.shade300,
-                                              spreadRadius: 3,
-                                              blurRadius: 6,
-                                              blurStyle: BlurStyle.normal,
-                                              offset: const Offset(
-                                                0,
-                                                3,
-                                              ),
-                                            ),
-                                            BoxShadow(
-                                              color: Colors.grey.shade300,
-                                              blurRadius: 3,
-                                              offset: const Offset(2, 0),
-                                            )
-                                          ],
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12)),
-                                          color: Colors.green),
-                                      width: MediaQuery.of(context).size.width /
-                                          2.4,
-                                      height: 30,
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Documento",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                            const SizedBox(
-                                              width: 3,
-                                            ),
-                                            Icon(
-                                              Icons.link,
-                                              size: 31.0,
-                                              color: Colors.white,
-                                            )
-                                          ]))),
+                                  child: Image.asset(
+                                    'paper-clip.png',
+                                    height: 50,
+                                  )),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 20,
+                                width: MediaQuery.of(context).size.width / 16,
                               ),
                             ],
                           ),

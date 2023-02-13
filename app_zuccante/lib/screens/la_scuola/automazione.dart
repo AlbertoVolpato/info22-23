@@ -24,14 +24,27 @@ class _Automazione extends State<Automazione> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
+          margin: const EdgeInsets.only(
+              left: 15.0, right: 15.0, top: 25, bottom: 25),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 3.0,
+                  color: Colors.grey.shade400,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.normal,
+                  offset: const Offset(
+                    0,
+                    5,
+                  ),
                 ),
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  offset: const Offset(5, 0),
+                )
               ],
-              color: Color.fromARGB(255, 228, 230, 236),
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Column(children: [
             SizedBox(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:app_zuccante/screens/circolari.dart';
-import 'package:app_zuccante/screens/home_page.dart';
 import 'package:app_zuccante/screens/la_scuola.dart';
 import 'package:app_zuccante/screens/news_page.dart';
 import 'package:app_zuccante/screens/offerta_formativa.dart';
@@ -54,7 +53,10 @@ class _HomeScreen extends State<HomeScreen> {
               route(1);
             },
             child: Container(
-              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              margin: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+              ),
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -75,34 +77,24 @@ class _HomeScreen extends State<HomeScreen> {
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Column(children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "News",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 15,
+              child: Row(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: MediaQuery.of(context).size.height / 10,
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
                     image: const AssetImage('news.png'),
-                    height: 110,
-                    width: MediaQuery.of(context).size.width / 1.1,
+                    height: 50,
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
+                SizedBox(
+                  width: 20,
                 ),
                 const Text(
-                  "Guarda ora le news più recenti...",
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 15,
+                  "News",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ]),
             ),
@@ -115,7 +107,11 @@ class _HomeScreen extends State<HomeScreen> {
               route(2);
             },
             child: Container(
-              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              margin: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+              ),
+              width: MediaQuery.of(context).size.width / 2,
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -136,34 +132,24 @@ class _HomeScreen extends State<HomeScreen> {
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Column(children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "Circolari",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 15,
+              child: Row(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: MediaQuery.of(context).size.height / 10,
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
                     image: const AssetImage('circolari.png'),
-                    height: 140,
-                    width: MediaQuery.of(context).size.width / 1.1,
+                    height: 50,
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
+                SizedBox(
+                  width: 20,
                 ),
                 const Text(
-                  "Leggi ora le circolari più ricenti...",
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 15,
+                  "Circolare",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ]),
             ),
@@ -176,7 +162,10 @@ class _HomeScreen extends State<HomeScreen> {
               route(3);
             },
             child: Container(
-              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              margin: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+              ),
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -197,42 +186,26 @@ class _HomeScreen extends State<HomeScreen> {
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Text(
-                      "La Scuola",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image(
-                        image: const AssetImage("zuccante.png"),
-                        width: MediaQuery.of(context).size.width / 1.1,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Text(
-                      "Scopri la nostra scuola",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const Text(
-                      "E tutti i percorsi a te dedicati",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ]),
+              child: Row(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: MediaQuery.of(context).size.height / 10,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image: const AssetImage('school.png'),
+                    height: 50,
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                const Text(
+                  "La Scuola",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ]),
             ),
           ),
           const SizedBox(
@@ -243,7 +216,10 @@ class _HomeScreen extends State<HomeScreen> {
               route(6);
             },
             child: Container(
-              margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+              margin: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+              ),
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -264,38 +240,78 @@ class _HomeScreen extends State<HomeScreen> {
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Column(children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "Contatti",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 15,
+              child: Row(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: MediaQuery.of(context).size.height / 10,
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image: const AssetImage("contatti.png"),
-                    height: 90,
-                    width: MediaQuery.of(context).size.width / 1.1,
+                    image: const AssetImage('offerta_formativa.png'),
+                    height: 50,
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
+                SizedBox(
+                  width: 20,
                 ),
                 const Text(
-                  "se hai bisongo di aiuto ",
-                  style: TextStyle(fontSize: 20),
+                  "Offerta Formativa",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ]),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          InkWell(
+            onTap: () {
+              route(6);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+              ),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(
+                        0,
+                        5,
+                      ),
+                    ),
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 5,
+                      offset: const Offset(5, 0),
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Row(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: MediaQuery.of(context).size.height / 10,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image: const AssetImage('contatti.png'),
+                    height: 50,
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
                 ),
                 const Text(
-                  "Contatta la scuola",
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 15,
+                  "Contatti",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ]),
             ),
