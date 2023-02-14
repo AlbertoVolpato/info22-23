@@ -156,26 +156,46 @@ class _NewsPage extends State<NewsPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 20,
+                                  width: MediaQuery.of(context).size.width / 25,
+                                ),
+                                Image.asset(
+                                  "news.png",
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: 10,
                                 ),
                                 Flexible(
                                     child: Text(
                                   ObjDataLists[index].title,
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                          offset: Offset(1.2, 1.2),
+                                          blurRadius: 1.0,
+                                          color: Colors.grey.shade400),
+                                    ],
+                                  ),
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
+                                  maxLines: 2,
                                   softWrap: false,
                                 )),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 20,
+                                  width: 10,
+                                ),
+                                Image.asset(
+                                  "news.png",
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 25,
                                 ),
                               ],
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 4,
                             ),
                             Row(
                               children: [
@@ -196,7 +216,7 @@ class _NewsPage extends State<NewsPage> {
                               ],
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -208,10 +228,15 @@ class _NewsPage extends State<NewsPage> {
                                     child: new Text(
                                   ObjDataLists[index].data,
                                   style: TextStyle(
-                                      color: Color.fromRGBO(0, 35, 71, 1.0),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600),
-                                  overflow: TextOverflow.ellipsis,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                          offset: Offset(1.2, 1.2),
+                                          blurRadius: 1.0,
+                                          color: Colors.grey.shade400),
+                                    ],
+                                  ),
                                   maxLines: 2,
                                   softWrap: false,
                                 )),
@@ -227,7 +252,7 @@ class _NewsPage extends State<NewsPage> {
                         )),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 17,
                   ),
                 ],
               );
@@ -251,6 +276,10 @@ class _NewsPage extends State<NewsPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
+                  Icon(Icons.newspaper),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Flexible(
                     child: Text(
                       'NEWS',
@@ -258,6 +287,10 @@ class _NewsPage extends State<NewsPage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(Icons.newspaper),
                 ],
               ),
             ),

@@ -150,21 +150,34 @@ class _Circolari extends State<Circolari> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 20,
+                                width: MediaQuery.of(context).size.width / 30,
+                              ),
+                              Image.asset(
+                                "circolari.png",
+                                height: 40,
+                              ),
+                              SizedBox(
+                                width: 7,
                               ),
                               Flexible(
                                   child: Text(
                                 ObjDataLists[index].title,
                                 style: TextStyle(
-                                    //color: Color.fromARGB(255, 203, 14, 0),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700),
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w800,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                        offset: Offset(1.2, 1.2),
+                                        blurRadius: 1.0,
+                                        color: Colors.grey.shade400),
+                                  ],
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
                                 softWrap: false,
                               )),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 20,
+                                width: MediaQuery.of(context).size.width / 30,
                               ),
                             ],
                           ),
@@ -224,9 +237,15 @@ class _Circolari extends State<Circolari> {
                                   child: new Text(
                                 "Pubblicato il: ${ObjDataLists[index].pubblicato}",
                                 style: TextStyle(
-                                    color: Color.fromRGBO(0, 35, 71, 1.0),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                        offset: Offset(1.5, 1.5),
+                                        blurRadius: 1.0,
+                                        color: Colors.grey.shade400),
+                                  ],
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 softWrap: false,
@@ -248,9 +267,15 @@ class _Circolari extends State<Circolari> {
                                   child: new Text(
                                 "Valido fino: ${ObjDataLists[index].validityuntil}",
                                 style: TextStyle(
-                                    color: Color.fromRGBO(0, 35, 71, 1.0),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                        offset: Offset(1.2, 1.2),
+                                        blurRadius: 1.0,
+                                        color: Colors.grey.shade400),
+                                  ],
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 softWrap: false,
@@ -309,7 +334,11 @@ class _Circolari extends State<Circolari> {
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
+                  Icon(Icons.document_scanner),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Flexible(
                     child: Text(
                       'CIRCOLARI',
@@ -317,6 +346,10 @@ class _Circolari extends State<Circolari> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(Icons.document_scanner),
                 ],
               ),
             ),
