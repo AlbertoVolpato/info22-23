@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Contatti extends StatefulWidget {
   const Contatti({super.key});
@@ -32,51 +33,59 @@ class _Contatti extends State<Contatti> {
         const SizedBox(
           height: 15,
         ),
-        Container(
-          height: MediaQuery.of(context).size.height / 15,
-          margin: const EdgeInsets.only(
-            left: 15.0,
-            right: 15.0,
-          ),
-          decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade400,
-                  spreadRadius: 1,
-                  blurRadius: 7,
-                  blurStyle: BlurStyle.normal,
-                  offset: const Offset(
-                    0,
-                    5,
+        InkWell(
+          onTap: () async {
+            Uri tel = Uri(scheme: 'tel', path: '+39 0415341046');
+            if (!await launchUrl(tel)) {
+              throw Exception('Could not launch URL');
+            }
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height / 15,
+            margin: const EdgeInsets.only(
+              left: 15.0,
+              right: 15.0,
+            ),
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade400,
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    blurStyle: BlurStyle.normal,
+                    offset: const Offset(
+                      0,
+                      5,
+                    ),
+                  ),
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: const Offset(5, 0),
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 20,
+                ),
+                Icon(Icons.phone),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 20,
+                ),
+                Flexible(
+                  child: Text(
+                    'telefono: 041-5341046',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-                BoxShadow(
-                  color: Colors.grey.shade300,
-                  blurRadius: 5,
-                  offset: const Offset(5, 0),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 20,
                 )
               ],
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Row(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 20,
-              ),
-              Icon(Icons.phone),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 20,
-              ),
-              Flexible(
-                child: Text(
-                  'telefono: 041-5341046',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 20,
-              )
-            ],
+            ),
           ),
         ),
         const SizedBox(

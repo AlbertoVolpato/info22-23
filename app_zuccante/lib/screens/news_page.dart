@@ -252,7 +252,7 @@ class _NewsPage extends State<NewsPage> {
                         )),
                   ),
                   const SizedBox(
-                    height: 17,
+                    height: 20,
                   ),
                 ],
               );
@@ -278,7 +278,7 @@ class _NewsPage extends State<NewsPage> {
                 children: const [
                   Icon(Icons.newspaper),
                   SizedBox(
-                    width: 15,
+                    width: 5,
                   ),
                   Flexible(
                     child: Text(
@@ -287,10 +287,6 @@ class _NewsPage extends State<NewsPage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(Icons.newspaper),
                 ],
               ),
             ),

@@ -314,7 +314,7 @@ class _Circolari extends State<Circolari> {
                         ],
                       )),
                   SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                 ],
               );
@@ -335,9 +335,9 @@ class _Circolari extends State<Circolari> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.document_scanner),
+                  Icon(Icons.article),
                   SizedBox(
-                    width: 15,
+                    width: 5,
                   ),
                   Flexible(
                     child: Text(
@@ -346,10 +346,6 @@ class _Circolari extends State<Circolari> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(Icons.document_scanner),
                 ],
               ),
             ),

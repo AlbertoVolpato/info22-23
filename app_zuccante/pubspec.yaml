@@ -39,9 +39,14 @@ dependencies:
   http: ^0.13.5
   html: ^0.15.1
   url_launcher: ^6.1.9
-  sqflite: ^2.2.4+1
-  path: ^1.8.3
+  path: ^1.8.2
   workmanager: ^0.5.1
+  
+  build_runner: ^2.3.3
+  objectbox: ^1.7.2
+  objectbox_generator: ^1.7.2
+
+
 
 
 dev_dependencies:
