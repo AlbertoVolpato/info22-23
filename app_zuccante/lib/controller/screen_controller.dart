@@ -13,9 +13,35 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreen();
 }
 
+class CardImage {
+  final String title;
+  final Image image;
+
+  CardImage({
+    required this.title,
+    required this.image,
+  });
+}
+
 class _HomeScreen extends State<HomeScreen> {
   var _selectedroute = 0;
-
+  int _index = 0;
+  List<CardImage> SchoolCards = [
+    CardImage(
+        title: "Sede Triennio",
+        image: Image.asset(
+          "zuccante_triennio.png",
+          height: 180,
+          width: 500,
+        )),
+    CardImage(
+        title: "Sede Biennio",
+        image: Image.asset(
+          "zuccante_biennio.png",
+          height: 180,
+          width: 500,
+        )),
+  ];
   void route(int index) {
     setState(() {
       _selectedroute = index;
@@ -28,298 +54,325 @@ class _HomeScreen extends State<HomeScreen> {
         drawer: Drawer(
           backgroundColor: const Color.fromRGBO(0, 35, 71, 1.0),
         ),
-        body: ListView(children: <Widget>[
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Flexible(
-                  child: Text(
-                    'Home Page',
+        body: ListView(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 230, // card height
+              child: PageView.builder(
+                itemCount: SchoolCards.length,
+                controller: PageController(viewportFraction: 0.8),
+                onPageChanged: (int index) => setState(() => _index = index),
+                itemBuilder: (_, i) {
+                  return Transform.scale(
+                    scale: i == _index ? 1 : 0.9,
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          ClipRRect(
+                            child: SchoolCards[i].image,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          Center(
+                            child: Text(
+                              "${SchoolCards[i].title}",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                route(1);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+                ),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(
+                          0,
+                          5,
+                        ),
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 5,
+                        offset: const Offset(5, 0),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 15,
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: const AssetImage('news.png'),
+                      height: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "News",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          InkWell(
-            onTap: () {
-              route(1);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
+                ]),
               ),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(
-                        0,
-                        5,
-                      ),
-                    ),
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: const Offset(5, 0),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Row(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 15,
-                  height: MediaQuery.of(context).size.height / 10,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    image: const AssetImage('news.png'),
-                    height: 50,
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  "News",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ]),
             ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          InkWell(
-            onTap: () {
-              route(2);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                route(2);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+                ),
+                width: MediaQuery.of(context).size.width / 2,
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(
+                          0,
+                          5,
+                        ),
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 5,
+                        offset: const Offset(5, 0),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 15,
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: const AssetImage('circolari.png'),
+                      height: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Circolare",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ]),
               ),
-              width: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(
-                        0,
-                        5,
-                      ),
-                    ),
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: const Offset(5, 0),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Row(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 15,
-                  height: MediaQuery.of(context).size.height / 10,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    image: const AssetImage('circolari.png'),
-                    height: 50,
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  "Circolare",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ]),
             ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          InkWell(
-            onTap: () {
-              route(3);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                route(3);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+                ),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(
+                          0,
+                          5,
+                        ),
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 5,
+                        offset: const Offset(5, 0),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 15,
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: const AssetImage('school.png'),
+                      height: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "La Scuola",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ]),
               ),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(
-                        0,
-                        5,
-                      ),
-                    ),
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: const Offset(5, 0),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Row(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 15,
-                  height: MediaQuery.of(context).size.height / 10,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    image: const AssetImage('school.png'),
-                    height: 50,
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  "La Scuola",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ]),
             ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          InkWell(
-            onTap: () {
-              route(6);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                route(6);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+                ),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(
+                          0,
+                          5,
+                        ),
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 5,
+                        offset: const Offset(5, 0),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 15,
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: const AssetImage('offerta_formativa.png'),
+                      height: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Offerta Formativa",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ]),
               ),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(
-                        0,
-                        5,
-                      ),
-                    ),
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: const Offset(5, 0),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Row(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 15,
-                  height: MediaQuery.of(context).size.height / 10,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    image: const AssetImage('offerta_formativa.png'),
-                    height: 50,
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  "Offerta Formativa",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ]),
             ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          InkWell(
-            onTap: () {
-              route(6);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                route(6);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+                ),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(
+                          0,
+                          5,
+                        ),
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 5,
+                        offset: const Offset(5, 0),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 15,
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: const AssetImage('contatti.png'),
+                      height: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Contatti",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ]),
               ),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(
-                        0,
-                        5,
-                      ),
-                    ),
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: const Offset(5, 0),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Row(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 15,
-                  height: MediaQuery.of(context).size.height / 10,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    image: const AssetImage('contatti.png'),
-                    height: 50,
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  "Contatti",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ]),
             ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-        ]),
+            const SizedBox(
+              height: 15,
+            ),
+          ],
+        ),
       );
     } else if (_selectedroute == 1) {
       return NewsPage();

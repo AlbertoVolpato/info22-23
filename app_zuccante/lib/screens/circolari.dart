@@ -17,9 +17,10 @@ class CircularList {
   final String pubblicato;
   final String validityuntil;
   final String documento;
+  final List<String> allegati;
 
   CircularList(this.title, this.protocol, this.categoria, this.pubblicato,
-      this.validityuntil, this.documento);
+      this.validityuntil, this.documento, this.allegati);
 }
 
 class _Circolari extends State<Circolari> {
@@ -61,6 +62,7 @@ class _Circolari extends State<Circolari> {
         var pubblicato = "";
         var validityuntil = "";
         var documento = "";
+        List<String> allegati;
 
         if (element.length == 4) {
           title = element[0].innerHtml;
@@ -68,12 +70,14 @@ class _Circolari extends State<Circolari> {
           categoria = element[1].innerHtml;
           pubblicato = element[2].innerHtml;
           validityuntil = element[3].innerHtml;
+          allegati.add(element[5].innerHtml);
         } else {
           title = element[0].innerHtml;
           protocol = element[1].innerHtml;
           categoria = element[3].innerHtml;
           pubblicato = element[2].innerHtml;
           validityuntil = element[4].innerHtml;
+          allegati.add(element[6].innerHtml);
         }
         var doc_elements = data
             .getElementsByClassName("row-result ")[i]
@@ -82,8 +86,8 @@ class _Circolari extends State<Circolari> {
         var doc_element = doc_elements.split('"');
         documento = doc_element[5];
 
-        TemporaryList.add(CircularList(
-            title, protocol, categoria, pubblicato, validityuntil, documento));
+        TemporaryList.add(CircularList(title, protocol, categoria, pubblicato,
+            validityuntil, documento, allegati));
 
         setState(() {
           ObjDataLists = TemporaryList;
