@@ -17,10 +17,18 @@ class CircularList {
   final String pubblicato;
   final String validityuntil;
   final String documento;
-  final List<String> allegati;
+  final List<String> titoloAllegati;
+  final List<String> linkAllegati;
 
-  CircularList(this.title, this.protocol, this.categoria, this.pubblicato,
-      this.validityuntil, this.documento, this.allegati);
+  CircularList(
+      this.title,
+      this.protocol,
+      this.categoria,
+      this.pubblicato,
+      this.validityuntil,
+      this.documento,
+      this.titoloAllegati,
+      this.linkAllegati);
 }
 
 class _Circolari extends State<Circolari> {
@@ -35,7 +43,6 @@ class _Circolari extends State<Circolari> {
 
   Future getMediumRSSFeedData() async {
     List<CircularList> TemporaryList = <CircularList>[];
-
     try {
       setState(() {
         isCharging = true;
@@ -46,48 +53,90 @@ class _Circolari extends State<Circolari> {
       final client = http.Client();
       final response = await client.get(Uri.parse(url));
       var data = parse(response.body);
+      // print(data);
 
       /// ora si converte da html ad oggetto Flutter
       ///for per prendere tutti i titoli
       for (var i = 0;
           i < data.getElementsByClassName("row-result ").length;
           i++) {
+        List<String> allegatiDiv = [];
+        List<String> allegatiLink = [];
+
         var element = data
             .getElementsByClassName("row-result ")[i]
             .getElementsByClassName("cell-border")[1]
             .getElementsByTagName("span");
+        try {
+          if (data
+                  .getElementsByClassName("row-result ")[i]
+                  .getElementsByClassName("link-to-file")[1]
+                  .innerHtml !=
+              null) {
+            for (var j = 0;
+                j <
+                    data
+                        .getElementsByClassName("row-result ")[i]
+                        .getElementsByClassName("link-to-file")
+                        .length;
+                j++) {
+              if (j + 1 !=
+                  data
+                      .getElementsByClassName("row-result ")[i]
+                      .getElementsByClassName("link-to-file")
+                      .length) {
+                allegatiDiv.add(data
+                    .getElementsByClassName("row-result ")[i]
+                    .getElementsByClassName("link-to-file")[j]
+                    .innerHtml);
+                allegatiLink.add(data
+                    .getElementsByClassName("row-result ")[i]
+                    .getElementsByClassName("link-to-file")[j]
+                    .outerHtml
+                    .split('"')[5]);
+              }
+            }
+          }
+        } catch (error) {
+          print("ciaos");
+        }
+
         var title = "";
         var protocol = "";
         var categoria = "";
         var pubblicato = "";
         var validityuntil = "";
         var documento = "";
-        List<String> allegati;
+        List<String> titoloAllegati = [];
+        List<String> linkAllegati = [];
 
         if (element.length == 4) {
           title = element[0].innerHtml;
           protocol = "";
           categoria = element[1].innerHtml;
           pubblicato = element[2].innerHtml;
-          validityuntil = element[3].innerHtml;
-          allegati.add(element[5].innerHtml);
+          validityuntil = element[4].innerHtml;
         } else {
           title = element[0].innerHtml;
           protocol = element[1].innerHtml;
-          categoria = element[3].innerHtml;
+          categoria = element[4].innerHtml;
           pubblicato = element[2].innerHtml;
-          validityuntil = element[4].innerHtml;
-          allegati.add(element[6].innerHtml);
+          validityuntil = element[5].innerHtml;
         }
+        titoloAllegati = allegatiDiv;
+        linkAllegati = allegatiLink;
         var doc_elements = data
             .getElementsByClassName("row-result ")[i]
             .getElementsByClassName("cell-border")[2]
             .innerHtml;
+
         var doc_element = doc_elements.split('"');
         documento = doc_element[5];
 
+        // print(allegati);
+
         TemporaryList.add(CircularList(title, protocol, categoria, pubblicato,
-            validityuntil, documento, allegati));
+            validityuntil, documento, titoloAllegati, linkAllegati));
 
         setState(() {
           ObjDataLists = TemporaryList;
@@ -312,6 +361,33 @@ class _Circolari extends State<Circolari> {
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  ObjDataLists[index].titoloAllegati.length,
+                              itemBuilder:
+                                  (BuildContext context, int secondindex) {
+                                return 
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 18,right: 18),
+                                      child: MaterialButton(
+                                    
+                                        color: Colors.green,
+                                        onPressed: () {
+                                          gotoCircolare(ObjDataLists[index]
+                                              .linkAllegati[secondindex]);
+                                        },
+                                        child: Text(ObjDataLists[index]
+                                              .titoloAllegati[secondindex],
+                               
+                                        )),
+                                    );
+                                    
+                                  
+                              }),
                           SizedBox(
                             height: 15,
                           ),
