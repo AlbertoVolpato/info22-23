@@ -1,3 +1,5 @@
+import 'package:app_zuccante/models/save_circolari.dart';
+import 'package:app_zuccante/main.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
@@ -43,6 +45,21 @@ class _Circolari extends State<Circolari> {
 
   Future getMediumRSSFeedData() async {
     List<CircularList> TemporaryList = <CircularList>[];
+    var circular = SaveCircolare(
+      id: 1,
+      title: "ciao",
+      protocollo: "",
+      categoria: "",
+      link: "",
+      titoloAllegati: ["ad", "asda"],
+      linkAllegati: ["dad", "dasd"],
+      pubblicazione: DateTime.parse('1969-07-20 20:18:04Z'),
+      scadenza: DateTime.parse('1969-07-20 20:18:04Z'),
+    );
+
+    final store = await ();
+    final box = store.box<person>();
+
     try {
       setState(() {
         isCharging = true;
@@ -370,23 +387,20 @@ class _Circolari extends State<Circolari> {
                                   ObjDataLists[index].titoloAllegati.length,
                               itemBuilder:
                                   (BuildContext context, int secondindex) {
-                                return 
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18,right: 18),
-                                      child: MaterialButton(
-                                    
-                                        color: Colors.green,
-                                        onPressed: () {
-                                          gotoCircolare(ObjDataLists[index]
-                                              .linkAllegati[secondindex]);
-                                        },
-                                        child: Text(ObjDataLists[index]
-                                              .titoloAllegati[secondindex],
-                               
-                                        )),
-                                    );
-                                    
-                                  
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18, right: 18),
+                                  child: MaterialButton(
+                                      color: Colors.green,
+                                      onPressed: () {
+                                        gotoCircolare(ObjDataLists[index]
+                                            .linkAllegati[secondindex]);
+                                      },
+                                      child: Text(
+                                        ObjDataLists[index]
+                                            .titoloAllegati[secondindex],
+                                      )),
+                                );
                               }),
                           SizedBox(
                             height: 15,

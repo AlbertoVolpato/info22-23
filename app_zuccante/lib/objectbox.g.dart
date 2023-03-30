@@ -21,7 +21,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 3931745369026642859),
       name: 'SaveCircolare',
-      lastPropertyId: const IdUid(7, 7828800405355779213),
+      lastPropertyId: const IdUid(9, 6811384684986948494),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -58,6 +58,16 @@ final _entities = <ModelEntity>[
             id: const IdUid(7, 7828800405355779213),
             name: 'scadenza',
             type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 4215277985489574634),
+            name: 'titoloAllegati',
+            type: 30,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 6811384684986948494),
+            name: 'linkAllegati',
+            type: 30,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -110,7 +120,12 @@ ModelDefinition getObjectBoxModel() {
           final protocolloOffset = fbb.writeString(object.protocollo);
           final categoriaOffset = fbb.writeString(object.categoria);
           final linkOffset = fbb.writeString(object.link);
-          fbb.startTable(8);
+          final titoloAllegatiOffset = fbb.writeList(object.titoloAllegati
+              .map(fbb.writeString)
+              .toList(growable: false));
+          final linkAllegatiOffset = fbb.writeList(
+              object.linkAllegati.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addOffset(2, protocolloOffset);
@@ -118,6 +133,8 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(4, linkOffset);
           fbb.addInt64(5, object.pubblicazione.millisecondsSinceEpoch);
           fbb.addInt64(6, object.scadenza.millisecondsSinceEpoch);
+          fbb.addOffset(7, titoloAllegatiOffset);
+          fbb.addOffset(8, linkAllegatiOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -138,7 +155,10 @@ ModelDefinition getObjectBoxModel() {
               pubblicazione: DateTime.fromMillisecondsSinceEpoch(
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0)),
               scadenza: DateTime.fromMillisecondsSinceEpoch(
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0)));
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0)),
+              titoloAllegati:
+                  const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGet(buffer, rootOffset, 18, []),
+              linkAllegati: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGet(buffer, rootOffset, 20, []));
 
           return object;
         })
@@ -176,4 +196,12 @@ class SaveCircolare_ {
   /// see [SaveCircolare.scadenza]
   static final scadenza =
       QueryIntegerProperty<SaveCircolare>(_entities[0].properties[6]);
+
+  /// see [SaveCircolare.titoloAllegati]
+  static final titoloAllegati =
+      QueryStringVectorProperty<SaveCircolare>(_entities[0].properties[7]);
+
+  /// see [SaveCircolare.linkAllegati]
+  static final linkAllegati =
+      QueryStringVectorProperty<SaveCircolare>(_entities[0].properties[8]);
 }

@@ -1,4 +1,3 @@
-import 'package:app_zuccante/screens/circolari.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -10,6 +9,8 @@ class SaveCircolare {
   String link;
   DateTime pubblicazione;
   DateTime scadenza;
+  List<String> titoloAllegati;
+  List<String> linkAllegati;
 
   SaveCircolare({
     required this.id,
@@ -19,5 +20,7 @@ class SaveCircolare {
     required this.link,
     required this.pubblicazione,
     required this.scadenza,
+    required this.titoloAllegati,
+    required this.linkAllegati,
   });
 }
