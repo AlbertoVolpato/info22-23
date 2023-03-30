@@ -3,15 +3,6 @@ marp: true
 theme: uncover
 paginate: true
 ---
-/* custom-theme.css */
-/* @theme custom-theme */
-
-@import 'default';
-
-section {
-  background: #def;
-}
-
 # **bcrypt** 
 ##### un'introduzione nel mondo della cryptazione
 ###### **Di Alberto Volpato**
