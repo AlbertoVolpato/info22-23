@@ -41,10 +41,11 @@ dependencies:
   url_launcher: ^6.1.9
   path: ^1.8.2
   workmanager: ^0.5.1
-  
   build_runner: ^2.3.3
   objectbox: ^1.7.2
   objectbox_generator: ^1.7.2
+  objectbox_flutter_libs: ^1.4.1
+  uuid: ^3.0.7
 
 
 

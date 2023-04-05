@@ -1,15 +1,12 @@
-import 'package:app_zuccante/objectbox.g.dart';
+import 'package:app_zuccante/objectbox.dart';
 import 'package:flutter/material.dart';
 import 'package:app_zuccante/controller/screen_controller.dart';
-import 'models/save_circolari.dart';
-import 'package:objectbox/objectbox.dart';
 
-late SaveCircolare storeCircolari;
+late ObjectBox objectbox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  storeCircolari = await SaveCircolare.init();
-
+  objectbox = await ObjectBox.create();
   runApp(const MyApp());
 }
 

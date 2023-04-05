@@ -1,8 +1,10 @@
+import 'dart:core';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class SaveCircolare {
-  int id;
+  @Id()
+  int id = 0;
   String title;
   String protocollo;
   String categoria;
@@ -23,4 +25,6 @@ class SaveCircolare {
     required this.titoloAllegati,
     required this.linkAllegati,
   });
+
+  void put(SaveCircolare cirolare) {}
 }

@@ -1,6 +1,8 @@
+import 'package:app_zuccante/models/save_circolari.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_zuccante/screens/circolari.dart';
+import 'package:app_zuccante/screens/circolari_salvate.dart';
 import 'package:app_zuccante/screens/la_scuola.dart';
 import 'package:app_zuccante/screens/news_page.dart';
 import 'package:app_zuccante/screens/offerta_formativa.dart';
@@ -200,7 +202,62 @@ class _HomeScreen extends State<HomeScreen> {
                     width: 20,
                   ),
                   const Text(
-                    "Circolare",
+                    "Circolari",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ]),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                route(2);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+                ),
+                width: MediaQuery.of(context).size.width / 2,
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(
+                          0,
+                          5,
+                        ),
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 5,
+                        offset: const Offset(5, 0),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 15,
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: const AssetImage('circolari.png'),
+                      height: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Circolari Preferite",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ]),
@@ -379,12 +436,14 @@ class _HomeScreen extends State<HomeScreen> {
     } else if (_selectedroute == 2) {
       return Circolari();
     } else if (_selectedroute == 3) {
-      return LaScuola();
+      return CircolariSalvate();
     } else if (_selectedroute == 4) {
-      return OffertaFormativa();
+      return LaScuola();
     } else if (_selectedroute == 5) {
-      return Segreteria();
+      return OffertaFormativa();
     } else if (_selectedroute == 6) {
+      return Segreteria();
+    } else if (_selectedroute == 7) {
       return Contatti();
     }
   }
@@ -456,6 +515,18 @@ class _HomeScreen extends State<HomeScreen> {
                   },
                 ),
                 ListTile(
+                  title: const Text('Circolari Salvate',
+                      style: TextStyle(color: Colors.white)),
+                  leading: const Icon(
+                    Icons.linked_camera,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    route(3);
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
                   title: const Text('La Scuola',
                       style: TextStyle(color: Colors.white)),
                   leading: const Icon(
@@ -463,7 +534,7 @@ class _HomeScreen extends State<HomeScreen> {
                     color: Colors.white,
                   ),
                   onTap: () {
-                    route(3);
+                    route(4);
                     Navigator.pop(context);
                   },
                 ),
@@ -475,7 +546,7 @@ class _HomeScreen extends State<HomeScreen> {
                     color: Colors.white,
                   ),
                   onTap: () {
-                    route(4);
+                    route(5);
                     Navigator.pop(context);
                   },
                 ),
@@ -489,7 +560,7 @@ class _HomeScreen extends State<HomeScreen> {
                     color: Colors.white,
                   ),
                   onTap: () {
-                    route(5);
+                    route(6);
                     Navigator.pop(context);
                   },
                 ),
@@ -503,7 +574,7 @@ class _HomeScreen extends State<HomeScreen> {
                     color: Colors.white,
                   ),
                   onTap: () {
-                    route(6);
+                    route(7);
                     Navigator.pop(context);
                   },
                 ),
