@@ -65,7 +65,7 @@ packages:
     source: hosted
     version: "2.1.0"
   build_runner:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.dartlang.org"
@@ -353,7 +353,7 @@ packages:
     source: hosted
     version: "1.7.2"
   objectbox_generator:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: objectbox_generator
       url: "https://pub.dartlang.org"

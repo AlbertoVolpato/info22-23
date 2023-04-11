@@ -35,7 +35,6 @@ class _CircolariSalvate extends State<CircolariSalvate> {
               DateTime.now(),
               ["titoloAllegati"],
               ["linkAllegati"]);
-          print(objectbox.getAllCircolari());
         },
         child: Text("ciao"));
   }

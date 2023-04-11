@@ -1,5 +1,9 @@
 import 'package:app_zuccante/models/save_circolari.dart';
-import 'package:app_zuccante/objectbox.g.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'objectbox.g.dart'; // created by `flutter pub run build_runner build`
+
+
 
 class ObjectBox {
   late final Store store;
@@ -7,28 +11,6 @@ class ObjectBox {
 
   ObjectBox._create(this.store) {
     circolariBox = Box<SaveCircolare>(store);
-
-    if (circolariBox.isEmpty()) {
-      _putDataDemo();
-    }
-  }
-  void _putDataDemo() {
-    SaveCircolare cirolare = SaveCircolare(
-        id: 2,
-        title: "c",
-        protocollo: "",
-        categoria: "categoria",
-        link: "link",
-        pubblicazione: DateTime(10),
-        scadenza: DateTime(10),
-        titoloAllegati: ["titoloAllegati"],
-        linkAllegati: ["linkAllegati"]);
-    circolariBox.put(cirolare);
-  }
-
-  List<SaveCircolare> getAllCircolari() {
-    var allCircolari = circolariBox.getAll();
-    return allCircolari;
   }
 
   void addCircolare(
@@ -56,7 +38,9 @@ class ObjectBox {
   }
 
   static Future<ObjectBox> create() async {
-    final store = await openStore();
-    return ObjectBox._create(store);
-  }
+      final docsDir = await getApplicationDocumentsDirectory();
+      // Future<Store> openStore() {...} is defined in the generated objectbox.g.dart
+      final store = await openStore(directory: p.join(docsDir.path, "obx-example"));
+      return ObjectBox._create(store);
+    }
 }

@@ -3,6 +3,7 @@ marp: true
 theme: uncover
 paginate: true
 ---
+
 # **bcrypt** 
 ##### un'introduzione nel mondo della cryptazione
 ###### **Di Alberto Volpato**
