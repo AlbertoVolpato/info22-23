@@ -213,7 +213,7 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                route(2);
+                route(3);
               },
               child: Container(
                 margin: const EdgeInsets.only(
@@ -249,7 +249,7 @@ class _HomeScreen extends State<HomeScreen> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image(
-                      image: const AssetImage('circolari.png'),
+                      image: const AssetImage('push-pin.png'),
                       height: 50,
                     ),
                   ),
@@ -257,7 +257,7 @@ class _HomeScreen extends State<HomeScreen> {
                     width: 20,
                   ),
                   const Text(
-                    "Circolari Preferite",
+                    "Circolari Salvate",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ]),
@@ -268,7 +268,7 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                route(3);
+                route(4);
               },
               child: Container(
                 margin: const EdgeInsets.only(
@@ -322,7 +322,7 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                route(6);
+                route(5);
               },
               child: Container(
                 margin: const EdgeInsets.only(
@@ -376,7 +376,7 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                route(6);
+                route(7);
               },
               child: Container(
                 margin: const EdgeInsets.only(
