@@ -6,7 +6,12 @@ class GameBoard extends StatelessWidget {
   final String message;
   final bool win;
 
-  GameBoard({this.userScore, this.computerScore, this.message: '', this.win});
+  const GameBoard(
+      {super.key,
+      required this.userScore,
+      required this.computerScore,
+      this.message = '',
+      required this.win});
 
   @override
   Widget build(BuildContext context) {

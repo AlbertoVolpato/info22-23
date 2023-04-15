@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rock_paper_scissors/mechanics/game.dart';
-import 'package:rock_paper_scissors/components/selection_bar.dart';
-import 'package:rock_paper_scissors/components/board.dart';
+import 'package:sasso_carta_forbice/components/game.dart';
+import 'package:sasso_carta_forbice/components/selection_bar.dart';
+import 'package:sasso_carta_forbice/components/board.dart';
+import 'package:shake/shake.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
-
-  HomePage({Key key, this.title}) : super(key: key);
-
+  const HomePage({super.key});
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -17,11 +15,15 @@ class _HomePageState extends State<HomePage> {
   int _userScore = 0;
   int _computerScore = 0;
   String _message = 'Fai una scelta!';
+  late String computerChoice;
 
-  void createGame(int index) {
+  void async;
+  createGame(int index) {
     String userChoice = indexToChoice(index);
     Map gameResults = game(userChoice);
-    String computerChoice = choiceToWord(gameResults['computerChoice']);
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      computerChoice = choiceToWord(gameResults['computerChoice']);
+    });
     String message = 'Il computer ha scelto \n $computerChoice ';
 
     if (gameResults['result'] == 0) {
@@ -51,12 +53,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text('Sasso ✊ Carta ✋ Forbice ✌️'),
         ),
         body: GameBoard(
           userScore: _userScore,
           computerScore: _computerScore,
           message: _message,
+          win: false,
         ),
         bottomNavigationBar: SelectionBar(
           currentIndex: _index,

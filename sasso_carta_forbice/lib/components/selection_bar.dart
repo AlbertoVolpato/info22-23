@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 
 class SelectionBar extends StatelessWidget {
-  final Function onTap;
-  final int currentIndex;
+  Function onTap;
+  int currentIndex;
 
-  SelectionBar({this.onTap, this.currentIndex});
+  SelectionBar({required this.onTap, required this.currentIndex});
 
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Text('✊', style: TextStyle(fontSize: 45)),
-          label: 'Sasso',
-        ),
-        BottomNavigationBarItem(
-          icon: Text('✋', style: TextStyle(fontSize: 45)),
-          label: 'Carta',
-        ),
-        BottomNavigationBarItem(
-            icon: Text('✌️', style: TextStyle(fontSize: 45)), label: 'Forbice')
-      ],
-      selectedLabelStyle: TextStyle(fontSize: 22),
-      unselectedLabelStyle: TextStyle(fontSize: 18),
-      onTap: onTap,
-      currentIndex: currentIndex,
-    );
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Text('✊', style: TextStyle(fontSize: 45)),
+            label: 'Sasso',
+          ),
+          BottomNavigationBarItem(
+            icon: Text('✋', style: TextStyle(fontSize: 45)),
+            label: 'Carta',
+          ),
+          BottomNavigationBarItem(
+              icon: Text('✌️', style: TextStyle(fontSize: 45)),
+              label: 'Forbice')
+        ],
+        selectedLabelStyle: TextStyle(fontSize: 22),
+        unselectedLabelStyle: TextStyle(fontSize: 18),
+        currentIndex: currentIndex,
+        onTap: (index) {
+          currentIndex = index;
+        });
   }
 }
