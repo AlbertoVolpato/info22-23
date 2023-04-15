@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sasso_carta_forbice">
+    package="com.example.rock_paper_scisor_game">
    <application
-        android:label="sasso_carta_forbice"
+        android:label="rock_paper_scisor_game"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

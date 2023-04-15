@@ -1,16 +1,15 @@
-# sasso_carta_forbice
+# Flutter Rock Paper Scissors Game
 
-A new Flutter project.
+A simple Rock Paper Scissors Game made in Flutter
 
-## Getting Started
+## Video Tutorial
 
-This project is a starting point for a Flutter application.
+<img src="public\Build a Rock Paper Scisors Game in Flutter.png" width="100%">
 
-A few resources to get you started if this is your first Flutter project:
+Learn how to build the Project by checking my youtube channel
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Link for this project :
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Rock Paper Scissors Game In Flutter - YouTube](https://youtu.be/QurzDz6hVzk)
+
+## Don't forget to subscribe to the channel

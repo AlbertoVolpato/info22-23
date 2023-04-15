@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sasso_carta_forbice/screens/home.dart';
+import 'package:rock_paper_scisor_game/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sasso ✊ Carta ✋ Forbice ✌️',
-      theme: ThemeData(primarySwatch: Colors.pink),
-      home: HomePage(),
+      home: MainScreen(),
     );
   }
 }
