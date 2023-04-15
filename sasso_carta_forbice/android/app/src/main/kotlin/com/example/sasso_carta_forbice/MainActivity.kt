@@ -1,4 +1,4 @@
-package com.example.rock_paper_scisor_game
+package com.example.sasso_carta_forbice
 
 import io.flutter.embedding.android.FlutterActivity
 

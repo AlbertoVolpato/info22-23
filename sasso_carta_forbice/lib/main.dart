@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rock_paper_scisor_game/screens/main_screen.dart';
+import 'package:sasso_carta_forbice/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());

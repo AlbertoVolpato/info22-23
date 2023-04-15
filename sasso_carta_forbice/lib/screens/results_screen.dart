@@ -2,9 +2,9 @@ import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:rock_paper_scisor_game/screens/main_screen.dart';
-import 'package:rock_paper_scisor_game/utilis/game.dart';
-import 'package:rock_paper_scisor_game/widgets/button.dart';
+import 'package:sasso_carta_forbice/screens/main_screen.dart';
+import 'package:sasso_carta_forbice/utilis/game.dart';
+import 'package:sasso_carta_forbice/widgets/button.dart';
 import 'package:shake/shake.dart';
 
 class GameScreen extends StatefulWidget {
