@@ -64,10 +64,11 @@ class _MainScreenState extends State<MainScreen> {
                 child: Stack(
                   children: [
                     Positioned(
+                      width: 200,
                       top: 0,
                       left: MediaQuery.of(context).size.width / 2 -
                           (btnWidth / 2) -
-                          20, // we soustract the half of ther widget size and the half of the padding,
+                          40, // we soustract the half of ther widget size and the half of the padding,
                       child: Hero(
                         tag: "Rock",
                         child: gameBtn(() {
@@ -79,14 +80,15 @@ class _MainScreenState extends State<MainScreen> {
                                   GameScreen(GameChoice("Rock")),
                             ),
                           );
-                        }, "assets/rock_btn.png", btnWidth),
+                        }, "assets/rock.png", btnWidth),
                       ),
                     ),
                     Positioned(
+                      width: 200,
                       top: btnWidth,
                       left: MediaQuery.of(context).size.width / 2 -
                           btnWidth -
-                          40, // we soustract the half of ther widget size and the half of the padding,
+                          50, // we soustract the half of ther widget size and the half of the padding,
                       child: Hero(
                         tag: "Scisors",
                         child: gameBtn(() {
@@ -98,14 +100,15 @@ class _MainScreenState extends State<MainScreen> {
                                   GameScreen(GameChoice("Scisors")),
                             ),
                           );
-                        }, "assets/scisor_btn.png", btnWidth),
+                        }, "assets/scissors.png", btnWidth),
                       ),
                     ),
                     Positioned(
+                      width: 200,
                       top: btnWidth,
                       right: MediaQuery.of(context).size.width / 2 -
                           btnWidth -
-                          40, // we soustract the half of ther widget size and the half of the padding,
+                          60, // we soustract the half of ther widget size and the half of the padding,
                       child: Hero(
                         tag: "Paper",
                         child: gameBtn(() {
@@ -117,7 +120,7 @@ class _MainScreenState extends State<MainScreen> {
                                   GameScreen(GameChoice("Paper")),
                             ),
                           );
-                        }, "assets/paper_btn.png", btnWidth),
+                        }, "assets/paper.png", btnWidth),
                       ),
                     ),
                   ],

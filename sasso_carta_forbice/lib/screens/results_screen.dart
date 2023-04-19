@@ -30,13 +30,13 @@ class _GameScreenState extends State<GameScreen> {
     String? player_choice;
     switch (widget.gameChoice.type) {
       case "Rock":
-        player_choice = "assets/rock_btn.png";
+        player_choice = "assets/rock.png";
         break;
       case "Paper":
-        player_choice = "assets/paper_btn.png";
+        player_choice = "assets/paper.png";
         break;
       case "Scisors":
-        player_choice = "assets/scisor_btn.png";
+        player_choice = "assets/scissors.png";
         break;
       default:
     }
@@ -48,13 +48,13 @@ class _GameScreenState extends State<GameScreen> {
           robotChoice = randomChoice()!;
           switch (robotChoice) {
             case "Rock":
-              robotChoicePath = "assets/rock_btn.png";
+              robotChoicePath = "assets/rock.png";
               break;
             case "Paper":
-              robotChoicePath = "assets/paper_btn.png";
+              robotChoicePath = "assets/paper.png";
               break;
             case "Scisors":
-              robotChoicePath = "assets/scisor_btn.png";
+              robotChoicePath = "assets/scissors.png";
               break;
             default:
           }
@@ -113,11 +113,14 @@ class _GameScreenState extends State<GameScreen> {
             Expanded(
               child: Center(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Hero(
-                      tag: "${widget.gameChoice.type}",
-                      child: gameBtn(() {}, player_choice!, btnWidth - 20),
+                    Container(
+                      width: 150,
+                      child: Hero(
+                        tag: "${widget.gameChoice.type}",
+                        child: gameBtn(() {}, player_choice!, btnWidth - 80),
+                      ),
                     ),
                     Text(
                       "VS",
@@ -126,11 +129,14 @@ class _GameScreenState extends State<GameScreen> {
                     GameChoice.gameRules[widget.gameChoice.type]![
                                 robotChoice] !=
                             null
-                        ? AnimatedOpacity(
-                            opacity: 1,
-                            duration: Duration(seconds: 3),
-                            child:
-                                gameBtn(() {}, robotChoicePath!, btnWidth - 20),
+                        ? Container(
+                            width: 150,
+                            child: AnimatedOpacity(
+                              opacity: 1,
+                              duration: Duration(seconds: 3),
+                              child: gameBtn(
+                                  () {}, robotChoicePath!, btnWidth - 20),
+                            ),
                           )
                         : Text("Waiting For Shakin")
                   ],
