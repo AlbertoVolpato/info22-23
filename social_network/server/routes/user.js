@@ -84,7 +84,7 @@ module.exports = async function (fastify, opts) {
         async (req, reply) => {
             const client = await fastify.pg.connect()
             try {
-                const { username, email, password, google_token,picture } = req.body;
+                const { username, email, password, google_token, picture } = req.body;
                 if (req.file != undefined) {
                     let image = req.file.filename;
                     const { rows } = await client.query(
