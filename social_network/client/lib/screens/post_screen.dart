@@ -60,6 +60,18 @@ class _PostScreen extends State<PostScreen> {
     return Posts;
   }
 
+  Future<http.Response?> postLike(String user_id, String post_id) async {
+    http.Response? response;
+    try {
+      Map data = {user_id: user_id, post_id: post_id};
+      String body = json.encode(data);
+      response = await http.post(Uri.parse('$ServerUrl/post-like'), body: data);
+    } catch (e) {
+      print(e.toString());
+    }
+    return response;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -233,6 +245,8 @@ class _PostScreen extends State<PostScreen> {
                           InkWell(
                             onDoubleTap: () => print('Like PostModels'),
                             onTap: () {
+                              postLike(
+                                  Posts[index].post_id, Posts[index].user_id);
                               //Navigator.push(
                               //  context,
                               //  MaterialPageRoute(
