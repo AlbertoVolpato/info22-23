@@ -26,6 +26,19 @@ module.exports = async function (fastify, opts) {
         }
     })
 
+    fastify.get('/post-like-fromuser/:id', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const id = req.params.id;
+            const { rows } = await client.query(
+                'SELECT * FROM post_likes WHERE user_id = $1', [id]
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
     fastify.post('/post-like', 
     async (req, reply) => {
         const client = await fastify.pg.connect()
