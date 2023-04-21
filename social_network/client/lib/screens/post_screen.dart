@@ -1,3 +1,4 @@
+import 'package:client/models/local_user.dart';
 import 'package:client/models/post&user_api.dart';
 import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,9 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import '../main.dart';
+import '../models/user_api.dart';
+
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
   @override
@@ -14,13 +18,38 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreen extends State<PostScreen> {
+  var token = user.get('user');
   List<PostsUsersContent> Posts = <PostsUsersContent>[];
+  List<UserContent> User = <UserContent>[];
 
   final controller = ScrollController();
   int page = 1;
   int size = 5;
   bool hasMore = true;
   bool isLoading = false;
+
+  Future<List<UserContent>> fetchByToken() async {
+    var token = await user.get('user');
+    final response = await http.post(
+      Uri.parse(ServerUrl + '/userbytoken'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Bypass-Tunnel-Reminder": "i"
+      },
+      body: jsonEncode(<String, String>{
+        'google_token': token,
+      }),
+    );
+    if (response.statusCode == 200) {
+      var parsedList = json.decode(response.body);
+      parsedList.forEach((index) {
+        User.add(UserContent.fromJson(index));
+      });
+      return User;
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
 
   Future<List<PostsUsersContent>> getPosts() async {
     if (isLoading) {
@@ -63,9 +92,10 @@ class _PostScreen extends State<PostScreen> {
   Future<http.Response?> postLike(String user_id, String post_id) async {
     http.Response? response;
     try {
-      Map data = {user_id: user_id, post_id: post_id};
+      Map data = {'user_id': user_id, 'post_id': post_id};
       String body = json.encode(data);
-      response = await http.post(Uri.parse('$ServerUrl/post-like'), body: data);
+      response = await http.post(Uri.parse('$ServerUrl/post-like'),
+          headers: {"Content-Type": "application/json"}, body: body);
     } catch (e) {
       print(e.toString());
     }
@@ -77,6 +107,7 @@ class _PostScreen extends State<PostScreen> {
     // TODO: implement initState
     super.initState();
     getPosts();
+    fetchByToken();
 
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
@@ -243,19 +274,9 @@ class _PostScreen extends State<PostScreen> {
                             ),
                           ),
                           InkWell(
-                            onDoubleTap: () => print('Like PostModels'),
-                            onTap: () {
-                              postLike(
-                                  Posts[index].post_id, Posts[index].user_id);
-                              //Navigator.push(
-                              //  context,
-                              //  MaterialPageRoute(
-                              //    builder: (context) =>
-                              //        ViewPostModelsScreen(
-                              //      PostModels: PostModelss[index],
-                              //    ),
-                              //  ),
-                              //);
+                            onDoubleTap: () {
+                              print('Like PostModels');
+                              postLike(User[0].user_id, Posts[index].post_id);
                             },
                             child: Container(
                               margin: const EdgeInsets.all(10.0),
@@ -289,12 +310,14 @@ class _PostScreen extends State<PostScreen> {
                                     Row(
                                       children: <Widget>[
                                         IconButton(
-                                          icon:
-                                              const Icon(Icons.favorite_border),
-                                          iconSize: 30.0,
-                                          onPressed: () =>
-                                              print('Like PostModels'),
-                                        ),
+                                            icon: const Icon(
+                                                Icons.favorite_border),
+                                            iconSize: 30.0,
+                                            onPressed: () {
+                                              print('Like PostModels');
+                                              postLike(User[0].user_id,
+                                                  Posts[index].post_id);
+                                            }),
                                         const Text(
                                           '2,515',
                                           style: TextStyle(
