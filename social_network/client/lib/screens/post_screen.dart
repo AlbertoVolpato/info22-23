@@ -127,14 +127,18 @@ class _PostScreen extends State<PostScreen> {
     return Likes;
   }
 
-  Future<LikeModule> removeLike(String like_id) async {
-    final http.Response response = await http.delete(
-      Uri.parse('$ServerUrl/post-like/$like_id'),
-    );
-    if (response.statusCode == 200) {
-      return LikeModule.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to remove like.');
+  Future<dynamic> removeLike(String like_id) async {
+    try {
+      final http.Response response = await http.delete(
+        Uri.parse('$ServerUrl/post-like/$like_id'),
+      );
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to remove like.');
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -250,54 +254,40 @@ class _PostScreen extends State<PostScreen> {
     return FutureBuilder<List<LikeModule>>(
         future: getLike(post_id),
         builder: (context, AsyncSnapshot<List<LikeModule>> snapshot) {
-          try {
-            var likeLenght = snapshot.data?.length;
-            var liked = false;
-            if (snapshot.hasData) {
-              for (var i = 0; i < likeLenght!; i++) {
-                print(snapshot.data?[i].user_id);
-                if (snapshot.data?[i].user_id == User[0].user_id) {
-                  liked = true;
-                  i = likeLenght;
-                }
-                ;
+          var likeLenght = snapshot.data?.length;
+          var liked = false;
+          var likeNumber = snapshot.data!.length;
+          if (snapshot.hasData) {
+            for (var i = 0; i < likeLenght!; i++) {
+              print(snapshot.data?[i].user_id);
+              if (snapshot.data?[i].user_id == User[0].user_id) {
+                liked = true;
+                i = likeLenght;
               }
-              if (liked == true) {
-                return Row(children: [
-                  IconButton(
-                      icon: const Icon(Icons.favorite),
-                      iconSize: 30.0,
-                      onPressed: () {
-                        print("remove like");
-                        print(snapshot.data![0].like_id);
+              ;
+            }
+            if (liked == true) {
+              return Row(children: [
+                IconButton(
+                    icon: const Icon(Icons.favorite),
+                    iconSize: 30.0,
+                    onPressed: () {
+                      print("remove like");
+                      setState(() {
                         removeLike(snapshot.data![0].like_id);
-                      }),
-                  Text(
-                    snapshot.data!.length.toString() + " likes",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
+                        likeNumber = likeNumber - 1;
+                        getPosts();
+                        liked = false;
+                      });
+                    }),
+                Text(
+                  likeNumber.toString() + " likes",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600,
                   ),
-                ]);
-              } else {
-                return Row(children: [
-                  IconButton(
-                      icon: const Icon(Icons.favorite_border),
-                      iconSize: 30.0,
-                      onPressed: () {
-                        print('Like PostModels');
-                        postLike(User[0].user_id, post_id);
-                      }),
-                  Text(
-                    snapshot.data!.length.toString() + " likes",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ]);
-              }
+                ),
+              ]);
             } else {
               return Row(children: [
                 IconButton(
@@ -305,10 +295,15 @@ class _PostScreen extends State<PostScreen> {
                     iconSize: 30.0,
                     onPressed: () {
                       print('Like PostModels');
-                      postLike(User[0].user_id, post_id);
+                      setState(() {
+                        postLike(User[0].user_id, post_id);
+                        likeNumber = likeNumber + 1;
+                        liked = true;
+                        getPosts();
+                      });
                     }),
                 Text(
-                  "0 " + " likes",
+                  likeNumber.toString() + " likes",
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -316,15 +311,19 @@ class _PostScreen extends State<PostScreen> {
                 ),
               ]);
             }
-          } catch (e) {
-            print(e);
+          } else {
             return Row(children: [
               IconButton(
                   icon: const Icon(Icons.favorite_border),
                   iconSize: 30.0,
                   onPressed: () {
                     print('Like PostModels');
-                    postLike(User[0].user_id, post_id);
+                    setState(() {
+                      postLike(User[0].user_id, post_id);
+                      likeNumber = likeNumber + 1;
+                      liked = true;
+                      getPosts();
+                    });
                   }),
               Text(
                 "0 " + " likes",
