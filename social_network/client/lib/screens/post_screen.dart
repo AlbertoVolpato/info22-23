@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import '../main.dart';
+import '../models/post_like.dart';
 import '../models/user_api.dart';
 
 class PostScreen extends StatefulWidget {
@@ -100,6 +101,41 @@ class _PostScreen extends State<PostScreen> {
       print(e.toString());
     }
     return response;
+  }
+
+  Future<List<LikeModule>> getLike(String post_id) async {
+    List<LikeModule> Likes = <LikeModule>[];
+    try {
+      final response = await http.get(
+        Uri.parse('$ServerUrl/post-like/$post_id'),
+      );
+
+      if (response.statusCode == 200) {
+        //print('getting data');
+        var parsedLikeList = json.decode(response.body);
+        parsedLikeList.forEach((posts) {
+          Likes.add(LikeModule.fromJson(posts));
+        });
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load album');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return Likes;
+  }
+
+  Future<LikeModule> removeLike(String like_id) async {
+    final http.Response response = await http.delete(
+      Uri.parse('$ServerUrl/post-like/$like_id'),
+    );
+    if (response.statusCode == 200) {
+      return LikeModule.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to remove like.');
+    }
   }
 
   @override
@@ -210,6 +246,98 @@ class _PostScreen extends State<PostScreen> {
     );
   }
 
+  Widget _like(post_id) {
+    return FutureBuilder<List<LikeModule>>(
+        future: getLike(post_id),
+        builder: (context, AsyncSnapshot<List<LikeModule>> snapshot) {
+          try {
+            var likeLenght = snapshot.data?.length;
+            var liked = false;
+            if (snapshot.hasData) {
+              for (var i = 0; i < likeLenght!; i++) {
+                print(snapshot.data?[i].user_id);
+                if (snapshot.data?[i].user_id == User[0].user_id) {
+                  liked = true;
+                  i = likeLenght;
+                }
+                ;
+              }
+              if (liked == true) {
+                return Row(children: [
+                  IconButton(
+                      icon: const Icon(Icons.favorite),
+                      iconSize: 30.0,
+                      onPressed: () {
+                        print("remove like");
+                        print(snapshot.data![0].like_id);
+                        removeLike(snapshot.data![0].like_id);
+                      }),
+                  Text(
+                    snapshot.data!.length.toString() + " likes",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ]);
+              } else {
+                return Row(children: [
+                  IconButton(
+                      icon: const Icon(Icons.favorite_border),
+                      iconSize: 30.0,
+                      onPressed: () {
+                        print('Like PostModels');
+                        postLike(User[0].user_id, post_id);
+                      }),
+                  Text(
+                    snapshot.data!.length.toString() + " likes",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ]);
+              }
+            } else {
+              return Row(children: [
+                IconButton(
+                    icon: const Icon(Icons.favorite_border),
+                    iconSize: 30.0,
+                    onPressed: () {
+                      print('Like PostModels');
+                      postLike(User[0].user_id, post_id);
+                    }),
+                Text(
+                  "0 " + " likes",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ]);
+            }
+          } catch (e) {
+            print(e);
+            return Row(children: [
+              IconButton(
+                  icon: const Icon(Icons.favorite_border),
+                  iconSize: 30.0,
+                  onPressed: () {
+                    print('Like PostModels');
+                    postLike(User[0].user_id, post_id);
+                  }),
+              Text(
+                "0 " + " likes",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ]);
+          }
+        });
+  }
+
   Widget _post() {
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
@@ -309,22 +437,7 @@ class _PostScreen extends State<PostScreen> {
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
-                                        IconButton(
-                                            icon: const Icon(
-                                                Icons.favorite_border),
-                                            iconSize: 30.0,
-                                            onPressed: () {
-                                              print('Like PostModels');
-                                              postLike(User[0].user_id,
-                                                  Posts[index].post_id);
-                                            }),
-                                        const Text(
-                                          '2,515',
-                                          style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
+                                        _like(Posts[index].post_id)
                                       ],
                                     ),
                                     const SizedBox(width: 20.0),

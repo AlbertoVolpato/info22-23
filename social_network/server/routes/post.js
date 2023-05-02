@@ -53,6 +53,7 @@ module.exports = async function (fastify, opts) {
                 'SELECT * FROM posts, users WHERE posts.user_id = users.user_id LIMIT $2 OFFSET(($1 - 1) * $2);', [page, size],
             )
             return rows
+
         } finally {
             client.release()
         }
