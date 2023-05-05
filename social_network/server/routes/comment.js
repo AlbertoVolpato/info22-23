@@ -31,7 +31,7 @@ module.exports = async function (fastify, opts) {
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'SELECT * FROM comments WHERE post_id = $1', [id]
+                'SELECT * FROM comments,users WHERE post_id = $1 AND  comments.user_id = users.user_id', [id]
             )
             return rows
         } finally {

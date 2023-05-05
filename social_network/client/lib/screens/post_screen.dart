@@ -1,5 +1,6 @@
 import 'package:client/models/local_user.dart';
 import 'package:client/models/post&user_api.dart';
+import 'package:client/screens/view_post_screen.dart';
 import 'package:client/utils/server_url.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
@@ -274,11 +275,11 @@ class _PostScreen extends State<PostScreen> {
                     onPressed: () {
                       print("remove like");
                       setState(() {
-                        removeLike(snapshot.data![0].like_id);
-                        likeNumber = likeNumber - 1;
-                        getPosts();
                         liked = false;
+                        likeNumber = likeNumber - 1;
+                        getLike(post_id);
                       });
+                      removeLike(snapshot.data![0].like_id);
                     }),
                 Text(
                   likeNumber.toString() + " likes",
@@ -296,11 +297,11 @@ class _PostScreen extends State<PostScreen> {
                     onPressed: () {
                       print('Like PostModels');
                       setState(() {
-                        postLike(User[0].user_id, post_id);
-                        likeNumber = likeNumber + 1;
                         liked = true;
-                        getPosts();
+                        likeNumber = likeNumber + 1;
+                        getLike(post_id);
                       });
+                      postLike(User[0].user_id, post_id);
                     }),
                 Text(
                   likeNumber.toString() + " likes",
@@ -319,11 +320,11 @@ class _PostScreen extends State<PostScreen> {
                   onPressed: () {
                     print('Like PostModels');
                     setState(() {
-                      postLike(User[0].user_id, post_id);
-                      likeNumber = likeNumber + 1;
                       liked = true;
-                      getPosts();
+                      likeNumber = likeNumber + 1;
+                      getLike(post_id);
                     });
+                    postLike(User[0].user_id, post_id);
                   }),
               Text(
                 "0 " + " likes",
@@ -446,15 +447,16 @@ class _PostScreen extends State<PostScreen> {
                                           icon: const Icon(Icons.chat),
                                           iconSize: 30.0,
                                           onPressed: () {
-                                            //Navigator.push(
-                                            //  context,
-                                            //  MaterialPageRoute(
-                                            //    builder: (context) =>
-                                            //        ViewPostModelsScreen(
-                                            //      PostModels: PostModelss[index],
-                                            //    ),
-                                            //  ),
-                                            //);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewPostScreen(
+                                                  post: Posts[index],
+                                                  user: User[0],
+                                                ),
+                                              ),
+                                            );
                                           },
                                         ),
                                         const Text(

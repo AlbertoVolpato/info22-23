@@ -1,7 +1,6 @@
 import 'package:client/main.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/login_page.dart';
-import 'package:client/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:client/screens/post_screen.dart';
 

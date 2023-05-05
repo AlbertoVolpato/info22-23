@@ -1,39 +1,37 @@
 class Comment {
-  String authorName;
-  String authorImageUrl;
-  String text;
+  final String comment_id;
+  final String post_id;
+  final String content;
+  final String created_at;
+  final String user_id;
+  final String username;
+  final String email;
+  final String singup_date;
+  final String picture;
 
-  Comment({
-    required this.authorName,
-    required this.authorImageUrl,
-    required this.text,
+  const Comment({
+    required this.comment_id,
+    required this.post_id,
+    required this.content,
+    required this.created_at,
+    required this.user_id,
+    required this.username,
+    required this.email,
+    required this.singup_date,
+    required this.picture,
   });
-}
 
-final List<Comment> comments = [
-  Comment(
-    authorName: 'Angel',
-    authorImageUrl: 'assets/images/user2.png',
-    text: 'Loving this photo!!',
-  ),
-  Comment(
-    authorName: 'Charlie',
-    authorImageUrl: 'assets/images/user3.png',
-    text: 'One of the best photos of you...',
-  ),
-  Comment(
-    authorName: 'Angelina Martin',
-    authorImageUrl: 'assets/images/user4.png',
-    text: 'Can\'t wait for you to post more!',
-  ),
-  Comment(
-    authorName: 'Jax',
-    authorImageUrl: 'assets/images/user1.png',
-    text: 'Nice job',
-  ),
-  Comment(
-    authorName: 'Sam Martin',
-    authorImageUrl: 'assets/images/user0.png',
-    text: 'Thanks everyone :)',
-  ),
-];
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      comment_id: json['comment_id'],
+      post_id: json['post_id'],
+      content: json['content'],
+      created_at: json['created_at'],
+      user_id: json['user_id'],
+      username: json['username'],
+      email: json['email'],
+      singup_date: json['singup_date'],
+      picture: json['picture'],
+    );
+  }
+}

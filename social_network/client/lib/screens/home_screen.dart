@@ -1,6 +1,5 @@
 import 'package:client/main.dart';
 import 'package:client/screens/login_page.dart';
-import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/profile_screen_one.dart';
 import 'package:client/screen/add_post_camera.dart';
 import 'package:client/screen/add_post_screen.dart';

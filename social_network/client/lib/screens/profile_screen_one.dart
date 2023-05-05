@@ -411,15 +411,13 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
-                    SizedBox(height: MediaQuery.of(context).size.height / 1.3),
+                    SizedBox(
+                      height: 20,
+                    ),
                     OutlinedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: Colors.transparent,
                         ),
                       ),
                       onPressed: () async {
@@ -443,7 +441,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                 'LogOut',
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -457,52 +455,57 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
               ),
             );
           } // else {
-          return Column(
-            children: [
-              const Text('Failed to load data'),
-              SizedBox(
-                height: 10,
-              ),
-              OutlinedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
+          return Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                ),
+                const Text('Failed to load data'),
+                SizedBox(
+                  height: 10,
+                ),
+                OutlinedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await _handleSignOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ScreenController()),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Icon(Icons.exit_to_app, size: 20),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'LogOut',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-                onPressed: () async {
-                  await _handleSignOut();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ScreenController()),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(Icons.exit_to_app, size: 20),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'LogOut',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           );
         });
   }
