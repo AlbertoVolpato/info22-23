@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/post_model.dart';
 import 'package:client/models/comment_model.dart';
+import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 import '../models/post&user_api.dart';
 
 import 'package:http/http.dart' as http;
@@ -22,6 +23,8 @@ class ViewPostScreen extends StatefulWidget {
 }
 
 class _ViewPostScreenState extends State<ViewPostScreen> {
+  final _comment = TextEditingController();
+
   Future<http.Response?> postLike(String user_id, String post_id) async {
     http.Response? response;
     try {
@@ -35,11 +38,25 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
     return response;
   }
 
+  Future<http.Response?> postComment(
+      String user_id, String post_id, String content) async {
+    http.Response? response;
+    try {
+      Map data = {'user_id': user_id, 'post_id': post_id, 'content': content};
+      String body = json.encode(data);
+      response = await http.post(Uri.parse('$ServerUrl/comment'),
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      print(e.toString());
+    }
+    return response;
+  }
+
   Future<List<Comment>> getComments(String post_id) async {
     List<Comment> Comments = <Comment>[];
     try {
       final response = await http.get(
-        Uri.parse('$ServerUrl/post-like/$post_id'),
+        Uri.parse('$ServerUrl/comment-from-post/$post_id'),
       );
 
       if (response.statusCode == 200) {
@@ -92,6 +109,21 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         return jsonDecode(response.body);
       } else {
         throw Exception('Failed to remove like.');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<dynamic> removeComment(String comment_id) async {
+    try {
+      final http.Response response = await http.delete(
+        Uri.parse('$ServerUrl/comment/$comment_id'),
+      );
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to remove comment.');
       }
     } catch (e) {
       print(e.toString());
@@ -185,7 +217,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         });
   }
 
-  Widget _getComments(String post_id) {
+  Widget _getComments(post_id) {
     return FutureBuilder<List<Comment>>(
         future: getComments(post_id),
         builder: (context, AsyncSnapshot<List<Comment>> snapshot) {
@@ -195,52 +227,70 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               itemCount: snapshot.data!.length,
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ListTile(
-                      leading: Container(
-                        width: 50.0,
-                        height: 50.0,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black45,
-                              offset: Offset(0, 2),
-                              blurRadius: 6.0,
-                            ),
-                          ],
-                        ),
-                        child: CircleAvatar(
-                          child: ClipOval(
-                            child: Image(
-                              height: 50.0,
+                try {
+                  if (snapshot.hasData) {
+                    return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ListTile(
+                            leading: Container(
                               width: 50.0,
-                              image: NetworkImage(
-                                  '$ServerUrl/uploads/picture/${snapshot.data![index].picture}'),
-                              fit: BoxFit.cover,
+                              height: 50.0,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black45,
+                                    offset: Offset(0, 2),
+                                    blurRadius: 6.0,
+                                  ),
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                child: ClipOval(
+                                  child: Image(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    image: NetworkImage(
+                                        '$ServerUrl/uploads/picture/${snapshot.data![index].picture}'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        snapshot.data![index].username,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(snapshot.data![index].content),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.favorite_border,
-                        ),
-                        color: Colors.grey,
-                        onPressed: () => print('Like comment'),
-                      ),
-                    ),
-                  );
-                } else {
+                            title: Text(
+                              snapshot.data![index].username,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(snapshot.data![index].content),
+                            trailing: snapshot.data![index].user_id ==
+                                    widget.user.user_id
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                    ),
+                                    color: Colors.grey,
+                                    onPressed: () {
+                                      print('Remove comment');
+                                      removeComment(
+                                          snapshot.data![index].comment_id);
+                                      setState(() {
+                                        getComments(post_id);
+                                      });
+                                    },
+                                  )
+                                : IconButton(
+                                    icon: const Icon(
+                                      Icons.favorite_border,
+                                    ),
+                                    color: Colors.grey,
+                                    onPressed: () => print('Like comment'),
+                                  )));
+                  } else {
+                    return Text("non ci sono commenti");
+                  }
+                } catch (e) {
                   return Text("non ci sono commenti");
                 }
               });
@@ -429,6 +479,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
+              controller: _comment,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(
@@ -475,7 +526,19 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     color: const Color(0xFF23B66F),
-                    onPressed: () => print('Post comment'),
+                    onPressed: () async {
+                      print('Post comment');
+                      await postComment(widget.user.user_id,
+                          widget.post.post_id, _comment.text);
+                      setState(() {
+                        getComments(widget.post.post_id);
+                        _comment.text = '';
+                      });
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => super.widget));
+                    },
                     child: const Icon(
                       Icons.send,
                       size: 25.0,

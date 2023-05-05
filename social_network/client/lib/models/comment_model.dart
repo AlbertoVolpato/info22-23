@@ -5,7 +5,6 @@ class Comment {
   final String created_at;
   final String user_id;
   final String username;
-  final String email;
   final String singup_date;
   final String picture;
 
@@ -16,7 +15,6 @@ class Comment {
     required this.created_at,
     required this.user_id,
     required this.username,
-    required this.email,
     required this.singup_date,
     required this.picture,
   });
@@ -29,7 +27,6 @@ class Comment {
       created_at: json['created_at'],
       user_id: json['user_id'],
       username: json['username'],
-      email: json['email'],
       singup_date: json['singup_date'],
       picture: json['picture'],
     );
