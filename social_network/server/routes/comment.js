@@ -18,7 +18,20 @@ module.exports = async function (fastify, opts) {
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'SELECT * FROM comments WHERE id = $1', [id]
+                'SELECT * FROM comments WHERE comment_id = $1', [id]
+            )
+            return rows
+        } finally {
+            client.release()
+        }
+    })
+
+    fastify.get('/comment-from-post/:id', async (req, reply) => {
+        const client = await fastify.pg.connect()
+        try {
+            const id = req.params.id;
+            const { rows } = await client.query(
+                'SELECT * FROM comments WHERE post_id = $1', [id]
             )
             return rows
         } finally {
@@ -31,7 +44,7 @@ module.exports = async function (fastify, opts) {
         try {
             const { content, post_id, user_id } = req.body;
             const { rows } = await client.query(
-                'INSERT INTO comments (content, post_id, user_id ) VALUES ($1,$2,$3) RETURNING id',
+                'INSERT INTO comments (content, post_id, user_id ) VALUES ($1,$2,$3) RETURNING comment_id',
                 [content, post_id, user_id]
             )
             return rows
@@ -46,7 +59,7 @@ module.exports = async function (fastify, opts) {
             const { content, post_id, user_id } = req.body;
             const id = req.params.id;
             const { rows } = await client.query(
-                'UPDATE comments SET content = $1, post_id = $2, user_id = $3 WHERE id = $4 RETURNING id',
+                'UPDATE comments SET content = $1, post_id = $2, user_id = $3 WHERE comment_id = $4 RETURNING comment_id',
                 [content, post_id, user_id, id]
             )
             return rows
@@ -60,7 +73,7 @@ module.exports = async function (fastify, opts) {
         try {
             const id = req.params.id;
             const { rows } = await client.query(
-                'DELETE FROM comments WHERE id = $1 RETURNING id', [id]
+                'DELETE FROM comments WHERE comment_id = $1 RETURNING comment_id', [id]
             )
             return rows
         } finally {
