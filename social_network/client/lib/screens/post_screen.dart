@@ -182,7 +182,7 @@ class _PostScreen extends State<PostScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           const Text(
-            'Instagram',
+            'Foxgram',
             style: TextStyle(
                 fontFamily: 'Billabong',
                 fontSize: 32.0,
