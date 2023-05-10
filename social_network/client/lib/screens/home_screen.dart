@@ -27,9 +27,8 @@ class _HomeScreen extends State<HomeScreen> {
       //[PostScreen(), PostModels()];
     } else if (_selectedIndex == 1) {
     } else if (_selectedIndex == 2) {
-      return AddPostScreen();
-    } else if (_selectedIndex == 3) {
       return UploadPost();
+    } else if (_selectedIndex == 3) {
     } else if (_selectedIndex == 4) {
       return ProfileScreen1();
     }

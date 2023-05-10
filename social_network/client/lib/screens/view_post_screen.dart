@@ -136,7 +136,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         builder: (context, AsyncSnapshot<List<LikeModule>> snapshot) {
           var likeLenght = snapshot.data?.length;
           var liked = false;
-          var likeNumber = snapshot.data!.length;
           if (snapshot.hasData) {
             for (var i = 0; i < likeLenght!; i++) {
               print(snapshot.data?[i].user_id);
@@ -151,17 +150,16 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                 IconButton(
                     icon: const Icon(Icons.favorite),
                     iconSize: 30.0,
-                    onPressed: () {
+                    onPressed: () async {
                       print("remove like");
+                      await removeLike(snapshot.data![0].like_id);
+                      liked = false;
                       setState(() {
-                        liked = false;
-                        likeNumber = likeNumber - 1;
                         getLike(post_id);
                       });
-                      removeLike(snapshot.data![0].like_id);
                     }),
                 Text(
-                  likeNumber.toString() + " likes",
+                  snapshot.data!.length.toString() + " likes",
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -173,17 +171,16 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                 IconButton(
                     icon: const Icon(Icons.favorite_border),
                     iconSize: 30.0,
-                    onPressed: () {
+                    onPressed: () async {
                       print('Like PostModels');
+                      await postLike(widget.user.user_id, post_id);
+                      liked = true;
                       setState(() {
-                        liked = true;
-                        likeNumber = likeNumber + 1;
                         getLike(post_id);
                       });
-                      postLike(widget.user.user_id, post_id);
                     }),
                 Text(
-                  likeNumber.toString() + " likes",
+                  snapshot.data!.length.toString() + " likes",
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -196,14 +193,13 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               IconButton(
                   icon: const Icon(Icons.favorite_border),
                   iconSize: 30.0,
-                  onPressed: () {
+                  onPressed: () async {
                     print('Like PostModels');
+                    await postLike(widget.user.user_id, post_id);
+                    liked = true;
                     setState(() {
-                      liked = true;
-                      likeNumber = likeNumber + 1;
                       getLike(post_id);
                     });
-                    postLike(widget.user.user_id, post_id);
                   }),
               Text(
                 "0 " + " likes",
@@ -278,6 +274,11 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                       setState(() {
                                         getComments(post_id);
                                       });
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  super.widget));
                                     },
                                   )
                                 : IconButton(

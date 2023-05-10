@@ -257,7 +257,6 @@ class _PostScreen extends State<PostScreen> {
         builder: (context, AsyncSnapshot<List<LikeModule>> snapshot) {
           var likeLenght = snapshot.data?.length;
           var liked = false;
-          var likeNumber = snapshot.data!.length;
           if (snapshot.hasData) {
             for (var i = 0; i < likeLenght!; i++) {
               print(snapshot.data?[i].user_id);
@@ -272,17 +271,16 @@ class _PostScreen extends State<PostScreen> {
                 IconButton(
                     icon: const Icon(Icons.favorite),
                     iconSize: 30.0,
-                    onPressed: () {
+                    onPressed: () async {
                       print("remove like");
+                      await removeLike(snapshot.data![0].like_id);
+                      liked = false;
                       setState(() {
-                        liked = false;
-                        likeNumber = likeNumber - 1;
                         getLike(post_id);
                       });
-                      removeLike(snapshot.data![0].like_id);
                     }),
                 Text(
-                  likeNumber.toString() + " likes",
+                  snapshot.data!.length.toString() + " likes",
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -294,17 +292,16 @@ class _PostScreen extends State<PostScreen> {
                 IconButton(
                     icon: const Icon(Icons.favorite_border),
                     iconSize: 30.0,
-                    onPressed: () {
+                    onPressed: () async {
                       print('Like PostModels');
+                      await postLike(User[0].user_id, post_id);
+                      liked = true;
                       setState(() {
-                        liked = true;
-                        likeNumber = likeNumber + 1;
                         getLike(post_id);
                       });
-                      postLike(User[0].user_id, post_id);
                     }),
                 Text(
-                  likeNumber.toString() + " likes",
+                  snapshot.data!.length.toString() + " likes",
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -317,14 +314,13 @@ class _PostScreen extends State<PostScreen> {
               IconButton(
                   icon: const Icon(Icons.favorite_border),
                   iconSize: 30.0,
-                  onPressed: () {
+                  onPressed: () async {
                     print('Like PostModels');
+                    await postLike(User[0].user_id, post_id);
+                    liked = true;
                     setState(() {
-                      liked = true;
-                      likeNumber = likeNumber + 1;
                       getLike(post_id);
                     });
-                    postLike(User[0].user_id, post_id);
                   }),
               Text(
                 "0 " + " likes",
@@ -404,7 +400,10 @@ class _PostScreen extends State<PostScreen> {
                           InkWell(
                             onDoubleTap: () {
                               print('Like PostModels');
-                              postLike(User[0].user_id, Posts[index].post_id);
+                              // postLike(User[0].user_id, Posts[index].post_id);
+                              setState(() {
+                                getLike(Posts[index].post_id);
+                              });
                             },
                             child: Container(
                               margin: const EdgeInsets.all(10.0),
@@ -550,7 +549,7 @@ class _PostScreen extends State<PostScreen> {
           children: <Widget>[
             _header(),
             const SizedBox(height: 10),
-            _stories(),
+            //_stories(),
             _post(),
           ],
         ),
