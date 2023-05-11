@@ -149,7 +149,7 @@ class _LoginPage extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              /* const SizedBox(height: 50),
 
               // logo
               const Icon(
@@ -227,9 +227,9 @@ class _LoginPage extends State<LoginPage> {
                   ],
                 ),
               ),
-
+*/
+              Text("Welcome To Foxgram !",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
               const SizedBox(height: 30),
-
               // google + apple sign in buttons
               showProgress
                   ? CircularProgressIndicator()
@@ -273,7 +273,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
 
               const SizedBox(height: 30),
-
+/*
               // not a member? register now
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -292,6 +292,7 @@ class _LoginPage extends State<LoginPage> {
                   ),
                 ],
               )
+              */
             ],
           ),
         ),

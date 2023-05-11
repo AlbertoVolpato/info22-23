@@ -1,12 +1,18 @@
 import 'dart:convert';
+import 'dart:html';
+import 'package:client/components/my_textfield.dart';
 import 'package:client/main.dart';
 import 'package:client/screens/screen_controller.dart';
 import 'package:client/utils/server_url.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/user_api.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen1 extends StatefulWidget {
   const ProfileScreen1({super.key});
@@ -17,6 +23,13 @@ class ProfileScreen1 extends StatefulWidget {
 
 class _ProfileScreen1 extends State<ProfileScreen1> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  XFile? image;
+  File? _file;
+  Uint8List? webImage;
+
+  final usernameController = TextEditingController();
+  final ImagePicker picker = ImagePicker();
 
   List<UserForPost> Posts = <UserForPost>[];
   List<UserContent> User = <UserContent>[];
@@ -70,6 +83,30 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
     }
   }
 
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+    setState(() {
+      image = img;
+    });
+  }
+
+  Future getImageWeb(ImageSource media) async {
+    //final imageweb = await ImagePickerWeb.getImageAsBytes();
+    final imageweb = await picker.pickImage(source: ImageSource.gallery);
+    var f = await imageweb!.readAsBytes();
+    setState(() {
+      webImage = f;
+    });
+  }
+
+  Future modifyProfile() async{
+      if(kIsWeb){
+
+      } else {
+        
+      }
+  }
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     // Optional clientId
     clientId:
@@ -79,6 +116,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
+
 
   Future<void> _handleSignOut() async {
     await _googleSignIn.disconnect();
@@ -112,6 +150,107 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
         });
   }
 
+  void myAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please choose media to select'),
+            content: Column(
+              children: [
+                Text("Username:"),
+                SizedBox(
+                              height: 10,
+                            ),
+                MyTextField(controller: usernameController, hintText: User[0].username, obscureText: false, ),
+                SizedBox(
+                              height: 30,
+                            ),
+                            Text("Profile Picture:"),
+                       SizedBox(
+                              height: 10,
+                            ),     
+                Container(
+                  height: MediaQuery.of(context).size.height / 6,
+                  child: kIsWeb
+                      ? ElevatedButton(
+                          //if user click this button, user can upload image from gallery
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getImageWeb(ImageSource.gallery);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.image),
+                              Text('From Gallery'),
+                            ],
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            ElevatedButton(
+                              //if user click this button, user can upload image from gallery
+                              onPressed: () {
+                                Navigator.pop(context);
+                                getImage(ImageSource.gallery);
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.image),
+                                  Text('From Gallery'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ElevatedButton(
+                              //if user click this button. user can upload image from camera
+                              onPressed: () {
+                                Navigator.pop(context);
+                                getImage(ImageSource.camera);
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.camera),
+                                  Text('From Camera'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                ),
+                SizedBox(height: 30),
+                MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    color: const Color(0xFF23B66F),
+                    
+                     onPressed: () {  },
+                     child: Text(
+                      "Modifica"
+                    ),
+                  ),
+              ],
+            ),
+          );
+        });
+  }
+
+void errorAllert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('error'),
+          );
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<UserContent>>(
@@ -276,7 +415,7 @@ class _ProfileScreen1 extends State<ProfileScreen1> {
                                 margin: EdgeInsets.all(30),
                                 child: MaterialButton(
                                   height: 40,
-                                  onPressed: () {},
+                                  onPressed: () {myAlert();},
                                   child: Text('Modifica profilo'),
                                   color: Color.fromARGB(255, 190, 190, 190),
                                 )),
